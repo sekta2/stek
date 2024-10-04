@@ -1,16 +1,21 @@
-stek_actions = {
+stek_actions = stek_actions or {
     list = {},
     uid_cache = {},
     uid = 0
 }
 
 function stek_actions.add_action(name, cooldown, func)
-    stek_actions.uid = stek_actions.uid + 1
+    if stek_actions.list[name] then
+        stek_actions.list[name].cooldown = cooldown
+        stek_actions.list[name].func = func
 
+        return
+    end
+
+    stek_actions.uid = stek_actions.uid + 1
     local uid = stek_actions.uid
 
     stek_actions.uid_cache[uid] = name
-
     stek_actions.list[name] = {
         name = name,
         cooldown = cooldown,
@@ -32,7 +37,7 @@ function stek_actions.add_action(name, cooldown, func)
 end
 
 function stek_actions.exec_action(ply, name)
-    local action = stek_actions[name]
+    local action = stek_actions.list[name]
 
     if not action then return end
 

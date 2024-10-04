@@ -6,6 +6,8 @@ stek_run.shared("sh/net.lua")
 stek_run.shared("sh/actions.lua")
 stek_run.shared("sh/resources.lua")
 
+stek_run.shared("sh/scrounge.lua")
+
 -- Server
 
 stek_run.server("sv/scrounge.lua")
