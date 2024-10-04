@@ -6,3 +6,7 @@
 > [Конфиг](config.md)
 
 > [Действия](actions.md)
+
+> [Сеть](net.md)
+
+> [Ресурсы](resources.md)
