@@ -5,7 +5,7 @@ function stek.add_resource(id)
 
     stek.resources[index] = id
 
-    _G["stek_RESOURCE_" .. string.upper(id)] = index
+    _G["STEK_RESOURCE_" .. string.upper(id)] = index
 end
 
 function stek.get_resource(index)
