@@ -69,3 +69,10 @@ if SERVER then
         if itn then stek_actions.exec_action(ply, itn) end
     end)
 end
+
+--[[------------------------]]--
+
+stek_actions.add_action("scrounge", STEK_CFG_SCROUGE_COOLDOWN, function(ply)
+    local pos = ply:GetPos()
+    stek.make_scrounge(pos)
+end)
