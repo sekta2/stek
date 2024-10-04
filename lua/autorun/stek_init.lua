@@ -1,3 +1,4 @@
+stek = {}
 stek_run = {}
 
 if SERVER then
