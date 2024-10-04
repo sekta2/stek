@@ -1,6 +1,6 @@
 local scrounge_props = {
     ["tut_modelka"] = {
-        chance = 1,
+        chance = 1, -- чем больше - тем чаще(если конечно предметов много)
         resource = tut_resource,
         min = 2, max = 15
     }
@@ -43,18 +43,3 @@ function stek.make_scrounge(spawn_pos)
         end
     end
 end
-
---[[------------------------]]--
-
-util.AddNetworkString("stek.scrounge")
-
-net.Receive("stek.scrounge", function(_, ply)
-    local cooldown = ply.scrounge_cooldown or 0
-
-    if CurTime() < cooldown then return end
-
-    ply.scrounge_cooldown = CurTime() + STEK_CFG_SCROUGE_COOLDOWN
-
-    local pos = ply:GetPos()
-    stek.make_scrounge(pos)
-end)
