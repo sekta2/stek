@@ -4,7 +4,9 @@ stek_actions = stek_actions or {
     uid = 0
 }
 
+-- shared function
 function stek_actions.add_action(name, cooldown, func)
+    -- Если действие существует - перезаписываем
     if stek_actions.list[name] then
         stek_actions.list[name].cooldown = cooldown
         stek_actions.list[name].func = func
@@ -36,6 +38,7 @@ function stek_actions.add_action(name, cooldown, func)
     end
 end
 
+-- server function
 function stek_actions.exec_action(ply, name)
     local action = stek_actions.list[name]
 
