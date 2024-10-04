@@ -24,8 +24,8 @@ local function select_random_prop() -- code from chatgpt
     end
 end
 
-function stech.make_scrounge(spawn_pos)
-    local count = math.random(3, 5)
+function stek.make_scrounge(spawn_pos)
+    local count = math.random(STEK_CFG_SCROUNGE_MIN, STEK_CFG_SCROUNGE_MAX)
 
     for i = 1, count do
         local id_junk, junk = select_random_prop()
@@ -36,20 +36,25 @@ function stech.make_scrounge(spawn_pos)
             prop:SetModel(id_junk)
             prop:SetPos(pos)
 
-            prop.StechResource = junk.resource
-            prop.StechResourceCount = math.random(junk.min, junk.max)
+            prop.StekResource = junk.resource
+            prop.StekResourceCount = math.random(junk.min, junk.max)
 
             prop:Spawn()
         end
     end
 end
 
---[[--------------------]]--
+--[[------------------------]]--
 
-util.AddNetworkString("stech.scrounge")
+util.AddNetworkString("stek.scrounge")
 
-net.Receive("stech.scrounge", function(_, ply)
+net.Receive("stek.scrounge", function(_, ply)
+    local cooldown = ply.scrounge_cooldown or 0
+
+    if CurTime() < cooldown then return end
+
+    ply.scrounge_cooldown = CurTime() + STEK_CFG_SCROUGE_COOLDOWN
+
     local pos = ply:GetPos()
-
-    stech.make_scrounge(pos)
+    stek.make_scrounge(pos)
 end)
