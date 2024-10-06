@@ -22,8 +22,3 @@ function stek.get_resource(index)
     return stek.resources[index]
 end
 
-stek.add_resource("scrap")
-stek.add_resource("basic parts")
-stek.add_resource("wood")
-stek.add_resource("water")
-stek.add_resource("power")

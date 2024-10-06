@@ -1,16 +1,14 @@
 stek_recipes = stek_recipes or {
     list = {},
+    uid_cache = {},
     uid = 0
 }
 
 -- shared function
-function stek_recipes.add_recipe(id, name, desc, craftables, craft_type)
+function stek_recipes.add_recipe(id, data)
     -- Если рецепт существует - перезаписываем
     if stek_recipes.list[id] then
-        stek_recipes.list[id].name = name
-        stek_recipes.list[id].desc = desc
-        stek_recipes.list[id].craftables = craftables
-        stek_recipes.list[id].craft_type = craft_type
+        stek_recipes.list[id] = data
 
         return
     end
@@ -18,17 +16,8 @@ function stek_recipes.add_recipe(id, name, desc, craftables, craft_type)
     stek_recipes.uid = stek_recipes.uid + 1
     local uid = stek_recipes.uid
 
-    stek_recipes.list[id] = {
-        id = id,
-
-        name = name,
-        desc = desc,
-
-        uid = uid,
-
-        craftables = craftables,
-        craft_type = craft_type
-    }
+    stek_actions.uid_cache[uid] = id
+    stek_recipes.list[id] = data
 
     _G["STEK_RECIPE_" .. string.upper(id)] = uid
 end
@@ -55,4 +44,43 @@ end
 
 --[[------------------------]]--
 
--- тут гениальные рецепты
+if SERVER then
+    concommand.Add("stek_reset_recipes", function(ply)
+        if IsValid(ply) and not ply:IsSuperAdmin() then return end
+    
+        stek_recipes.list = {}
+        stek_recipes.uid = 0
+    
+        stek_recipes.init()
+    end)
+end
+
+--[[------------------------]]--
+
+function stek_recipes.init()
+    stek_recipes.add_recipe("wood_table", {
+        name = "Wooden Table",
+        desc = "TEST",
+        craftables = {
+            [STEK_RESOURCE_WOOD] = 25
+        },
+        craft_type = "toolbox",
+
+        category = "Props",
+
+        hull = {
+            mins = -Vector(24, 24, 18),
+            maxs = Vector(25, 24, 18)
+        },
+
+        func = function(ply, pos)
+            local prop = ents.Create("prop_physics")
+            prop:SetModel("models/props_c17/FurnitureTable002a.mdl")
+            prop:SetPos(pos)
+
+            prop:Spawn()
+        end
+    })
+end
+
+stek_recipes.init()
