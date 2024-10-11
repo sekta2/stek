@@ -8,8 +8,6 @@ SWEP.Spawnable = true
 SWEP.ViewModel = "models/jmod/ez/c_repairkit.mdl" --"models/weapons/c_arms_citizen.mdl"
 SWEP.WorldModel = "models/jmod/ez/c_repairkit.mdl" --"models/props_c17/tools_wrench01a.mdl"
 
-SWEP.Recipes = stek_recipes.get_recipes("toolbox")
-
 function SWEP:HullTrace(mins, maxs, dist)
     dist = dist or 500
 
@@ -44,10 +42,22 @@ end
 
 --[[------------------------]]--
 
+function SWEP:Initialize()
+    self:SetHoldType("fist")
+end
+
 function SWEP:SetupDataTables()
     self:NetworkVar("Int", 0, "Recipe")
 
     if SERVER then
         self:SetRecipe(0)
+    else
+        self:NetworkVarNotify("Recipe", function(ent, name, old, new)
+            local recipe = stek_recipes.get_recipe_by_uid(new)
+
+            if recipe and ent.craft_model then
+                ent.craft_model:SetModel(recipe.model)
+            end
+        end)
     end
 end

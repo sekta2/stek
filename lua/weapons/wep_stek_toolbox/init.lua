@@ -12,7 +12,9 @@ end
 
 function SWEP:Craft(recipe_id)
     local owner = self:GetOwner()
-    local recipe = self.Recipes[recipe_id]
+    local recipe = stek_recipes.get_recipe_by_uid(self:GetRecipe())
+    if not recipe then return end
+
     local hull = recipe.hull
 
     local size = (hull.maxs.x + hull.maxs.y + hull.maxs.z) / 3
@@ -31,6 +33,15 @@ end
 
 --[[------------------------]]--
 
+function SWEP:Reload()
+    local cooldown = self.reload_time or 0
+    if CurTime() < cooldown then return end
+
+    self.reload_time = CurTime() + 0.3
+
+    self:SetRecipe(math.random(1, 2))
+end
+
 function SWEP:Deploy()
     if not IsValid(self:GetOwner()) then return end
     
@@ -43,11 +54,18 @@ function SWEP:Deploy()
 end
 
 function SWEP:PrimaryAttack()
-    local recipe = self.Recipes["wood_table"]
+    local recipe = stek_recipes.get_recipe_by_uid(self:GetRecipe())
+    if not recipe then return end
+
     local hull = recipe.hull
 
     local tr = self:HullTrace(hull.mins, hull.maxs)
     local check = self:CanCraftTrace(tr.HitPos, hull.mins, hull.maxs)
 
     if check then self:Craft("wood_table") end
+
+    self:SendWeaponAnim(PLAYER_ATTACK1)
+end
+
+function SWEP:SecondaryAttack()
 end

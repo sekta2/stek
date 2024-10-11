@@ -2,7 +2,10 @@ include("shared.lua")
 
 function SWEP:GetCraftModel()
     if not self.craft_model then
-        self.craft_model = ClientsideModel("models/props_c17/FurnitureTable002a.mdl")
+        local recipe = stek_recipes.get_recipe_by_uid(self:GetRecipe())
+        local model = recipe and recipe.model or "models/hunter/blocks/cube05x05x05.mdl"
+
+        self.craft_model = ClientsideModel(model)
     end
 
     return self.craft_model
@@ -10,17 +13,31 @@ end
 
 --[[------------------------]]--
 
+function SWEP:Holster(wep)
+    if IsValid(self.craft_model) then
+        self.craft_model:Remove()
+        self.craft_model = nil
+    end
+end
+
 function SWEP:OnRemove()
     if IsValid(self.craft_model) then
         self.craft_model:Remove()
+        self.craft_model = nil
     end
 end
 
 function SWEP:ViewModelDrawn()
+    local recipe = stek_recipes.get_recipe_by_uid(self:GetRecipe())
+    --print(recipe, self:GetRecipe())
+    if not recipe then return end
+
     local model = self:GetCraftModel()
 
-    local recipe = self.Recipes["wood_table"]
-    local mins, maxs = recipe.hull.mins, recipe.hull.maxs
+    if not IsValid(model) then return end
+
+    local hull = recipe.hull
+    local mins, maxs = hull.mins, hull.maxs
 
     local tr = self:HullTrace(mins, maxs)
     local check = self:CanCraftTrace(tr.HitPos, mins, maxs)
