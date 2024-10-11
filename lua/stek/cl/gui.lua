@@ -55,5 +55,6 @@ end)
 
 -- sui_frame: dark
 stek_gui.add_draw_call("dark", "sui_frame", function(pnl, w, h)
-    draw.SimpleText("wata//", "Default", 0, 0, color_white)
+    draw.RoundedBox(6, 0, 0, w, h, Color(10, 10, 10, 255))
+    draw.RoundedBox(6, 1, 1, w - 2, h - 2, Color(30, 30, 30, 255))
 end)
