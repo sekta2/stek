@@ -13,4 +13,7 @@ stek_run.server("sv/scrounge.lua")
 
 -- Server-Client
 
--- Client   
+-- Client
+
+stek_run.client("cl/TP_betterroundboxes.lua")
+stek_run.shared("cl/gui.lua") -- SHARED SCRIPT BUT THIS IS MOSTLY CLIENT
