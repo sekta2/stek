@@ -1,6 +1,7 @@
 -- Shared
 
 stek_run.shared("sh/config.lua")
+stek_run.shared("sh/util.lua")
 
 stek_run.shared("sh/net.lua")
 stek_run.shared("sh/actions.lua")
