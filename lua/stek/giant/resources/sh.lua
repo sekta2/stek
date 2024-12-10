@@ -5,6 +5,28 @@ s_res = {
 
 local error_material = Material("icon16/error.png")
 
+--[[
+    Структура ресурса
+
+    name - Название ресурса
+    auto_entity - Создавать ли энтити для этого ресурса(по дефолту true)
+
+    !!! Если auto_entity стоит на false тогда всё что ниже использовать не обязательно !!!
+
+    model - Моделька ресурса
+    material - Материал ресурса
+    mass - Масса ресурса
+    color - Цвет ресурса
+    skin - Скин модельки ресурса
+
+    holovec - Позиция голограммы(по дефолту vector_origin)
+    holoang - Угол поворота голограммы(по дефолту angle_zero)
+    holovertical - Является ли голограмма ресурса вертиальной(по дефолту false)
+    holosize - Размер голограммы(по дефолту 0.035, можно не ставить)
+
+    carryangles - Угол поворота при подбирании энтити ресурса
+]]
+
 function s_res.add(id, struct)
     local icon_exists = file.Exists("materials/stek_resources/" .. id .. ".png", "GAME")
     local icon_exists_small = file.Exists("materials/stek_resources/" .. id .. " smol.png", "GAME")
@@ -13,6 +35,8 @@ function s_res.add(id, struct)
         id = id,
 
         name = struct.name,
+        auto_entity = struct.auto_entity == nil and true or struct.auto_entity,
+
         model = struct.model,
         material = struct.material,
         mass = struct.mass,
@@ -33,6 +57,8 @@ function s_res.add(id, struct)
     }
 
     local uid = #s_res.list + 1
+
+    m_struct.uid = uid
 
     s_res.list[uid] = m_struct
     s_res.id_list[id] = m_struct
@@ -438,6 +464,8 @@ function s_res.create_entities()
 
     for i = 1, #ls do
         local res = ls[i]
+
+        if not res.auto_entity then continue end
 
         local ENT = {
             IsStekResource = true,

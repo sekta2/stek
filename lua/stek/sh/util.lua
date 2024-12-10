@@ -44,3 +44,22 @@ function s_util.set_get_function(meta, key, name)
     s_util.set_function(meta, key, name)
     s_util.get_function(meta, key, name)
 end
+
+--[[------------------------]]--
+
+function s_util.cone_trace(ply, cone, dist)
+    local aim_vector = ply:GetAimVector()
+    local shoot_pos = ply:GetShootPos()
+
+    for i = 1, 150 * cone do
+        local vec = (aim_vector + VectorRand() * cone):GetNormalized()
+
+        local tr = util.QuickTrace(shoot_pos, vec * dist, {ply})
+
+        if tr.Hit and not tr.HitSky and tr.Entity then
+            return tr.Entity, tr.HitPos, tr.HitNormal
+        end
+    end
+
+    return nil, nil, nil
+end

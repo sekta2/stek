@@ -67,7 +67,7 @@ if SERVER then
             local self_am, ent_am = self:GetAmount(), ent:GetAmount()
             local amount = self_am + ent_am
 
-            if amount <= 100 then
+            if amount <= (STEK_RESOURCES_DEFAULT or 100) then
                 self.Transfering = true
                 ent.Transfering = true
 
@@ -119,7 +119,7 @@ if SERVER then
         local inv = ply:GetInventory()
         if not inv then return end
 
-        local allowed = inv:AddResource(self.StekResource, amount)
+        local allowed = inv:AddResource(self.StekResID, amount)
 
         if not allowed or allowed <= 0 then return end
 

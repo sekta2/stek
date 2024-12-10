@@ -367,7 +367,7 @@ function SWEP:AttackFront()
 
     self:GetOwner():LagCompensation(true)
 
-    local Ent, HitPos = ddcore_util.cone_trace(self:GetOwner(), .3, 55)
+    local Ent, HitPos = s_util.cone_trace(self:GetOwner(), .3, 55)
     local AimVec = self:GetOwner():GetAimVector()
 
     if IsValid(Ent) or (Ent and Ent.IsWorld and Ent:IsWorld()) then
@@ -423,7 +423,7 @@ function SWEP:Reload()
 
     if not self:GetFists() and IsValid(carry) then -- Pick up to inv
         local ply = self:GetOwner()
-        ddcore_util.take_entity(ply, carry)
+        s_util.take_entity(ply, carry)
     end
 
     self:SetFists(false)
