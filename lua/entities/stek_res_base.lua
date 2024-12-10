@@ -11,7 +11,7 @@ function ENT:SetupDataTables()
     self:NetworkVar("Int", 0, "Amount")
 
     if SERVER then
-        self:SetAmount(100)
+        self:SetAmount(STEK_RESOURCES_DEFAULT or 100)
     end
 end
 
@@ -27,6 +27,10 @@ if SERVER then
 
         if self.Color then
             self:SetColor(self.Color)
+        end
+
+        if self.Skin then
+            self:SetSkin(self.Skin)
         end
 
         self:SetMoveType(MOVETYPE_VPHYSICS)

@@ -1,6 +1,9 @@
+
+local vec50 = Vector(0, 0, 50)
 function s_res.holo(ent, relPos, relAng, scale, renderDist, renderFunc, absolutePositions)
+    local eyepos = EyePos()
     if absolutePositions then
-        if EyePos():Distance(relPos) < renderDist then
+        if eyepos:Distance(relPos) < renderDist then
             cam.Start3D2D(relPos, relAng, scale)
             renderFunc()
             cam.End3D2D()
@@ -21,7 +24,7 @@ function s_res.holo(ent, relPos, relAng, scale, renderDist, renderFunc, absolute
 
     local Right, Up, Forward = Ang:Right(), Ang:Up(), Ang:Forward()
 
-    if EyePos():Distance(Pos) < renderDist then
+    if eyepos:Distance(Pos) < renderDist then
         if ent then
             Ang:RotateAroundAxis(Right, relAng.p)
             Ang:RotateAroundAxis(Up, relAng.y)
@@ -32,7 +35,7 @@ function s_res.holo(ent, relPos, relAng, scale, renderDist, renderFunc, absolute
 
         -- world coords
         if not ent then
-            RenderPos = Pos + Vector(0, 0, 50)
+            RenderPos = Pos + vec50
         end
 
         cam.Start3D2D(RenderPos, Ang, scale)
@@ -54,7 +57,7 @@ function s_res.resource_display(type, amt, maximum, x, y, siz, vertical, font, o
     surface.DrawTexturedRect(x - siz / 2, y - siz / 2, siz, siz)
 
     local Col = Color(brite, brite, brite, opacity)
-    local UnitText = tostring(amt) .. " ШТУК"
+    local UnitText = tostring(amt) .. " ЮНИТОВ"
 
     if rateDisplay then
         UnitText = tostring(amt) .. " В СЕКУНДУ"

@@ -1,5 +1,6 @@
 -- Shared
 
+stek.sh("sh/config.lua")
 stek.sh("sh/util.lua")
 
 -- Server
