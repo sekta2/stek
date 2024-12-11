@@ -24,6 +24,7 @@ local error_material = Material("icon16/error.png")
     holovertical - Является ли голограмма ресурса вертиальной(по дефолту false)
     holosize - Размер голограммы(по дефолту 0.035, можно не ставить)
 
+    impactsounds - Таблица с звуками при столкновении
     carryangles - Угол поворота при подбирании энтити ресурса
 ]]
 
@@ -48,6 +49,7 @@ function s_res.add(id, struct)
         holovertical = struct.holovertical,
         holosize = struct.holosize,
 
+        impactsounds = struct.impactsounds,
         carryangles = struct.carryangles,
 
         classname = "stek_res_" .. id,
@@ -85,6 +87,7 @@ function s_res.load()
         holovec = Vector(0, 3.5, 1),
         holoang = Angle(-90, 0, 90),
         holovertical = true,
+        impactsounds = {"drywall.ImpactHard", "Weapon.ImpactSoft"},
         carryangles = Angle(0, 180, 0)
     })
 
@@ -97,6 +100,7 @@ function s_res.load()
         holovec = Vector(0, 3, 9),
         holoang = angle_zero,
         holosize = 0.017,
+        impactsounds = {"drywall.ImpactHard", "Weapon.ImpactSoft"},
         carryangles = Angle(0, -90, 100)
     })
 
@@ -108,6 +112,7 @@ function s_res.load()
         holovec = Vector(0, 5, 9),
         holoang = Angle(-90, 0, 90),
         holosize = 0.04,
+        impactsounds = {"Metal_Box.ImpactHard", "Weapon.ImpactSoft"},
         carryangles = Angle(0, 180, 0)
     })
 
@@ -117,6 +122,7 @@ function s_res.load()
         holovec = Vector(1, -6.2, 8),
         holoang = Angle(90, 0, 90),
         holovertical = true,
+        impactsounds = {"Canister.ImpactHard", "Weapon.ImpactSoft"},
         holosize = 0.02
     })
 
@@ -128,6 +134,7 @@ function s_res.load()
         holoang = Angle(-90, 0, 90),
         holovertical = true,
         holosize = 0.043,
+        impactsounds = {"Wood_Box.ImpactHard", "Weapon.ImpactSoft"},
         carryangles = Angle(0, 180, 0)
     })
 
@@ -139,6 +146,7 @@ function s_res.load()
         holoang = Angle(-90, 0, 90),
         holovertical = false,
         holosize = 0.03,
+        impactsounds = {"Metal_Box.ImpactHard"},
         carryangles = Angle(0, 180, 0)
     })
 
@@ -151,7 +159,8 @@ function s_res.load()
         holovec = Vector(0, -12, 0),
         holoang = Angle(90, 0, 90),
         holovertical = true,
-        holosize = 0.06
+        holosize = 0.06,
+        impactsounds = {"Concrete_Block.ImpactHard"}
     })
 
     s_res.add("chemicals", {
@@ -161,6 +170,7 @@ function s_res.load()
         holovec = Vector(-1, 11, 0),
         holoang = Angle(-90, 0, 90),
         holosize = 0.04,
+        impactsounds = {"Plastic_Box.ImpactHard", "Weapon.ImpactSoft"},
         carryangles = Angle(0, 180, 0)
     })
 
@@ -173,6 +183,7 @@ function s_res.load()
         holovec = Vector(0, -.5, 9),
         holoang = angle_zero,
         holosize = 0.025,
+        impactsounds = {"Flesh.ImpactSoft"},
         carryangles = Angle(0, -90, 100)
     })
 
@@ -185,7 +196,8 @@ function s_res.load()
         holovec = Vector(0, -12, 1),
         holoang = Angle(90, 0, 90),
         holovertical = true,
-        holosize = 0.04
+        holosize = 0.04,
+        impactsounds = {"Rock.ImpactHard"}
     })
 
     s_res.add("coolant", {
@@ -198,6 +210,7 @@ function s_res.load()
         holoang = Angle(180, 0, 90),
         holovertical = true,
         holosize = 0.04,
+        impactsounds = {"Plastic_Barrel.ImpactHard", "Weapon.ImpactSoft"},
         carryangles = Angle(0, 90, 0)
     })
 
@@ -210,6 +223,7 @@ function s_res.load()
         holovec = Vector(0, -3, 4.9),
         holoang = angle_zero,
         holosize = 0.025,
+        impactsounds = {"SolidMetal.ImpactHard"},
         carryangles = Angle(180, 90, -90)
     })
 
@@ -218,6 +232,7 @@ function s_res.load()
         model = "models/jmod/resources/diamondbox_open.mdl",
         holovec = Vector(0, -9.7, 9),
         holoang = Angle(-90, 15, 90),
+        impactsounds = {"Canister.ImpactHard"},
         carryangles = Angle(0, 180, 0)
     })
 
@@ -228,7 +243,8 @@ function s_res.load()
         holovec = Vector(1, -11.3, 10),
         holoang = Angle(90, 0, 90),
         holovertical = true,
-        holosize = 0.03
+        holosize = 0.03,
+        impactsounds = {"Wood_Box.ImpactHard", "Weapon.ImpactSoft"}
     })
 
     s_res.add("fissile", {
@@ -240,6 +256,7 @@ function s_res.load()
         holoang = Angle(0, 90, 0),
         holovertical = true,
         holosize = 0.06,
+        impactsounds = {"Canister.ImpactHard", "Weapon.ImpactSoft"},
         carryangles = Angle(0, 180, 0)
     })
 
@@ -249,6 +266,7 @@ function s_res.load()
         holovec = Vector(0, 3.9, -1.5),
         holoang = Angle(-90, 0, 90),
         holovertical = true,
+        impactsounds = {"Weapon.ImpactSoft", "Metal_Box.ImpactHard"},
         carryangles = Angle(0, 180, 0)
     })
 
@@ -260,6 +278,7 @@ function s_res.load()
         holoang = Angle(-90, 0, 90),
         holovertical = true,
         holosize = 0.03,
+        impactsounds = {"Canister.ImpactHard"},
         carryangles = Angle(0, 180, 0)
     })
 
@@ -272,6 +291,7 @@ function s_res.load()
         holovec = Vector(0, -3, 4.9),
         holoang = angle_zero,
         holosize = 0.025,
+        impactsounds = {"SolidMetal.ImpactHard"},
         carryangles = Angle(180, 90, -90)
     })
 
@@ -284,6 +304,7 @@ function s_res.load()
         holoang = Angle(-90, 0, -90),
         holovertical = true,
         holosize = 0.045,
+        impactsounds = {"drywall.ImpactHard", "Weapon.ImpactSoft"},
         carryangles = Angle(0, 180, 180)
     })
 
@@ -295,6 +316,7 @@ function s_res.load()
         holovec = Vector(-0.7, 7.4, 14),
         holoang = Angle(-90, 0, 90),
         holosize = 0.043,
+        impactsounds = {"Metal_Box.ImpactHard", "Weapon.ImpactSoft"},
         carryangles = Angle(0, 180, 0)
     })
 
@@ -305,6 +327,7 @@ function s_res.load()
         holovec = Vector(-3, 18, -2.8),
         holoang = Angle(-90, 0, 90),
         holosize = 0.033,
+        impactsounds = {"Cardboard.ImpactHard", "Weapon.ImpactSoft"},
         carryangles = Angle(0, 180, 0)
     })
 
@@ -315,7 +338,8 @@ function s_res.load()
         mass = 50,
         holovec = Vector(0, -10.6, 17),
         holoang = Angle(90, 0, 90),
-        holovertical = true
+        holovertical = true,
+        impactsounds = {"Metal_Barrel.ImpactHard", "Weapon.ImpactSoft"}
     })
 
     s_res.add("organics", {
@@ -324,6 +348,7 @@ function s_res.load()
         holovec = Vector(-1, 11, 0),
         holoang = Angle(-90, 0, 90),
         holosize = 0.04,
+        impactsounds = {"Plastic_Box.ImpactHard", "Weapon.ImpactSoft"},
         carryangles = Angle(0, 180, 0)
     })
 
@@ -333,6 +358,7 @@ function s_res.load()
         holovec = Vector(6.4, -0.5, 0),
         holoang = Angle(0, 0, 90),
         holosize = 0.025,
+        impactsounds = {"Flesh.ImpactSoft"},
         carryangles = Angle(0, -90, 0)
     })
 
@@ -342,7 +368,8 @@ function s_res.load()
         color = Color(200, 200, 200),
         mass = 30,
         holovec = Vector(0, -11.9, 5),
-        holoang = Angle(90, 0, 90)
+        holoang = Angle(90, 0, 90),
+        impactsounds = {"Plastic_Box.ImpactHard"}
     })
 
     s_res.add("prec_parts", {
@@ -351,6 +378,7 @@ function s_res.load()
         holovec = Vector(0, 3.5, 1),
         holoang = Angle(-90, 0, 90),
         holovertical = true,
+        impactsounds = {"drywall.ImpactHard", "Weapon.ImpactSoft"},
         carryangles = Angle(0, 180, 0)
     })
 
@@ -363,6 +391,7 @@ function s_res.load()
         holoang = angle_zero,
         holovertical = true,
         holosize = 0.025,
+        impactsounds = {"Canister.ImpactHard"},
         carryangles = Angle(0, -90, 0)
     })
 
@@ -374,7 +403,8 @@ function s_res.load()
         color = Color(200, 200, 200),
         holovec = Vector(-1, -9.5, 0),
         holoang = Angle(90, 0, 90),
-        holosize = 0.05
+        holosize = 0.05,
+        impactsounds = {"Rubber_Tire.ImpactHard"}
     })
 
     s_res.add("sand", {
@@ -384,7 +414,8 @@ function s_res.load()
         mass = 100,
         holovec = Vector(-2, -13, 0),
         holoang = Angle(90, 0, 90),
-        holosize = 0.04
+        holosize = 0.04,
+        impactsounds = {"Dirt.Impact"}
     })
 
     s_res.add("silver", {
@@ -396,6 +427,7 @@ function s_res.load()
         holovec = Vector(0, -3, 4.9),
         holoang = angle_zero,
         holosize = 0.025,
+        impactsounds = {"SolidMetal.ImpactHard"},
         carryangles = Angle(180, 90, -90)
     })
 
@@ -408,6 +440,7 @@ function s_res.load()
         holovec = Vector(0, -3, 4.9),
         holoang = angle_zero,
         holosize = 0.025,
+        impactsounds = {"SolidMetal.ImpactHard"},
         carryangles = Angle(180, 90, -90)
     })
 
@@ -420,6 +453,7 @@ function s_res.load()
         holovec = Vector(0, -3, 4.9),
         holoang = angle_zero,
         holosize = 0.025,
+        impactsounds = {"SolidMetal.ImpactHard"},
         carryangles = Angle(180, 90, -90)
     })
 
@@ -432,6 +466,7 @@ function s_res.load()
         holovec = Vector(0, -3, 4.9),
         holoang = angle_zero,
         holosize = 0.025,
+        impactsounds = {"SolidMetal.ImpactHard"},
         carryangles = Angle(180, 90, -90)
     })
 
@@ -442,7 +477,8 @@ function s_res.load()
         holovec = Vector(0, -10.8, 0),
         holoang = Angle(90, 0, 90),
         holovertical = true,
-        holosize = 0.04
+        holosize = 0.04,
+        impactsounds = {"Plastic_Barrel.ImpactHard", "Weapon.ImpactSoft"},
     })
 
     s_res.add("wood", {
@@ -453,7 +489,8 @@ function s_res.load()
         holovec = Vector(0, -12.5, 1),
         holoang = Angle(90, 0, 90),
         holovertical = true,
-        holosize = 0.05
+        holosize = 0.05,
+        impactsounds = {"Wood.ImpactHard"},
     })
 
     s_res.create_entities()
@@ -480,6 +517,7 @@ function s_res.create_entities()
             HoloVertical = res.holovertical or false,
             HoloSize = res.holosize or 0.035,
 
+            ImpactSounds = res.impactsounds,
             CarryAngles = res.carryangles,
 
             Type = "anim",

@@ -54,8 +54,8 @@ if SERVER then
     end
 
     function ENT:PhysicsCollide(col_data, collider)
-        if (col_data.Speed > 80) and self and self.ImpactNoises then
-            local snd = self.ImpactNoises[math.random(1, #self.ImpactNoises)]
+        if (col_data.Speed > 80) and self and self.ImpactSounds then
+            local snd = self.ImpactSounds[math.random(1, #self.ImpactSounds)]
             self:EmitSound(snd)
         end
 
