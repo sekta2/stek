@@ -23,6 +23,7 @@ INV.__index = INV
 function INV:Initialize()
     self.slots = {}
     self.resources = {}
+    self.other = {}
 end
 
 function INV:Destroy()
@@ -50,6 +51,41 @@ end
 
 function INV:GetSlot(slot)
     return self.slots[slot]
+end
+
+--[[------------------------]]--
+
+local function serialize(inv, ent)
+    local data = hook.Run("s_inv.serialize", inv, ent)
+
+    if data == nil then
+        if ent:GetClass() == "prop_physics" then
+            data = {
+                type = "prop",
+                model = ent:GetModel()
+            }
+        else
+            data = {
+                type = "entity",
+                classname = ent:GetClass()
+            }
+        end
+    end
+
+    return data
+end
+
+function INV:AddEntity(ent)
+    if not IsValid(ent) then return end
+
+    local index = ent:EntIndex()
+    local data = serialize(self, ent)
+
+    self.other[index] = data
+
+    ent:Remove()
+
+    return true
 end
 
 --[[------------------------]]--
