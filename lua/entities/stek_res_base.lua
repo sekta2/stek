@@ -119,7 +119,7 @@ if SERVER then
         local inv = ply:GetInventory()
         if not inv then return end
 
-        local allowed = inv:AddResource(self.StekResID, amount)
+        local allowed = inv:AddResource(self.StekResID, amount, self)
 
         if not allowed or allowed <= 0 then return end
 
@@ -128,6 +128,8 @@ if SERVER then
         if self:GetAmount() <= 0 then
             self:Remove()
         end
+
+        return true
     end
 else
     function ENT:Draw()

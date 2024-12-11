@@ -71,7 +71,7 @@ function INV:GetResourceAvailableSpace()
     return limit - space
 end
 
-function INV:AddResource(res, amount)
+function INV:AddResource(res, amount, ent)
     if not s_res.get_by_id(res) then return end
 
     local available = self:GetResourceAvailableSpace()
@@ -83,6 +83,12 @@ function INV:AddResource(res, amount)
         self.resources[res] = self.resources[res] + amount_allowed
     else
         self.resources[res] = amount_allowed
+    end
+
+    local owner = self:GetOwner()
+
+    if ent and owner then
+        s_util.res_effect(res, ent:LocalToWorld(ent:OBBCenter()), owner:LocalToWorld(owner:OBBCenter()), 1, 1, 1)
     end
 
     self:Sync()

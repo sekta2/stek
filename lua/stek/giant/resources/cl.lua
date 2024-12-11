@@ -1,5 +1,8 @@
-
 local vec50 = Vector(0, 0, 50)
+local EyePos = EyePos
+
+--[[------------------------]]--
+
 function s_res.holo(ent, relPos, relAng, scale, renderDist, renderFunc, absolutePositions)
     local eyepos = EyePos()
     if absolutePositions then
@@ -44,6 +47,17 @@ function s_res.holo(ent, relPos, relAng, scale, renderDist, renderFunc, absolute
     end
 end
 
+--[[------------------------]]--
+
+local surfaceSDC = surface.SetDrawColor
+local surfaceSM = surface.SetMaterial
+local surfaceDTR = surface.DrawTexturedRect
+local surfaceST = draw.SimpleText
+
+local cached = {}
+
+--[[------------------------]]--
+
 function s_res.resource_display(type, amt, maximum, x, y, siz, vertical, font, opacity, rateDisplay, brite, showunits)
     font = font or "s_res.title"
     opacity = opacity or 150
@@ -52,11 +66,17 @@ function s_res.resource_display(type, amt, maximum, x, y, siz, vertical, font, o
     local res = s_res.get_by_id(type)
     local name = res.name
 
-    surface.SetDrawColor(255, 255, 255, opacity)
-    surface.SetMaterial(res.icon)
-    surface.DrawTexturedRect(x - siz / 2, y - siz / 2, siz, siz)
+    surfaceSDC(255, 255, 255, opacity)
+    surfaceSM(res.icon)
+    surfaceDTR(x - siz / 2, y - siz / 2, siz, siz)
 
-    local Col = Color(brite, brite, brite, opacity)
+    local Col = cached[brite]
+
+    if not Col then
+        Col = Color(brite, brite, brite, opacity)
+        cached[brite] = Col
+    end
+
     local UnitText = tostring(amt) .. " ЮНИТОВ"
 
     if rateDisplay then
@@ -64,14 +84,14 @@ function s_res.resource_display(type, amt, maximum, x, y, siz, vertical, font, o
     end
 
     if vertical then
-        draw.SimpleText(name, font, x, y - siz / 2 - 10, Col, TEXT_ALIGN_CENTER, TEXT_ALIGN_BOTTOM)
+        surfaceST(name, font, x, y - siz / 2 - 10, Col, TEXT_ALIGN_CENTER, TEXT_ALIGN_BOTTOM)
         if not showunits then
-            draw.SimpleText(UnitText, font, x, y + siz / 2 + 10, Col, TEXT_ALIGN_CENTER, TEXT_ALIGN_TOP)
+            surfaceST(UnitText, font, x, y + siz / 2 + 10, Col, TEXT_ALIGN_CENTER, TEXT_ALIGN_TOP)
         end
     else
-        draw.SimpleText(name, font, x - siz / 2 - 10, y, Col, TEXT_ALIGN_RIGHT, TEXT_ALIGN_CENTER)
+        surfaceST(name, font, x - siz / 2 - 10, y, Col, TEXT_ALIGN_RIGHT, TEXT_ALIGN_CENTER)
         if not showunits then
-            draw.SimpleText(UnitText, font, x + siz / 2 + 10, y, Col, TEXT_ALIGN_LEFT, TEXT_ALIGN_CENTER)
+            surfaceST(UnitText, font, x + siz / 2 + 10, y, Col, TEXT_ALIGN_LEFT, TEXT_ALIGN_CENTER)
         end
     end
 end
