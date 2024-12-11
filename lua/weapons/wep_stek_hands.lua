@@ -13,33 +13,30 @@ else
 
     SWEP.BounceWeaponIcon = false
     local HandTex, ClosedTex = surface.GetTextureID("vgui/hud/gmod_hand"), surface.GetTextureID("vgui/hud/gmod_closedhand")
+	local cl_drawhud = GetConVar("cl_drawhud")
 
     function SWEP:DrawHUD()
-        if GetConVar("cl_drawhud"):GetBool() == false then return end
-        if GetViewEntity() ~= LocalPlayer() then return end
-        if LocalPlayer():InVehicle() then return end
-        local Ply = self:GetOwner()
+		local lply = LocalPlayer()
+        if not cl_drawhud:GetBool() or GetViewEntity() ~= lply then return end
+        if lply:InVehicle() then return end
+        local ply = self:GetOwner()
         local W, H = ScrW(), ScrH()
 
         if not self:GetFists() then
-            local Tr = util.QuickTrace(self:GetOwner():GetShootPos(), self:GetOwner():GetAimVector() * self.ReachDistance, {self:GetOwner()})
+            local Tr = util.QuickTrace(ply:GetShootPos(), ply:GetAimVector() * self.ReachDistance, {ply})
 
             if Tr.Hit and self:CanPickup(Tr.Entity) then
-                local Size = math.Clamp(1 - ((Tr.HitPos - self:GetOwner():GetShootPos()):Length() / self.ReachDistance) ^ 2, .2, 1)
+                local Size = math.Clamp(1 - ((Tr.HitPos - ply:GetShootPos()):Length() / self.ReachDistance) ^ 2, .2, 1)
 
-                if self:GetOwner():KeyDown(IN_ATTACK2) then
+                if ply:KeyDown(IN_ATTACK2) then
                     surface.SetTexture(ClosedTex)
                 else
                     surface.SetTexture(HandTex)
                 end
 
-                surface.SetDrawColor(Color(255, 255, 255, 255 * Size))
+                surface.SetDrawColor(255, 255, 255, 255 * Size)
                 surface.DrawTexturedRect(ScrW() / 2 - (64 * Size), ScrH() / 2 - (64 * Size), 128 * Size, 128 * Size)
             end
-        end
-        local ToolBox = Ply:GetWeapon("wep_jack_gmod_eztoolbox")
-        if IsValid(ToolBox) and ToolBox:GetNW2Bool("EZoneHandedBuild", false) then
-            draw.SimpleTextOutlined("ALT+LMB: use toolbox onehanded: " .. ToolBox:GetSelectedBuild(), "Trebuchet24", W * .4, H * .7 + 60, Color(255, 255, 255, 30), TEXT_ALIGN_LEFT, TEXT_ALIGN_TOP, 3, Color(0, 0, 0, 10))
         end
     end
 end
@@ -54,20 +51,23 @@ SWEP.Instructions = "Grab and move stuff with your friends!"
 SWEP.Spawnable = true
 SWEP.AdminOnly = false
 SWEP.HoldType = "normal"
-SWEP.ViewModel = "models/weapons/c_arms_citizen.mdl"
-SWEP.WorldModel = "models/props_junk/cardboard_box004a.mdl"
+SWEP.ViewModel = "models/weapons/c_arms.mdl"
+SWEP.WorldModel = ""
 SWEP.UseHands = true
 SWEP.AttackSlowDown = .5
-SWEP.Primary.ClipSize = -1
-SWEP.Primary.DefaultClip = -1
-SWEP.Primary.Automatic = true
-SWEP.Primary.Ammo = "none"
-SWEP.Secondary.ClipSize = -1
-SWEP.Secondary.DefaultClip = -1
-SWEP.Secondary.Automatic = false
-SWEP.Secondary.Ammo = "none"
+SWEP.Primary = {
+	ClipSize = -1,
+	DefaultClip = -1,
+	Automatic = true,
+	Ammo = "none",
+}
+SWEP.Secondary = {
+	ClipSize = -1,
+	DefaultClip = -1,
+	Automatic = false,
+	Ammo = "none",
+}
 SWEP.ReachDistance = 60
-SWEP.HomicideSWEP = true
 
 function SWEP:SetupDataTables()
     self:NetworkVar("Float", 0, "NextIdle")
@@ -76,10 +76,6 @@ function SWEP:SetupDataTables()
     self:NetworkVar("Bool", 3, "Blocking")
     self:NetworkVar("Bool", 4, "IsCarrying")
     self:NetworkVar("Float", 2, "TaskProgress")
-end
-
-function SWEP:PreDrawViewModel(vm, wep, ply)
-    vm:SetMaterial("engine/occlusionproxy") -- Hide that view model with hacky material
 end
 
 function SWEP:Initialize()
@@ -142,32 +138,35 @@ function SWEP:SecondaryAttack()
 
     if SERVER then
         self:SetCarrying()
-        local tr = self:GetOwner():GetEyeTraceNoCursor()
+		local owner = self:GetOwner()
+        local tr = owner:GetEyeTraceNoCursor()
 
         if IsValid(tr.Entity) and self:CanPickup(tr.Entity) and not tr.Entity:IsPlayer() then
-            local Dist = (self:GetOwner():GetShootPos() - tr.HitPos):Length()
+            local Dist = (owner:GetShootPos() - tr.HitPos):Length()
 
             if Dist < self.ReachDistance then
-                sound.Play("Flesh.ImpactSoft", self:GetOwner():GetShootPos(), 65, math.random(90, 110))
+                sound.Play("Flesh.ImpactSoft", owner:GetShootPos(), 65, math.random(90, 110))
                 self:SetCarrying(tr.Entity, tr.PhysicsBone, tr.HitPos, Dist)
                 tr.Entity.Touched = true
                 self:ApplyForce()
             end
         elseif IsValid(tr.Entity) and tr.Entity:IsPlayer() then
-            local Dist = (self:GetOwner():GetShootPos() - tr.HitPos):Length()
+            local Dist = (owner:GetShootPos() - tr.HitPos):Length()
 
             if Dist < self.ReachDistance then
-                sound.Play("Flesh.ImpactSoft", self:GetOwner():GetShootPos(), 65, math.random(90, 110))
-                self:GetOwner():SetVelocity(self:GetOwner():GetAimVector() * 20)
-                tr.Entity:SetVelocity(-self:GetOwner():GetAimVector() * 50)
+                sound.Play("Flesh.ImpactSoft", owner:GetShootPos(), 65, math.random(90, 110))
+                owner:SetVelocity(owner:GetAimVector() * 20)
+                tr.Entity:SetVelocity(-owner:GetAimVector() * 50)
                 self:SetNextSecondaryFire(CurTime() + .25)
             end
         end
     end
 end
 
+local vec5 = Vector(0, 0, 5)
 function SWEP:ApplyForce()
-    local target = self:GetOwner():GetAimVector() * self.CarryDist + self:GetOwner():GetShootPos() + Vector(0, 0, 5)
+	local owner = self:GetOwner()
+    local target = owner:GetAimVector() * self.CarryDist + owner:GetShootPos() + vec5
     local phys = self.CarryEnt:GetPhysicsObjectNum(self.CarryBone)
 
     if IsValid(phys) then
@@ -180,9 +179,9 @@ function SWEP:ApplyForce()
         local vec = target - TargetPos
         local len, mul = vec:Length(), self.CarryEnt:GetPhysicsObject():GetMass()
 
-        local StandingEnt = self:GetOwner():GetGroundEntity()
+        local StandingEnt = owner:GetGroundEntity()
         local StandingOn = IsValid(StandingEnt) and ((StandingEnt == self.CarryEnt) or (StandingEnt:IsConstrained() and table.HasValue(constraint.GetAllConstrainedEntities(StandingEnt), self.CarryEnt)))
-        local PlyIn = (self.CarryEnt == self:GetOwner():GetVehicle())
+        local PlyIn = (self.CarryEnt == owner:GetVehicle())
         if len > self.ReachDistance or StandingOn or PlyIn then
             self:SetCarrying()
 
@@ -194,7 +193,7 @@ function SWEP:ApplyForce()
         end
 
         vec:Normalize()
-        local avec, velo = vec * len^1.5, phys:GetVelocity() - self:GetOwner():GetVelocity()
+        local avec, velo = vec * len ^ 1.5, phys:GetVelocity() - owner:GetVelocity()
         local Force = (avec - velo / 2) * mul
         local ForceNormal = Force:GetNormalized()
         local ForceMagnitude = Force:Length()
@@ -211,16 +210,6 @@ function SWEP:ApplyForce()
 
         phys:ApplyForceCenter(Vector(0, 0, mul))
         phys:AddAngleVelocity(-phys:GetAngleVelocity() / 10)
-    end
-end
-
-function SWEP:OnRemove()
-    if IsValid(self:GetOwner()) and CLIENT and self:GetOwner():IsPlayer() then
-        local vm = self:GetOwner():GetViewModel()
-
-        if IsValid(vm) then
-            vm:SetMaterial("")
-        end
     end
 end
 
@@ -241,16 +230,7 @@ function SWEP:SetCarrying(ent, bone, pos, dist)
         else
             self.CarryPos = nil
         end
-        --[[hook.Add("EntityTakeDamage", "CancelDamageFromCarryEnt"..tostring(self.CarryEnt:EntIndex()), function(target, dmginfo)
-            if (target == self:GetOwner()) and (dmginfo:GetInflictor() == self.CarryEnt) and (dmginfo:GetDamageType() == DMG_CRUSH) then
-                return true
-            end
-        end)--]]
     else
-        --[[if IsValid(self.CarryEnt) then
-            local Index = self.CarryEnt:EntIndex()
-            hook.Remove("EntityTakeDamage", "CancelDamageFromCarryEnt"..tostring(Index))
-        end--]]
         self.CarryEnt = nil
         self.CarryBone = nil
         self.CarryPos = nil
@@ -260,7 +240,8 @@ function SWEP:SetCarrying(ent, bone, pos, dist)
 end
 
 function SWEP:Think()
-    if IsValid(self:GetOwner()) and self:GetOwner():KeyDown(IN_ATTACK2) and not self:GetFists() then
+	local owner = self:GetOwner()
+    if IsValid(owner) and owner:KeyDown(IN_ATTACK2) and not self:GetFists() then
         if IsValid(self.CarryEnt) then
             self:ApplyForce()
         end
@@ -268,8 +249,8 @@ function SWEP:Think()
         self:SetCarrying()
     end
 
-    if self:GetFists() and self:GetOwner():KeyDown(IN_ATTACK2) then
-        self:SetNextPrimaryFire(CurTime() + .5)
+    if self:GetFists() and owner:KeyDown(IN_ATTACK2) then
+        self:SetNextPrimaryFire(CurTime() + .1)
         self:SetBlocking(true)
     else
         self:SetBlocking(false)
@@ -291,7 +272,7 @@ function SWEP:Think()
             HoldType = "normal"
         end
 
-        if (self:GetNextDown() < Time) or self:GetOwner():KeyDown(IN_SPEED) then
+        if (self:GetNextDown() < Time) or owner:KeyDown(IN_SPEED) then
             self:SetNextDown(Time + 1)
             self:SetFists(false)
             self:SetBlocking(false)
@@ -303,9 +284,7 @@ function SWEP:Think()
 
     if IsValid(self.CarryEnt) or self.CarryEnt then
         HoldType = "magic"
-    end
-
-    if self:GetOwner():KeyDown(IN_SPEED) then
+	elseif owner:KeyDown(IN_SPEED) then
         HoldType = "normal"
     end
 
@@ -330,26 +309,27 @@ function SWEP:PrimaryAttack()
 
         return
     end
-
     if self:GetBlocking() then return end
-    if self:GetOwner():KeyDown(IN_SPEED) then return end
+	local owner = self:GetOwner()
+
+    if owner:KeyDown(IN_SPEED) then return end
 
     if not IsFirstTimePredicted() then
         self:DoBFSAnimation(side)
-        self:GetOwner():GetViewModel():SetPlaybackRate(1.25)
+        owner:GetViewModel():SetPlaybackRate(1.25)
 
         return
     end
 
-    self:GetOwner():ViewPunch(Angle(0, 0, math.random(-2, 2)))
+    owner:ViewPunch(AngleRand(-1.5, 1.5))
     self:DoBFSAnimation(side)
-    self:GetOwner():SetAnimation(PLAYER_ATTACK1)
-    self:GetOwner():GetViewModel():SetPlaybackRate(1.25)
+    owner:SetAnimation(PLAYER_ATTACK1)
+    owner:GetViewModel():SetPlaybackRate(1.25)
     self:UpdateNextIdle()
 
     if SERVER then
         sound.Play("weapons/slam/throw.wav", self:GetPos(), 65, math.random(90, 110))
-        self:GetOwner():ViewPunch(Angle(0, 0, math.random(-2, 2)))
+        owner:ViewPunch(AngleRand(-1.5, 1.5))
 
         timer.Simple(.075, function()
             if IsValid(self) then
@@ -364,16 +344,17 @@ end
 
 function SWEP:AttackFront()
     if CLIENT then return end
+	local owner = self:GetOwner()
 
-    self:GetOwner():LagCompensation(true)
+    owner:LagCompensation(true)
 
-    local Ent, HitPos = s_util.cone_trace(self:GetOwner(), .3, 55)
-    local AimVec = self:GetOwner():GetAimVector()
+    local Ent, HitPos = s_util.cone_trace(owner, .3, 55)
+    local AimVec = owner:GetAimVector()
 
     if IsValid(Ent) or (Ent and Ent.IsWorld and Ent:IsWorld()) then
         local SelfForce, Mul = 125, 1
 
-        if self:IsEntSoft(Ent) then
+        if Ent:IsNPC() or Ent:IsPlayer() then
             SelfForce = 25
 
             if Ent:IsPlayer() and IsValid(Ent:GetActiveWeapon()) and Ent:GetActiveWeapon().GetBlocking and Ent:GetActiveWeapon():GetBlocking() then
@@ -387,31 +368,30 @@ function SWEP:AttackFront()
 
         local DamageAmt = math.random(2, 4)
         local Dam = DamageInfo()
-        Dam:SetAttacker(self:GetOwner())
+        Dam:SetAttacker(owner)
         Dam:SetInflictor(self)
         Dam:SetDamage(DamageAmt * Mul)
         Dam:SetDamageForce(AimVec * Mul ^ 3)
         Dam:SetDamageType(DMG_CLUB)
         Dam:SetDamagePosition(HitPos)
         Ent:TakeDamageInfo(Dam)
-        local Phys = Ent:GetPhysicsObject()
 
+        local Phys = Ent:GetPhysicsObject()
         if IsValid(Phys) then
             if Ent:IsPlayer() then
                 Ent:SetVelocity(AimVec * SelfForce * 1.5)
             end
 
             Phys:ApplyForceOffset(AimVec * 5000 * Mul, HitPos)
-            self:GetOwner():SetVelocity(-AimVec * SelfForce * .8)
+            owner:SetVelocity(-AimVec * SelfForce * .8)
         end
 
-        if Ent:GetClass() == "func_breakable_surf" and
-        math.random(1, 20) == 10 then
+        if Ent:GetClass() == "func_breakable_surf" and math.random(1, 20) == 10 then
             Ent:Fire("break", "", 0)
         end
     end
 
-    self:GetOwner():LagCompensation(false)
+    owner:LagCompensation(false)
 end
 
 function SWEP:Reload()
@@ -434,7 +414,6 @@ end
 function SWEP:DrawWorldModel()
 end
 
--- no, do nothing
 function SWEP:DoBFSAnimation(anim)
     local vm = self:GetOwner():GetViewModel()
     vm:SendViewModelMatchingSequence(vm:LookupSequence(anim))
@@ -445,18 +424,15 @@ function SWEP:UpdateNextIdle()
     self:SetNextIdle(CurTime() + vm:SequenceDuration())
 end
 
-function SWEP:IsEntSoft(ent)
-    return ent:IsNPC() or ent:IsPlayer()
-end
-
 if CLIENT then
     local BlockAmt = 0
 
     function SWEP:GetViewModelPosition(pos, ang)
+		local ft = FrameTime() * 3
         if self:GetBlocking() then
-            BlockAmt = math.Clamp(BlockAmt + FrameTime() * 1.5, 0, 1)
+            BlockAmt = math.Clamp(BlockAmt + ft, 0, 1)
         else
-            BlockAmt = math.Clamp(BlockAmt - FrameTime() * 1.5, 0, 1)
+            BlockAmt = math.Clamp(BlockAmt - ft, 0, 1)
         end
 
         pos = pos - ang:Up() * 15 * BlockAmt
