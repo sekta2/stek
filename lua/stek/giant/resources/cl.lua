@@ -4,9 +4,11 @@ local EyePos = EyePos
 --[[------------------------]]--
 
 function s_res.holo(ent, relPos, relAng, scale, renderDist, renderFunc, absolutePositions)
+    renderDist = renderDist^2
+
     local eyepos = EyePos()
     if absolutePositions then
-        if eyepos:Distance(relPos) < renderDist then
+        if eyepos:DistToSqr(relPos) < renderDist then
             cam.Start3D2D(relPos, relAng, scale)
             renderFunc()
             cam.End3D2D()
@@ -15,26 +17,26 @@ function s_res.holo(ent, relPos, relAng, scale, renderDist, renderFunc, absolute
         return
     end
 
-    local Ang, Pos = Angle(0, 0, 0), Vector(0, 0, 0)
+    local Ang, Pos = relAng, relPos
 
     if IsValid(ent) and ent.GetAngles then
         Ang = ent:GetAngles()
         Pos = ent:GetPos()
-    else -- we're using world coordinates
-        Pos = relPos
-        Ang = relAng
     end
 
     local Right, Up, Forward = Ang:Right(), Ang:Up(), Ang:Forward()
 
-    if eyepos:Distance(Pos) < renderDist then
+    if eyepos:DistToSqr(Pos) < renderDist then
         if ent then
             Ang:RotateAroundAxis(Right, relAng.p)
             Ang:RotateAroundAxis(Up, relAng.y)
             Ang:RotateAroundAxis(Forward, relAng.r)
         end
 
-        local RenderPos = Pos + relPos.x * Right + relPos.y * Forward + relPos.z * Up
+        local RenderPos = Vector(Pos)
+        RenderPos:Add(relPos.x * Right)
+        RenderPos:Add(relPos.y * Forward)
+        RenderPos:Add(relPos.z * Up)
 
         -- world coords
         if not ent then
