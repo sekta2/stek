@@ -1,3 +1,39 @@
+--[[
+    База для ресурсов
+
+    Если в ресурсе(resources/sh.lua) прописано auto_entity = false, тогда
+    вам нужно создать энтити для ресурса с класснеймом stek_res_(айди ресурса):
+
+    AddCSLuaFile()
+
+    ENT.Type = "anim"
+    ENT.Base = "stek_res_base"
+
+    ENT.PrintName = "название ресурса"
+    ENT.Category = "STek - Resources"
+
+    -- Моделька
+    ENT.Model = "тут_моделька_энтити"
+
+    -- Материал модельки
+    ENT.Material = ""
+
+    -- Масса энтити
+    ENT.Mass = 50
+
+    -- Цвет модельки
+    ENT.Color = Color(255, 255, 255)
+
+    -- Скин модельки
+    ENT.Skin = 0
+
+    -- Иконка энтити ресурса в спавнменю
+    ENT.IconOverride = "stek_resources/название_ресурса.png"
+
+    
+    !!! Этот способ создания энтити для ресурса еще не тестировался! Прошу контрибьютеров протестить !!!
+]]
+
 AddCSLuaFile()
 
 ENT.Type = "anim"
@@ -40,15 +76,15 @@ if SERVER then
         if SERVER then
             self:PhysicsInit(SOLID_VPHYSICS)
             self:SetUseType(SIMPLE_USE)
-        end
 
-        local phys = self:GetPhysicsObject()
+            local phys = self:GetPhysicsObject()
 
-        if IsValid(phys) then
-            phys:Wake()
+            if IsValid(phys) then
+                phys:Wake()
 
-            if self.Mass then
-                phys:SetMass(self.Mass)
+                if self.Mass then
+                    phys:SetMass(self.Mass)
+                end
             end
         end
     end

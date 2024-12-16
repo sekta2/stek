@@ -524,7 +524,7 @@ function s_res.create_entities()
             Base = "stek_res_base",
 
             PrintName = res.name,
-            Category = "STek - Resources",
+            Category = "STek - Ресурсы",
             Model = res.model,
             Material = res.material,
             Mass = res.mass,

@@ -1,7 +1,7 @@
 # Документация
 
 ## Хуки
-- [s_inv.serialize](hook/s_inv_serialize.md)
+- [`🔵` s_inv.serialize](hook/s_inv_serialize.md)
 
 ## Библиотеки
 
