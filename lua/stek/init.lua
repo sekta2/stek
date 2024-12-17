@@ -18,8 +18,10 @@ stek.cl("cl/helpers.lua")
 stek.giant("resources")
 stek.giant("craft", {_, true, true})
 stek.giant("inventory")
+stek.giant("modules", {_, true, true})
 
 -- Loads
 
 s_res.load() -- Load "resources" giant
 s_craft.load() -- Load "craft" giant
+stek.load_modules() -- Load "modules" giant
