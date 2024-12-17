@@ -65,7 +65,7 @@ function s_res.add(id, struct)
     s_res.list[uid] = m_struct
     s_res.id_list[id] = m_struct
 
-    s_util.print("Added new resource: " .. id .. " | UID: " .. uid)
+    if GetConVar("developer"):GetBool() then s_util.print("Added new resource: " .. id .. " | UID: " .. uid) end
 
     return uid
 end
