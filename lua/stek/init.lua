@@ -3,6 +3,7 @@
 stek.sh("sh/net.lua")
 stek.sh("sh/config.lua")
 stek.sh("sh/util.lua")
+stek.sh("sh/sync.lua")
 
 -- Server
 
@@ -15,6 +16,7 @@ stek.cl("cl/helpers.lua")
 
 -- Giants
 
+stek.giant("actions")
 stek.giant("resources")
 stek.giant("craft", {_, true, true})
 stek.giant("inventory")
