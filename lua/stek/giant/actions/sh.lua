@@ -1,7 +1,9 @@
 s_actions = {
     list = {},
     list_uid = {},
-    uid = 0
+    uid = 0,
+
+    local_cooldowns = {}
 }
 
 --[[
@@ -105,7 +107,7 @@ function s_actions.AddAction(name, t)
             local success, c_args = st_cfn(ply, args, st.args)
 
             if not success then
-                print("[CLIENT] Action execution error:\n" .. c_args)
+                s_util.print("[CLIENT] Action execution error:\n" .. c_args)
                 return
             end
 
@@ -115,6 +117,15 @@ function s_actions.AddAction(name, t)
 
                 return
             end
+
+            local time = s_actions.local_cooldowns[uid]
+
+            if time and time > CurTime() then
+                s_util.print("[CLIENT] Action execution error:\nWait " .. math.floor(time - CurTime()) .. " more seconds.")
+                return
+            end
+
+            s_actions.local_cooldowns[uid] = CurTime() + st.cooldown
 
             net.Start("s_actions.act")
                 net.WriteSmartUInt(uid)
