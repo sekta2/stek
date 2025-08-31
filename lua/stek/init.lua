@@ -1,1 +1,7 @@
-print("sekta was here")
+--- Shared
+
+stek.shared("netsmart.lua")
+
+--- Server
+
+--- Client
