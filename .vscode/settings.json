@@ -13,5 +13,10 @@
     "Lua.diagnostics.disable": [
         "duplicate-set-field"
     ],
-    "Lua.workspace.checkThirdParty": false
+    "Lua.workspace.checkThirdParty": false,
+    "material-icon-theme.folders.associations": {
+        "cl": "client",
+        "sh": "shared",
+        "sv": "server"
+    }
 }
