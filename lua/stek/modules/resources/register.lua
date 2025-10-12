@@ -1,5 +1,8 @@
 return function(Resources)
     function Resources.Init()
+        ---@class ResourceModule
+        Resources = Resources -- konchenyi lua linter
+
         Resources.Add("advancedparts", {
             name = "EZ Advanced Parts Box",
             icon = "materials/ez_resource_icons/advanced parts.png",

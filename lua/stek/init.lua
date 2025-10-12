@@ -45,5 +45,4 @@ LoadScripts()
 ---
 
 stek.Locale.Init()
----@diagnostic disable-next-line: undefined-field
 stek.Resources.Init()
