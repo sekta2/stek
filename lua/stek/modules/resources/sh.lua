@@ -1,4 +1,8 @@
 ---@class ResourceAutoEntity
+---@field color Color?
+---@field material string?
+---@field model string?
+---@field skin integer?
 
 ---
 
@@ -12,7 +16,7 @@
 ---
 
 ---@class Resource: ResourceData
----@field uid number Уникальный Идентификатор ресурса
+---@field uid integer Уникальный Идентификатор ресурса
 ---@field id string Идентификатор ресурса
 ---@field volume number Объём ресурса
 ---@field auto_entity boolean Нужно ли автоматически создавать энтити для этого ресурса?
@@ -108,7 +112,7 @@ function Resources.Add(id, data)
 end
 
 ---Возвращает ресурс по указанному UID
----@param uid number Уникальный Идентификатор ресурса
+---@param uid integer Уникальный Идентификатор ресурса
 ---@return Resource
 function Resources.GetByUID(uid)
     return Resources.list[uid]
@@ -121,6 +125,9 @@ function Resources.GetByID(id)
     return Resources.index[id]
 end
 
+---
+
 stek.shared("net.lua")
+stek.shared("register.lua")(Resources)
 
 stek.Resources = Resources
