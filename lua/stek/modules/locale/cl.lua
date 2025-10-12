@@ -1,7 +1,7 @@
 local Locale = stek.Locale
 
-function LanguageChanged(lang)
+hook.Add("LanguageChanged", "stek_ChangeLocale", function(lang)
     if Locale.exists[lang] then
         Locale.Load(lang)
     end
-end
+end)
