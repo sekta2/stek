@@ -44,5 +44,17 @@ LoadScripts()
 
 ---
 
+function stek.InitDirectories()
+    if file.Exists("stek", "DATA") then return end
+
+    file.CreateDir("stek")
+
+    file.CreateDir("stek/config")
+    file.CreateDir("stek/config/addons")
+end
+
+---
+
+stek.InitDirectories()
 stek.Locale.Init()
 stek.Resources.Init()
