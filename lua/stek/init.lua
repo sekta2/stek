@@ -57,4 +57,9 @@ end
 
 stek.InitDirectories()
 stek.Locale.Init()
+stek.Config.Load()
 stek.Resources.Init()
+
+if SERVER then
+    stek.Config.InitCommands()
+end
