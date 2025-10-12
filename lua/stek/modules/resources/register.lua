@@ -4,7 +4,7 @@ return function(Resources)
         Resources = Resources -- konchenyi lua linter
 
         Resources.Add("advancedparts", {
-            name = "EZ Advanced Parts Box",
+            name = "Advanced Parts",
             icon = "materials/ez_resource_icons/advanced parts.png",
             auto_entity = true,
             entity = {
@@ -14,7 +14,7 @@ return function(Resources)
         })
 
         Resources.Add("advancedtextiles", {
-            name = "EZ Advanced Textile Roll",
+            name = "Advanced Textile",
             icon = "materials/ez_resource_icons/advanced textiles.png",
             auto_entity = true,
             entity = {
@@ -25,7 +25,7 @@ return function(Resources)
         })
 
         Resources.Add("aluminum", {
-            name = "EZ Aluminum Ingot",
+            name = "Aluminum",
             icon = "materials/ez_resource_icons/aluminum.png",
             auto_entity = true,
             entity = {
@@ -46,7 +46,7 @@ return function(Resources)
         })
 
         Resources.Add("ammo", {
-            name = "EZ Ammo Box",
+            name = "Ammo",
             icon = "materials/ez_resource_icons/ammo.png",
             auto_entity = true,
             entity = {
@@ -56,7 +56,7 @@ return function(Resources)
         })
 
         Resources.Add("antimatter", {
-            name = "EZ Antimatter",
+            name = "Antimatter",
             icon = "materials/ez_resource_icons/antimatter.png",
             auto_entity = true,
             entity = {
@@ -65,7 +65,7 @@ return function(Resources)
         })
 
         Resources.Add("basicparts", {
-            name = "EZ Basic Parts Box",
+            name = "Basic Parts",
             icon = "materials/ez_resource_icons/basic parts.png",
             auto_entity = true,
             entity = {
@@ -75,7 +75,7 @@ return function(Resources)
         })
 
         Resources.Add("power", {
-            name = "EZ Battery",
+            name = "Battery",
             icon = "materials/ez_resource_icons/power.png",
             auto_entity = true,
             entity = {
@@ -84,7 +84,7 @@ return function(Resources)
         })
 
         Resources.Add("ceramic", {
-            name = "EZ Ceramic Block",
+            name = "Ceramic Block",
             icon = "materials/ez_resource_icons/ceramic.png",
             auto_entity = true,
             entity = {
@@ -95,7 +95,7 @@ return function(Resources)
         })
 
         Resources.Add("chemicals", {
-            name = "EZ Chemicals",
+            name = "Chemicals",
             icon = "materials/ez_resource_icons/chemicals.png",
             auto_entity = true,
             entity = {
@@ -104,7 +104,7 @@ return function(Resources)
         })
 
         Resources.Add("cloth", {
-            name = "EZ Cloth Roll",
+            name = "Cloth Roll",
             icon = "materials/ez_resource_icons/cloth.png",
             auto_entity = true,
             entity = {
@@ -115,7 +115,7 @@ return function(Resources)
         })
 
         Resources.Add("coal", {
-            name = "EZ Coal",
+            name = "Coal",
             icon = "materials/ez_resource_icons/coal.png",
             auto_entity = true,
             entity = {
@@ -126,7 +126,7 @@ return function(Resources)
         })
 
         Resources.Add("concrete", {
-            name = "EZ Concrete",
+            name = "Concrete",
             icon = "materials/ez_resource_icons/concrete.png",
             auto_entity = true,
             entity = {
@@ -137,7 +137,7 @@ return function(Resources)
         })
 
         Resources.Add("coolant", {
-            name = "EZ Coolant Bottle",
+            name = "Coolant",
             icon = "materials/ez_resource_icons/coolant.png",
             auto_entity = true,
             entity = {
@@ -148,7 +148,7 @@ return function(Resources)
         })
 
         Resources.Add("copper", {
-            name = "EZ Copper Ingot",
+            name = "Copper",
             icon = "materials/ez_resource_icons/copper.png",
             auto_entity = true,
             entity = {
@@ -169,7 +169,7 @@ return function(Resources)
         })
 
         Resources.Add("diamond", {
-            name = "EZ Diamond",
+            name = "Diamond",
             icon = "materials/ez_resource_icons/diamond.png",
             auto_entity = true,
             entity = {
@@ -180,7 +180,7 @@ return function(Resources)
         })
 
         Resources.Add("explosives", {
-            name = "EZ Explosives Box",
+            name = "Explosives",
             icon = "materials/ez_resource_icons/explosives.png",
             auto_entity = true,
             entity = {
@@ -190,7 +190,7 @@ return function(Resources)
         })
 
         Resources.Add("fissilematerial", {
-            name = "EZ Fissile Material",
+            name = "Fissile Material",
             icon = "materials/ez_resource_icons/fissile material.png",
             auto_entity = true,
             entity = {
@@ -200,7 +200,7 @@ return function(Resources)
         })
 
         Resources.Add("fuel", {
-            name = "EZ Fuel Can",
+            name = "Fuel",
             icon = "materials/ez_resource_icons/fuel.png",
             auto_entity = true,
             entity = {
@@ -209,7 +209,7 @@ return function(Resources)
         })
 
         Resources.Add("gas", {
-            name = "EZ Gas Tank",
+            name = "Gas",
             icon = "materials/ez_resource_icons/gas.png",
             auto_entity = true,
             entity = {
@@ -220,7 +220,7 @@ return function(Resources)
         })
 
         Resources.Add("glass", {
-            name = "EZ Glass Block",
+            name = "Glass Block",
             icon = "materials/ez_resource_icons/glass.png",
             auto_entity = true,
             entity = {
@@ -231,7 +231,7 @@ return function(Resources)
         })
 
         Resources.Add("gold", {
-            name = "EZ Gold Ingot",
+            name = "Gold",
             icon = "materials/ez_resource_icons/gold.png",
             auto_entity = true,
             entity = {
@@ -262,7 +262,7 @@ return function(Resources)
         })
 
         Resources.Add("lead", {
-            name = "EZ Lead Ingot",
+            name = "Lead",
             icon = "materials/ez_resource_icons/lead.png",
             auto_entity = true,
             entity = {
@@ -283,7 +283,7 @@ return function(Resources)
         })
 
         Resources.Add("medicalsupplies", {
-            name = "EZ Medical Supplies Box",
+            name = "Medical Supplies",
             icon = "materials/ez_resource_icons/medical supplies.png",
             auto_entity = true,
             entity = {
@@ -293,7 +293,7 @@ return function(Resources)
         })
 
         Resources.Add("munitions", {
-            name = "EZ Munition Box",
+            name = "Munition",
             icon = "materials/ez_resource_icons/munitions.png",
             auto_entity = true,
             entity = {
@@ -303,7 +303,7 @@ return function(Resources)
         })
 
         Resources.Add("nutrients", {
-            name = "EZ Nutrient Box",
+            name = "Nutrient",
             icon = "materials/ez_resource_icons/nutrients.png",
             auto_entity = true,
             entity = {
@@ -313,7 +313,7 @@ return function(Resources)
         })
 
         Resources.Add("oil", {
-            name = "EZ Oil Drum",
+            name = "Oil",
             icon = "materials/ez_resource_icons/oil.png",
             auto_entity = true,
             entity = {
@@ -323,7 +323,7 @@ return function(Resources)
         })
 
         Resources.Add("organics", {
-            name = "EZ Organics",
+            name = "Organics",
             icon = "materials/ez_resource_icons/organics.png",
             auto_entity = true,
             entity = {
@@ -332,7 +332,7 @@ return function(Resources)
         })
 
         Resources.Add("paper", {
-            name = "EZ Paper Ream",
+            name = "Paper",
             icon = "materials/ez_resource_icons/paper.png",
             auto_entity = true,
             entity = {
@@ -342,18 +342,17 @@ return function(Resources)
         })
 
         Resources.Add("plastic", {
-            name = "EZ Plastic Block",
+            name = "Plastic",
             icon = "materials/ez_resource_icons/plastic.png",
             auto_entity = true,
             entity = {
                 model = "models/hunter/blocks/cube05x05x05.mdl",
-                material = "", -- Empty string for material
                 color = Color(200, 200, 200)
             }
         })
 
         Resources.Add("platinum", {
-            name = "EZ Platinum Ingot",
+            name = "Platinum",
             icon = "materials/ez_resource_icons/platinum.png",
             auto_entity = true,
             entity = {
@@ -374,7 +373,7 @@ return function(Resources)
         })
 
         Resources.Add("precisionparts", {
-            name = "EZ Precision Parts Box",
+            name = "Precision Parts",
             icon = "materials/ez_resource_icons/precision parts.png",
             auto_entity = true,
             entity = {
@@ -383,7 +382,7 @@ return function(Resources)
         })
 
         Resources.Add("propellant", {
-            name = "EZ Propellant Bottle",
+            name = "Propellant",
             icon = "materials/ez_resource_icons/propellant.png",
             auto_entity = true,
             entity = {
@@ -393,7 +392,7 @@ return function(Resources)
         })
 
         Resources.Add("rubber", {
-            name = "EZ Rubber Puck",
+            name = "Rubber",
             icon = "materials/ez_resource_icons/rubber.png",
             auto_entity = true,
             entity = {
@@ -404,7 +403,7 @@ return function(Resources)
         })
 
         Resources.Add("sand", {
-            name = "EZ Sand",
+            name = "Sand",
             icon = "materials/ez_resource_icons/sand.png",
             auto_entity = true,
             entity = {
@@ -414,7 +413,7 @@ return function(Resources)
         })
 
         Resources.Add("silver", {
-            name = "EZ Silver Ingot",
+            name = "Silver",
             icon = "materials/ez_resource_icons/silver.png",
             auto_entity = true,
             entity = {
@@ -435,7 +434,7 @@ return function(Resources)
         })
 
         Resources.Add("steel", {
-            name = "EZ Steel Ingot",
+            name = "Steel",
             icon = "materials/ez_resource_icons/steel.png",
             auto_entity = true,
             entity = {
@@ -446,7 +445,7 @@ return function(Resources)
         })
 
         Resources.Add("titanium", {
-            name = "EZ Titanium Ingot",
+            name = "Titanium",
             icon = "materials/ez_resource_icons/titanium.png",
             auto_entity = true,
             entity = {
@@ -467,7 +466,7 @@ return function(Resources)
         })
 
         Resources.Add("tungsten", {
-            name = "EZ Tungsten Ingot",
+            name = "Tungsten",
             icon = "materials/ez_resource_icons/tungsten.png",
             auto_entity = true,
             entity = {
@@ -488,7 +487,7 @@ return function(Resources)
         })
 
         Resources.Add("uranium", {
-            name = "EZ Uranium Ingot",
+            name = "Uranium",
             icon = "materials/ez_resource_icons/uranium.png",
             auto_entity = true,
             entity = {
@@ -509,7 +508,7 @@ return function(Resources)
         })
 
         Resources.Add("water", {
-            name = "EZ Water Drum",
+            name = "Water",
             icon = "materials/ez_resource_icons/water.png",
             auto_entity = true,
             entity = {
@@ -518,7 +517,7 @@ return function(Resources)
         })
 
         Resources.Add("wood", {
-            name = "EZ Wood",
+            name = "Wood",
             icon = "materials/ez_resource_icons/wood.png",
             auto_entity = true,
             entity = {
