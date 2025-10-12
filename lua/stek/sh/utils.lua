@@ -26,3 +26,17 @@ function stek.CheckBits(num)
 
     return 32
 end
+
+--- LanguageChanged Patcher
+
+LCPatched = LCPatched or false
+
+if not LCPatched then
+    LCPatched = true
+
+    local old_LanguageChanged = LanguageChanged
+    function LanguageChanged(...)
+        hook.Run("LanguageChanged", ...)
+        old_LanguageChanged(...)
+    end
+end
