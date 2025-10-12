@@ -1,3 +1,8 @@
+---https://semver.org/lang/ru/
+stek._VERSION = "1.0.0"
+
+---
+
 local function LoadModules()
     local _, modules = file.Find("stek/modules/*", "LUA")
 
