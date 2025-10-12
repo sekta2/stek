@@ -60,11 +60,11 @@ end
 
 ---
 
-stek.InitDirectories()
-stek.Locale.Init()
-stek.Config.Load()
-stek.Resources.Init()
-
 if SERVER then
+    stek.InitDirectories()
+    stek.Config.Load()
     stek.Config.InitCommands()
 end
+
+stek.Locale.Init()
+stek.Resources.Init()
