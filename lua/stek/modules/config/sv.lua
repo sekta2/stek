@@ -57,6 +57,9 @@ end
 
 util.AddNetworkString("stek.ConfigSync")
 
+---Возвращает сжатый конфиг и его длину
+---@return string data
+---@return integer len
 function Config.GetDatafiedConfig()
     local data = util.Compress(util.TableToJSON({
         raw = Config.raw,
