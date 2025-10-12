@@ -1,6 +1,60 @@
 ---@class ConfigModule
 local Config = stek.Config
 
+---Загружает главные настройки
+function Config.LoadMain()
+    local toml = file.Read("stek/config/main.txt", "DATA")
+    if toml then
+        local raw = TOML.parse(toml, {strict = false})
+        Config.raw = raw
+    end
+end
+
+---Загружает настройки аддонов
+function Config.LoadAddons()
+    for i = 1, #Config.addons_list do
+        local name = Config.addons_list[i]
+
+        local addon_toml = file.Read("stek/config/addons/" .. name .. ".txt", "DATA")
+        if not addon_toml then continue end
+
+        local addon_raw = TOML.parse(addon_toml, {strict = false})
+        Config.addons[name] = addon_raw
+    end
+end
+
+---Загружает все настройки
+function Config.Load()
+    Config.LoadMain()
+    Config.LoadAddons()
+end
+
+---
+
+---Сохраняет главные настройки
+function Config.SaveMain()
+    local toml = TOML.encode(Config.Get())
+    file.Write("stek/config/main.txt", toml)
+end
+
+---Сохраняет настройки аддонов
+function Config.SaveAddons()
+    for i = 1, #Config.addons_list do
+        local name = Config.addons_list[i]
+
+        local toml = TOML.encode(Config.addons[name])
+        file.Write("stek/config/addons/" .. name .. ".txt", toml)
+    end
+end
+
+---Сохраняет все настройки
+function Config.Save()
+    Config.SaveMain()
+    Config.SaveAddons()
+end
+
+---
+
 util.AddNetworkString("stek.ConfigSync")
 
 function Config.GetDatafiedConfig()
