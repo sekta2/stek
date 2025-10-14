@@ -88,6 +88,8 @@ local Resources = {
     list = {},
     index = {},
 
+    active_ents = {},
+
     bits_count = 1
 }
 
@@ -123,6 +125,16 @@ end
 ---@return Resource
 function Resources.GetByID(id)
     return Resources.index[id]
+end
+
+---
+
+function Resources.RegisterActiveEntity(ent)
+    Resources.active_ents[ent:EntIndex()] = true
+end
+
+function Resources.UnRegisterActiveEntity(ent_index)
+    Resources.active_ents[ent_index] = nil
 end
 
 ---
