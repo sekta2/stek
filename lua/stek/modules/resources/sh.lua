@@ -106,7 +106,7 @@ function Resources.Add(id, data)
 
     Object.uid = uid
 
-    Resources.bits_count = stek.CheckBits(uid)
+    Resources.bits_count = stek.BitsForUnsignedInt(uid)
 
     return Object
 end

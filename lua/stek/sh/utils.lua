@@ -1,30 +1,31 @@
 --- Bits checker
 
-local bits = {
-    1, 3, 7, 15, 31, 63, 127, 255, 511, 1023, 2047, 4095, 8191, 16383, 32767, 65353, 131071, 262143, 524287, 1048575,
-    2097151,
-    4194303,
-    8388607,
-    16777215,
-    33554431,
-    67108863,
-    134217727,
-    268435455,
-    536870911,
-    1073741823,
-    2147483647,
-    4294967295,
-}
-
-function stek.CheckBits(num)
-    for i = #bits, 1, -1 do
-        local bit = bits[i]
-        if num > bit then
-            return i
-        end
+function stek.BitsForUnsignedInt(num)
+    if num == 0 then
+        return 1
     end
 
-    return 32
+    local log2_n = math.log(num) / math.log(2)
+    local bits = math.floor(log2_n) + 1
+
+    return bits
+end
+
+function stek.BitsForSignedInt(num)
+    local absolute_n = math.abs(num)
+
+    local bits = stek.BitsForUnsignedInt(absolute_n) + 1
+    local bits_for_magnitude = stek.BitsForUnsignedInt(absolute_n)
+
+    if num > 0 and (bit.band(num, (num - 1))) == 0 then
+        bits = bits_for_magnitude + 1
+    elseif num < 0 and (bit.band(absolute_n, (absolute_n - 1))) == 0 and absolute_n ~= 1 then
+        bits = bits_for_magnitude
+    else
+        bits = bits_for_magnitude + 1
+    end
+
+    return bits
 end
 
 --- LanguageChanged Patcher
