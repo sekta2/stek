@@ -8,10 +8,12 @@
         "IncludeCS": "dofile"
     },
     "Lua.runtime.nonstandardSymbol": [
-        "continue"
+        "continue",
+        "/**/"
     ],
     "Lua.diagnostics.disable": [
-        "duplicate-set-field"
+        "duplicate-set-field",
+        "inject-field"
     ],
     "Lua.workspace.checkThirdParty": false,
     "material-icon-theme.folders.associations": {
@@ -21,5 +23,9 @@
         "inv": "archive",
         "stek": "core",
         "autorun": "scripts"
-    }
+    },
+
+    "Lua.diagnostics.globals": [
+        "_"
+    ]
 }

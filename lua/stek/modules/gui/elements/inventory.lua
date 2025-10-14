@@ -66,7 +66,7 @@ function PANEL:Init()
 			end
 
 			curDif = input.GetCursorPos() - lastCurPos
-			
+
 			ent:SetAngles( Angle( 0, entAngs.y + curDif % 360, 0 ) )
 		end
 	end
