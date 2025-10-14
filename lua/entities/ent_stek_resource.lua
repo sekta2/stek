@@ -1,3 +1,5 @@
+AddCSLuaFile()
+
 ---@diagnostic disable: assign-type-mismatch
 ---@class ent_stek_resource: Entity
 ENT = ENT
