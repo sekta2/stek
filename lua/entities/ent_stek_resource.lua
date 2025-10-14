@@ -36,7 +36,7 @@ if SERVER then
 
     hook.Add("PlayerAuthed", "stek.Resources.SyncResoucesAmount", function(ply)
         local data, len = GetDatafiedResources()
-        if not data then return end
+        if not (data and len) then return end
 
         net.Start("stek.SyncResourceAmountFull")
         net.WriteUInt(len, 16)
