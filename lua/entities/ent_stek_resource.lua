@@ -69,6 +69,14 @@ if SERVER then
             self:SetMaterial(self.Material)
         end
 
+        self:SetMoveType(MOVETYPE_VPHYSICS)
+
+        self:SetSolid(SOLID_VPHYSICS)
+
+        self:PhysicsInit(SOLID_VPHYSICS)
+        self:SetUseType(SIMPLE_USE)
+        self:PhysWake()
+
         stek.Resources.RegisterActiveEntity(self)
         self:SetAmount(100, true)
     end
