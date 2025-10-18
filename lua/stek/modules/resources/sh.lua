@@ -81,7 +81,7 @@ end
 ---# Ресурсный модуль
 ---Позволяет создавать ресурсы
 ---@class ResourceModule
----@field list table<number, Resource>
+---@field list [Resource]
 ---@field index table<string, Resource>
 ---@field bits_count number
 local Resources = {
@@ -138,6 +138,33 @@ function Resources.UnRegisterActiveEntity(ent_index)
 end
 
 ---
+
+function Resources.InitAutoEntities()
+    for i = 1, #Resources.list do
+        local res = Resources.list[i]
+        local ent_data = res.entity
+        if not (res.auto_entity and ent_data) then continue end
+
+        ---@type ENT
+        local NewENT = {
+            Base = "ent_stek_resource",
+            Type = "anim",
+
+            PrintName = res:GetName(),
+            Category = "STek: Resources",
+            Spawnable = true,
+
+            Model = ent_data.model,
+            Skin = ent_data.skin,
+            Color = ent_data.color,
+            Material = ent_data.material,
+
+            STek_Resource = res.id
+        }
+
+        scripted_ents.Register(NewENT, "ent_stek_res_" .. res.id)
+    end
+end
 
 stek.shared("net.lua")
 stek.shared("register.lua")(Resources)

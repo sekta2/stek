@@ -2,6 +2,10 @@ AddCSLuaFile()
 
 ---@diagnostic disable: assign-type-mismatch
 ---@class ent_stek_resource: Entity
+---@field Model string?
+---@field Skin number?
+---@field Color Color?
+---@field Material string?
 ENT = ENT
 
 ENT.Base = "base_anim"
@@ -49,6 +53,22 @@ if SERVER then
     ---
 
     function ENT:Initialize()
+        if self.Model then
+            self:SetModel(self.Model)
+        end
+
+        if self.Skin then
+            self:SetSkin(self.Skin)
+        end
+
+        if self.Color then
+            self:SetColor(self.Color)
+        end
+
+        if self.Material then
+            self:SetMaterial(self.Material)
+        end
+
         stek.Resources.RegisterActiveEntity(self)
         self:SetAmount(100, true)
     end
