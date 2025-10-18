@@ -143,7 +143,15 @@ else
     function ENT:Draw()
         self:DrawModel()
 
-        cam.Start3D2D(self:LocalToWorld(Vector(-13, 0, 13)), self:LocalToWorldAngles(Angle(0, -90, 90)), 0.05)
+        local selfPos = self:GetPos()
+
+        local forward = self:GetForward()
+
+        local up = self:GetUp()
+
+        local renderPos = selfPos + forward * -12 + up * 13
+---     local renderPos = Vector( -13, 0, 13 )
+        cam.Start3D2D(renderPos, self:LocalToWorldAngles(Angle(0, -90, 90)), 0.05)
 
         stek.Draw.ResourceInfoVertical(self.STek_Resource, self:GetAmount(), 16, 48, 160)
 
