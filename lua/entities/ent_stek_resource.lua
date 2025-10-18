@@ -142,5 +142,11 @@ else
 
     function ENT:Draw()
         self:DrawModel()
+
+        cam.Start3D2D(self:LocalToWorld(Vector(-13, 0, 13)), self:LocalToWorldAngles(Angle(0, -90, 90)), 0.05)
+
+        stek.Draw.ResourceInfoVertical(self.STek_Resource, self:GetAmount(), 16, 48, 160)
+
+        cam.End3D2D()
     end
 end
