@@ -14,6 +14,8 @@ ENT.Type = "anim"
 ENT.Category = "STek: Resources"
 ENT.Author = "sekta"
 
+ENT.PhysicsSounds = true
+
 function ENT:GetAmount()
     return self.amount or 100
 end
@@ -70,7 +72,7 @@ if SERVER then
         end
 
         self:SetMoveType(MOVETYPE_VPHYSICS)
-
+        self:SetUseType(SIMPLE_USE)
         self:SetSolid(SOLID_VPHYSICS)
 
         self:PhysicsInit(SOLID_VPHYSICS)
@@ -79,6 +81,16 @@ if SERVER then
 
         stek.Resources.RegisterActiveEntity(self)
         self:SetAmount(100, true)
+    end
+
+    ---@param activator Player
+    function ENT:Use(activator)
+        local phys = self:GetPhysicsObject()
+
+        if not activator:IsPlayer() then return end
+        if not (activator:GetGroundEntity() ~= self and IsValid(phys) and phys:IsMotionEnabled()) then return end
+
+        activator:PickupObject(self)
     end
 
     function ENT:OnRemove()
