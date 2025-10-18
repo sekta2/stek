@@ -195,7 +195,8 @@ return function(Resources)
             auto_entity = true,
             entity = {
                 model = "models/kali/props/cases/hard case c.mdl",
-                material = nil -- Skin is set to 2 in entity, but material is nil, so setting material to nil.
+                material = nil,
+                skin = 2
             }
         })
 

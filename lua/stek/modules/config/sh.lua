@@ -8,6 +8,10 @@ local Config = {
 
         inventory = {
             base_max_volume = 100
+        },
+
+        resources = {
+            max_amount = 100
         }
     },
 
