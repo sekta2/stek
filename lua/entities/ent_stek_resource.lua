@@ -6,6 +6,8 @@ AddCSLuaFile()
 ---@field Skin number?
 ---@field Color Color?
 ---@field Material string?
+---@field CarryAngles Angle?
+---@field STek_Resource string
 ENT = ENT
 
 ENT.Base = "base_anim"

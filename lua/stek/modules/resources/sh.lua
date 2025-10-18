@@ -3,6 +3,7 @@
 ---@field material string?
 ---@field model string?
 ---@field skin integer?
+---@field carryangles Angle? Углы поворота энтити при подборе игроком
 
 ---
 
@@ -158,6 +159,7 @@ function Resources.InitAutoEntities()
             Skin = ent_data.skin,
             Color = ent_data.color,
             Material = ent_data.material,
+            CarryAngles = ent_data.carryangles,
 
             STek_Resource = res.id
         }
