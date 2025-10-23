@@ -2,7 +2,7 @@
 ---@field type string
 ---@field pos Vector
 ---@field uid integer
----@field server_uid integer Server particle uid, accessible only from client
+---@field server_uid integer Идентификатор частицы на сервере, доступен только из client-side
 ---@field type_obj GasType
 local GasParticle = {}
 GasParticle.__index = GasParticle
@@ -27,7 +27,7 @@ end
 ---@field list table<integer, GasType>
 ---@field index table<string, GasType>
 ---@field pull SmartArray
----@field serverpull table<integer, GasParticle> Table(server_uid = ParticleObject), accessible only from client
+---@field serverpull table<integer, GasParticle> Table(server_uid = ParticleObject), доступен только из client-side
 ---@field bits_count integer
 local GasSystem = {
     list = {},
