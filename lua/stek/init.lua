@@ -69,3 +69,4 @@ end
 stek.Locale.Init()
 stek.Resources.Init()
 stek.Resources.InitAutoEntities()
+stek.WindInit()
