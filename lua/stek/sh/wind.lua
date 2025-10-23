@@ -1,7 +1,7 @@
-stek.Wind = Vector(math.random(), math.random(), math.Rand(-1, 0))
+stek.Wind = Vector(math.Rand(-1, 1), math.Rand(-1, 1), 0)
 stek.WindLerps = {}
 
-for i = 1, 15 do
+for i = 1, 5 do
     stek.WindLerps[i] = stek.Wind
 end
 
@@ -9,8 +9,7 @@ function stek.WindInit()
     if SERVER then
         timer.Create("stek.ChangeWind", 5, 0, function()
             local Wind = stek.Wind
-            local WindZ = Wind.z
-            local ChangeWind = Vector(math.random(), math.random(), math.Rand(-1 - WindZ, 0 - WindZ))
+            local ChangeWind = Vector(math.Rand(-1, 1), math.Rand(-1, 1), 0) / 5
 
             stek.Wind = (Wind + ChangeWind):GetNormalized()
 
@@ -19,7 +18,7 @@ function stek.WindInit()
     end
 
     hook.Add("Tick", "stek.WindLerp", function()
-        for i = 1, 15 do
+        for i = 1, 5 do
             local current = stek.WindLerps[i]
             local forward = stek.WindLerps[i - 1] or stek.Wind
 
@@ -28,14 +27,18 @@ function stek.WindInit()
     end)
 end
 
+function stek.GetLerpedWind()
+    local WindLerps = stek.WindLerps
+    return WindLerps[#WindLerps]
+end
+
 if SERVER then
     util.AddNetworkString("stek.WindSync")
 
     function stek.SyncWind(ply)
         net.Start("stek.WindSync")
-        net.WriteDouble(stek.WindLerps[15].x)
-        net.WriteDouble(stek.WindLerps[15].y)
-        net.WriteDouble(stek.WindLerps[15].z)
+        net.WriteFloat(stek.Wind.x)
+        net.WriteFloat(stek.Wind.y)
 
         if ply then
             net.Send(ply)
@@ -49,6 +52,6 @@ if SERVER then
     end)
 else
     net.Receive("stek.WindSync", function(len)
-        stek.Wind = Vector(net.ReadDouble(), net.ReadDouble(), net.ReadDouble())
+        stek.Wind = Vector(net.ReadFloat(), net.ReadFloat(), 0)
     end)
 end
