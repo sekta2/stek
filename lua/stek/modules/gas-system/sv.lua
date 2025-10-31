@@ -22,5 +22,18 @@ end
 ---
 
 function GasSystem.Update()
+    --- need to developed
+    GasSystem.pull:Foreach(function(cell)
+        ---@type GasParticle
+        local Particle = cell.data
 
+        Particle.pos = Particle.pos + Vector(1, 0, 0)
+
+        local Pos = Particle.pos
+        debugoverlay.Sphere(Pos, 15, 0, color_white, false)
+    end)
 end
+
+hook.Add("Tick", "stek.GasSystem.ServerUpdate", function()
+    GasSystem.Update()
+end)
