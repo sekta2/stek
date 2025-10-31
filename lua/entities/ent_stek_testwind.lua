@@ -38,12 +38,12 @@ else
 
         local nigga = stek.GetLerpedWind():GetNormalized()
 
-        debugoverlay.Line(self:GetPos(), self:GetPos() + nigga * 100, 0, Color(255, 0, 0), false)
+        debugoverlay.Line(self:GetPos(), self:GetPos() + nigga * stek.GetLerpedWindSpeed(), 0, Color(255, 0, 0), false)
 
         if oldpos then
-            debugoverlay.Line(oldpos, self:GetPos() + nigga * 100, 5000, Color(255, 0, 0), false)
+            debugoverlay.Line(oldpos, self:GetPos() + nigga * stek.GetLerpedWindSpeed(), 5000, Color(255, 0, 0), false)
         end
 
-        oldpos = self:GetPos() + nigga * 100
+        oldpos = self:GetPos() + nigga * stek.GetLerpedWindSpeed()
     end
 end
