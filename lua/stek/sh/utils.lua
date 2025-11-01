@@ -1,3 +1,4 @@
+---@diagnostic disable: assign-type-mismatch
 --- Bits checker
 
 function stek.BitsForUnsignedInt(num)
@@ -40,4 +41,19 @@ if not LCPatched then
         hook.Run("LanguageChanged", ...)
         old_LanguageChanged(...)
     end
+end
+
+--- Plug
+
+function stek.MakeConnector(ent, pos)
+    ---@type ent_stek_plug
+    local plug = ents.Create("ent_stek_plug")
+    plug.InitialEntity = ent
+
+    plug:SetPos(pos)
+
+    plug:Spawn()
+    plug:SetupPlug()
+
+    return plug
 end
