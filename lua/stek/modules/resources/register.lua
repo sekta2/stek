@@ -18,7 +18,7 @@ return function(Resources)
             icon = "materials/ez_resource_icons/advanced textiles.png",
             auto_entity = true,
             entity = {
-                model = "models/jmod/resources/cylinderx15.mdl",
+                model = "models/stek_resources/roll01.mdl",
                 material = "models/mat_jack_gmod_advtextileroll",
                 color = Color(200, 200, 200)
             }
@@ -69,8 +69,7 @@ return function(Resources)
             icon = "materials/ez_resource_icons/basic parts.png",
             auto_entity = true,
             entity = {
-                model = "models/jmod/resources/jack_crate.mdl",
-                material = "models/mat_jack_gmod_ezparts"
+                model = "models/stek_resources/itemcrate01.mdl"
             }
         })
 
@@ -84,13 +83,11 @@ return function(Resources)
         })
 
         Resources.Add("ceramic", {
-            name = "Ceramic Block",
+            name = "Ceramic",
             icon = "materials/ez_resource_icons/ceramic.png",
             auto_entity = true,
             entity = {
-                model = "models/jmod/resources/resourcecube.mdl",
-                material = "models/props_building_details/courtyard_template001c_bars",
-                color = Color(200, 177, 120)
+                model = "models/stek_resources/blocks01.mdl"
             }
         })
 
@@ -104,13 +101,11 @@ return function(Resources)
         })
 
         Resources.Add("cloth", {
-            name = "Cloth Roll",
+            name = "Cloth",
             icon = "materials/ez_resource_icons/cloth.png",
             auto_entity = true,
             entity = {
-                model = "models/jmod/resources/cylinderx15.mdl",
-                material = "models/mat_jack_gmod_clothroll",
-                color = Color(200, 200, 200)
+                model = "models/stek_resources/roll01.mdl",
             }
         })
 
@@ -205,7 +200,7 @@ return function(Resources)
             icon = "materials/ez_resource_icons/fuel.png",
             auto_entity = true,
             entity = {
-                model = "models/props_junk/gascan001a.mdl"
+                model = "models/stek_resources/gascan01.mdl"
             }
         })
 
@@ -221,7 +216,7 @@ return function(Resources)
         })
 
         Resources.Add("glass", {
-            name = "Glass Block",
+            name = "Glass",
             icon = "materials/ez_resource_icons/glass.png",
             auto_entity = true,
             entity = {
@@ -308,8 +303,7 @@ return function(Resources)
             icon = "materials/ez_resource_icons/nutrients.png",
             auto_entity = true,
             entity = {
-                model = "models/props_junk/cardboard_box003a.mdl",
-                material = "models/mat_jack_gmod_ezammobox"
+                model = "models/stek_resources/organics01.mdl",
             }
         })
 
@@ -318,8 +312,7 @@ return function(Resources)
             icon = "materials/ez_resource_icons/oil.png",
             auto_entity = true,
             entity = {
-                model = "models/jmod/resources/oildrum075.mdl",
-                material = "phoenix_storms/black_chrome"
+                model = "models/stek_resources/barrel02.mdl"
             }
         })
 
@@ -397,9 +390,7 @@ return function(Resources)
             icon = "materials/ez_resource_icons/rubber.png",
             auto_entity = true,
             entity = {
-                model = "models/xqm/airplanewheel1medium.mdl",
-                material = "phoenix_storms/road",
-                color = Color(200, 200, 200)
+                model = "models/stek_resources/tirestack01.mdl"
             }
         })
 
@@ -513,7 +504,7 @@ return function(Resources)
             icon = "materials/ez_resource_icons/water.png",
             auto_entity = true,
             entity = {
-                model = "models/jmod/resources/water_barrel.mdl"
+                model = "models/stek_resources/barrel01.mdl"
             }
         })
 
