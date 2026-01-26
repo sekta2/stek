@@ -37,9 +37,10 @@ local Blur = GUI.BlurBackground
 Style:Add("normal", {
     Paint = function(self, width, height)
         surface.SetDrawColor(50, 50, 50, 100)
-		surface.DrawRect(0, 0, width, height)
+        surface.DrawRect(0, 0, width, height)
 
-		draw.SimpleText(self.text or "", "DermaDefault", width / 2, height / 2, color_white, TEXT_ALIGN_CENTER, TEXT_ALIGN_CENTER)
+        draw.SimpleText(self.text or "", "DermaDefault", width / 2, height / 2, color_white, TEXT_ALIGN_CENTER,
+            TEXT_ALIGN_CENTER)
     end
 })
 

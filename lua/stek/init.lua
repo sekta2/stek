@@ -23,7 +23,7 @@ local function LoadModules()
     end
 end
 
-local sides = {"sh", "sv", "cl"}
+local sides = { "sh", "sv", "cl" }
 local sides_fn = {
     sh = stek.shared,
     sv = stek.server,

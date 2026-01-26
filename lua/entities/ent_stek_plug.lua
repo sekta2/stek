@@ -32,16 +32,16 @@ if SERVER then
 
         local constr, rope = constraint.Rope(
             self.InitialEntity, -- Entity 1
-            self, -- Entity 2
-            0, -- Bone 1
-            0, -- Bone 2
-            vector_origin, -- LocalPos 1
+            self,               -- Entity 2
+            0,                  -- Bone 1
+            0,                  -- Bone 2
+            vector_origin,      -- LocalPos 1
             Vector(10.5, 0, 0), -- LocalPos 2
-            500, -- Length
-            0, -- Add length
-            500, -- Force Limit
-            15, -- Width
-            "cable/cable2" -- Material
+            500,                -- Length
+            0,                  -- Add length
+            500,                -- Force Limit
+            15,                 -- Width
+            "cable/cable2"      -- Material
         )
 
         rope:CallOnRemove("RemovePlugOnRemovedRope", function(ent)

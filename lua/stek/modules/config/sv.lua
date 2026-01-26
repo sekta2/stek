@@ -5,7 +5,7 @@ local Config = stek.Config
 function Config.LoadMain()
     local toml = file.Read("stek/config/main.txt", "DATA")
     if toml then
-        local raw = TOML.parse(toml, {strict = false})
+        local raw = TOML.parse(toml, { strict = false })
         Config.raw = raw
     end
 end
@@ -18,7 +18,7 @@ function Config.LoadAddons()
         local addon_toml = file.Read("stek/config/addons/" .. name .. ".txt", "DATA")
         if not addon_toml then continue end
 
-        local addon_raw = TOML.parse(addon_toml, {strict = false})
+        local addon_raw = TOML.parse(addon_toml, { strict = false })
         Config.addons[name] = addon_raw
     end
 end
@@ -125,7 +125,7 @@ function Config.InitCommands()
     end)
 
     ---
-    
+
     concommand.Add("stek_config_load", function(ply)
         if not (ply == NULL or ply:IsSuperAdmin()) then return end
         Config.Load()

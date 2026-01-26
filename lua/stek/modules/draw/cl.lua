@@ -5,8 +5,8 @@ local SetMaterial = surface.SetMaterial
 local DrawTexturedRect = surface.DrawTexturedRect
 local SimpleText = draw.SimpleText
 
-local COLOR_MAIN = Color( 255, 255, 255, 159 )
-local COLOR_WHITE = Color( 255, 255, 255, 159 )
+local COLOR_MAIN = Color(255, 255, 255, 159)
+local COLOR_WHITE = Color(255, 255, 255, 159)
 
 ---@param res_id string
 ---@param amount number
@@ -24,12 +24,12 @@ function Draw.ResourceInfoHorizontal(res_id, amount, x, y, siz)
 
     SetDrawColor(COLOR_MAIN)
 
-    DrawTexturedRect( x - siz * 0.5, y - siz * 0.5, siz, siz )
+    DrawTexturedRect(x - siz * 0.5, y - siz * 0.5, siz, siz)
 
     local textAmt = amount .. " UNITS"
 
-    SimpleText( res:GetName(), font, x - siz * 0.5, y, COLOR_WHITE, TEXT_ALIGN_RIGHT, TEXT_ALIGN_CENTER )
-    SimpleText( textAmt, font, x + siz * 0.5, y, COLOR_WHITE, TEXT_ALIGN_LEFT, TEXT_ALIGN_CENTER )
+    SimpleText(res:GetName(), font, x - siz * 0.5, y, COLOR_WHITE, TEXT_ALIGN_RIGHT, TEXT_ALIGN_CENTER)
+    SimpleText(textAmt, font, x + siz * 0.5, y, COLOR_WHITE, TEXT_ALIGN_LEFT, TEXT_ALIGN_CENTER)
 end
 
 function Draw.ResourceInfoVertical(res_id, amount, x, y, siz)
@@ -43,12 +43,12 @@ function Draw.ResourceInfoVertical(res_id, amount, x, y, siz)
 
     SetDrawColor(COLOR_MAIN)
 
-    DrawTexturedRect( x - siz * 0.5, y - siz * 0.5, siz, siz )
+    DrawTexturedRect(x - siz * 0.5, y - siz * 0.5, siz, siz)
 
     local textAmt = amount .. " UNITS"
 
-    SimpleText( res:GetName(), font, x, y - siz * 0.5, COLOR_WHITE, TEXT_ALIGN_CENTER, TEXT_ALIGN_BOTTOM )
-    SimpleText( textAmt, font, x, y - siz * 0.5 + siz, COLOR_WHITE, TEXT_ALIGN_CENTER, TEXT_ALIGN_TOP )
+    SimpleText(res:GetName(), font, x, y - siz * 0.5, COLOR_WHITE, TEXT_ALIGN_CENTER, TEXT_ALIGN_BOTTOM)
+    SimpleText(textAmt, font, x, y - siz * 0.5 + siz, COLOR_WHITE, TEXT_ALIGN_CENTER, TEXT_ALIGN_TOP)
 end
 
 stek.Draw = Draw

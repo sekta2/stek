@@ -31,7 +31,7 @@ if SERVER then
             local ent = Entity(ent_index)
             if not (IsValid(ent) and ent:GetAmount() ~= 100) then continue end
 
-            all_resources[#all_resources+1] = {ent_index, ent:GetAmount()}
+            all_resources[#all_resources + 1] = { ent_index, ent:GetAmount() }
         end
 
         if #all_resources <= 0 then return false end
@@ -123,10 +123,16 @@ else
         local length = net.ReadUInt(16)
 
         local uncompressed = util.Decompress(net.ReadData(length))
-        if not uncompressed then print("Resource amounts sync failed: Decompress step") return end
+        if not uncompressed then
+            print("Resource amounts sync failed: Decompress step")
+            return
+        end
 
         local tbl = util.JSONToTable(uncompressed)
-        if not tbl then print("Resource amounts failed: Un-Json step") return end
+        if not tbl then
+            print("Resource amounts failed: Un-Json step")
+            return
+        end
 
         for i = 1, #tbl do
             local data = tbl[i]
@@ -150,7 +156,7 @@ else
         local up = self:GetUp()
 
         local renderPos = selfPos + forward * -12 + up * 13
----     local renderPos = Vector( -13, 0, 13 )
+        ---     local renderPos = Vector( -13, 0, 13 )
         cam.Start3D2D(renderPos, self:LocalToWorldAngles(Angle(0, -90, 90)), 0.05)
 
         stek.Draw.ResourceInfoVertical(self.STek_Resource, self:GetAmount(), 16, 48, 160)

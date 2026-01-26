@@ -1,7 +1,8 @@
 ---Записывает в пакет uid ресурса, если ресурс не найден, возвращает ошибку
 ---@param res_resolvable Resource|string|number
 function net.WriteSTEKResource(res_resolvable)
-    local res = type(res_resolvable) == "table" and res_resolvable or (stek.Resources.index[res_resolvable] or stek.Resources.list[res_resolvable])
+    local res = type(res_resolvable) == "table" and res_resolvable or
+        (stek.Resources.index[res_resolvable] or stek.Resources.list[res_resolvable])
     if not res then
         error(("Unknown resource '%s'"):format(res_resolvable))
     end

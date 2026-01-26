@@ -48,23 +48,23 @@ if SERVER then
 
             timer.Simple(0, function()
                 local constr, rope = constraint.Rope(
-                    self, -- Entity 1
-                    TouchEntity, -- Entity 2
-                    0, -- Bone 1
-                    0, -- Bone 2
+                    self,          -- Entity 1
+                    TouchEntity,   -- Entity 2
+                    0,             -- Bone 1
+                    0,             -- Bone 2
                     vector_origin, -- LocalPos 1
                     vector_origin, -- LocalPos 2
-                    500, -- Length
-                    0, -- Add length
-                    2500, -- Force Limit
-                    15, -- Width
+                    500,           -- Length
+                    0,             -- Add length
+                    2500,          -- Force Limit
+                    15,            -- Width
                     "cable/cable2" -- Material
                 )
             end)
         end
 
         activator:DropObject()
-	    activator:PickupObject(plug)
+        activator:PickupObject(plug)
 
         self.ConnectorPlug = plug
     end
