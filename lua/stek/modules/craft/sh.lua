@@ -22,4 +22,6 @@ function Craft.GetByID(id)
     return Craft.index[id]
 end
 
+stek.shared("net.lua")
+
 stek.Craft = Craft
