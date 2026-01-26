@@ -8,24 +8,24 @@ local blur_material = Material("pp/blurscreen")
 function GUI.BlurBackground(Panel)
     if not (IsValid(Panel) and Panel:IsVisible()) then return end
 
-	local layers, density, alpha = 1, 1, 255
-	local x, y = Panel:LocalToScreen(0, 0)
-	local Num, Dark = 5, 150
+    local layers, density, alpha = 1, 1, 255
+    local x, y = Panel:LocalToScreen(0, 0)
+    local Num, Dark = 5, 150
 
     local width, height = Panel:GetSize()
 
-	surface.SetDrawColor(255, 255, 255, alpha)
-	surface.SetMaterial(blur_material)
+    surface.SetDrawColor(255, 255, 255, alpha)
+    surface.SetMaterial(blur_material)
 
-	for i = 1, Num do
-		blur_material:SetFloat("$blur", (i / layers) * density)
-		blur_material:Recompute()
-		render.UpdateScreenEffectTexture()
-		surface.DrawTexturedRect(-x, -y, ScrW(), ScrH())
-	end
+    for i = 1, Num do
+        blur_material:SetFloat("$blur", (i / layers) * density)
+        blur_material:Recompute()
+        render.UpdateScreenEffectTexture()
+        surface.DrawTexturedRect(-x, -y, ScrW(), ScrH())
+    end
 
-	surface.SetDrawColor(0, 0, 0, Dark)
-	surface.DrawRect(0, 0, width, height)
+    surface.SetDrawColor(0, 0, 0, Dark)
+    surface.DrawRect(0, 0, width, height)
 end
 
 ---
@@ -87,7 +87,7 @@ end
 
 stek.GUI = GUI
 
----
+--- Load elements
 
 local elements, _ = file.Find("stek/modules/gui/elements/*.lua", "LUA")
 
