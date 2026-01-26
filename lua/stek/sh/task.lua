@@ -48,9 +48,9 @@ function Task.Update()
             continue
         end
 
-        local time = os.clock()
+        local time = SysTime()
         local success, res = coroutine.resume(co)
-        all_time = all_time + (os.clock() - time)
+        all_time = all_time + (SysTime() - time)
 
         if not success then
             print("Task.Update: task failed by error: " .. res)
@@ -73,6 +73,8 @@ function Task.Update()
         local id = to_remove[i]
         table.remove(Task.pull, id)
     end
+
+    print(all_time)
 end
 
 function Task.Init()
