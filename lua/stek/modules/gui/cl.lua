@@ -95,3 +95,5 @@ for i = 1, #elements do
     local filename = elements[i]
     stek.client("elements/" .. filename)
 end
+
+stek.client("dev.lua")
