@@ -39,9 +39,14 @@ function Task.Update()
 
     for i = 1, #Task.pull do
         local tsk = Task.pull[i]
-        if tsk.cooldown <= CurTime() then continue end
+        if tsk.cooldown > CurTime() then continue end
 
-        local co = tsk.cooldown
+        local co = tsk.co
+
+        if coroutine.status(co) == "dead" then
+            to_remove[#to_remove + 1] = i
+            continue
+        end
 
         local time = os.clock()
         local success, res = coroutine.resume(co)
@@ -54,6 +59,11 @@ function Task.Update()
             continue
         end
 
+        if type(res) == "number" then
+            tsk.cooldown = CurTime() + res
+            continue
+        end
+
         if all_time >= Task.max_time then
             break
         end
@@ -63,6 +73,10 @@ function Task.Update()
         local id = to_remove[i]
         table.remove(Task.pull, id)
     end
+end
+
+function Task.Init()
+    hook.Add("Think", "stek.Task.Update", Task.Update)
 end
 
 stek.Task = Task
