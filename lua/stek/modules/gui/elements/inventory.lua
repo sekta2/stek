@@ -1,3 +1,4 @@
+---@diagnostic disable: inject-field
 local GUI = stek.GUI
 
 ---@class stek_inv: DFrame
@@ -10,7 +11,7 @@ function PANEL:Init()
     self:SetDraggable(true)
     self:ShowCloseButton(true)
     self:SetTitle("Inventory | Current Inventory Weight: " ..
-    "?" .. "kg. | Current Inventory Volume: " .. "?" .. "/" .. "?")
+        "?" .. "kg. | Current Inventory Volume: " .. "?" .. "/" .. "?")
 
     self:MakePopup()
     self:Center()
