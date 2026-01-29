@@ -1,43 +1,170 @@
 local GUI = stek.GUI
 
----@class stek_craft: stek_base
 local PANEL = {}
 
+local color_white_trans = Color(255, 255, 255, 100)
+local color_white_full = Color(255, 255, 255, 255)
+local color_hover = Color(50, 50, 50, 60)
+local color_normal = Color(30, 30, 30, 60)
+local color_bg_dark = Color(0, 0, 0, 100)
+local color_bg_light = Color(0, 0, 0, 50)
+
 function PANEL:Init()
-    local available_resources = vgui.Create("stek_base", self)
-    available_resources.Paint = function(_, w, h)
-        surface.SetDrawColor(0, 0, 0, 55)
+    self:SetSize(1000, 600)
+    self:SetTitle("Workbench")
+    self:MakePopup()
+    self:Center()
+    self:ShowCloseButton(true)
+    self:SetDraggable(true)
+
+    local container = vgui.Create("DPanel", self)
+    container:Dock(FILL)
+    container.Paint = nil
+
+    local left_panel = vgui.Create("DPanel", container)
+    left_panel:Dock(LEFT)
+    left_panel:SetWide(250)
+    left_panel:DockMargin(0, 0, 5, 0)
+    left_panel.Paint = function(s, w, h)
+        surface.SetDrawColor(color_bg_light)
         surface.DrawRect(0, 0, w, h)
     end
+    self.left_panel = left_panel
 
-    self.available_resources = available_resources
+    local resources_scroll = vgui.Create("DScrollPanel", left_panel)
+    resources_scroll:Dock(FILL)
+    resources_scroll:DockMargin(5, 5, 5, 5)
+    self.resources_scroll = resources_scroll
 
-    local crafts = vgui.Create("stek_base", self)
-    crafts.Paint = function(_, w, h)
-        surface.SetDrawColor(0, 0, 0, 55)
-        surface.DrawRect(0, 0, w, h)
-    end
+    local right_panel = vgui.Create("DPanel", container)
+    right_panel:Dock(FILL)
+    right_panel.Paint = nil
+    self.right_panel = right_panel
 
-    self.crafts = crafts
-end
+    local crafts_scroll = vgui.Create("DScrollPanel", right_panel)
+    crafts_scroll:Dock(FILL)
+    self.crafts_scroll = crafts_scroll
 
-function PANEL:PerformLayout(w, h)
-    local available_resources = self.available_resources
-    available_resources:SetWide(w / 4 - 7.5)
-    available_resources:SetTall(h - 10)
-
-    available_resources:SetPos(5, 5)
-
-    local crafts = self.crafts
-    crafts:SetWide(w - (w / 4) - 7.5)
-    crafts:SetTall(h - 10)
-
-    crafts:SetPos(w - crafts:GetWide() - 5, 5)
+    -- Pass empty table initially, waiting for data sync logic elsewhere if needed
+    self:PopulateResources({})
+    self:PopulateCrafts()
 end
 
 function PANEL:Paint(w, h)
-    surface.SetDrawColor(0, 0, 0, 55)
-    surface.DrawRect(0, 0, w, h)
+    GUI.BlurBackground(self)
 end
 
-vgui.Register("stek_craft", PANEL, "stek_base")
+function PANEL:GetCraftIcon(craft)
+    if craft.output.type == "resource" then
+        local res = stek.Resources.GetByID(craft.output.data.resource)
+        if res then return res:GetIcon() end
+    end
+    return nil
+end
+
+function PANEL:PopulateResources(resource_table)
+    self.resources_scroll:Clear()
+
+    for res_id, amount in pairs(resource_table) do
+        local res = stek.Resources.GetByID(res_id)
+        if not res then continue end
+
+        local panel = self.resources_scroll:Add("DPanel")
+        panel:SetTall(40)
+        panel:Dock(TOP)
+        panel:DockMargin(0, 0, 0, 5)
+
+        panel.Paint = function(s, w, h)
+            surface.SetDrawColor(color_bg_dark)
+            surface.DrawRect(0, 0, w, h)
+
+            local icon = res:GetIcon()
+            if icon then
+                surface.SetDrawColor(255, 255, 255, 200)
+                surface.SetMaterial(icon)
+                surface.DrawTexturedRect(5, 4, 32, 32)
+            end
+
+            draw.SimpleText(res:GetName(), "DermaDefault", 45, h / 2, color_white_full, TEXT_ALIGN_LEFT,
+                TEXT_ALIGN_CENTER)
+            draw.SimpleText("x" .. amount, "DermaDefault", w - 10, h / 2, color_white_trans, TEXT_ALIGN_RIGHT,
+                TEXT_ALIGN_CENTER)
+        end
+    end
+end
+
+function PANEL:PopulateCrafts()
+    self.crafts_scroll:Clear()
+
+    if not (stek.Craft and stek.Craft.list) then return end
+
+    for _, craft in pairs(stek.Craft.list) do
+        local btn = self.crafts_scroll:Add("DButton")
+        btn:SetText("")
+        btn:SetTall(42)
+        btn:Dock(TOP)
+        btn:DockMargin(0, 0, 0, 5)
+
+        local desc = craft:GetDescription() or ""
+        desc = desc .. "\n\nRequirements:"
+
+        for res_id, amount in pairs(craft.resources) do
+            local res = stek.Resources.GetByID(res_id)
+            local name = res and res:GetName() or res_id
+            desc = desc .. "\n" .. name .. ": x" .. amount
+        end
+
+        btn:SetTooltip(desc)
+
+        btn.Paint = function(s, w, h)
+            local hovered = s:IsHovered()
+            local col = hovered and 50 or 30
+
+            surface.SetDrawColor(col, col, col, 60)
+            surface.DrawRect(0, 0, w, h)
+
+            local icon = self:GetCraftIcon(craft)
+            local text_offset = 5
+
+            if icon then
+                surface.SetDrawColor(255, 255, 255, 255)
+                surface.SetMaterial(icon)
+                surface.DrawTexturedRect(5, 5, 32, 32)
+                text_offset = 47
+            end
+
+            draw.SimpleText(craft:GetName(), "DermaDefault", text_offset, 15,
+                hovered and color_white_full or color_white_trans, TEXT_ALIGN_LEFT, TEXT_ALIGN_TOP)
+
+            local rx = w - 10
+
+            for res_id, amount in pairs(craft.resources) do
+                local res = stek.Resources.GetByID(res_id)
+                local txt = "x" .. amount
+
+                surface.SetFont("DermaDefault")
+                local tw, th = surface.GetTextSize(txt)
+
+                draw.SimpleText(txt, "DermaDefault", rx - tw, 15, color_white_trans, TEXT_ALIGN_LEFT, TEXT_ALIGN_TOP)
+                rx = rx - (tw + 5)
+
+                if res then
+                    local res_icon = res:GetIcon()
+                    if res_icon then
+                        surface.SetDrawColor(255, 255, 255, 150)
+                        surface.SetMaterial(res_icon)
+                        surface.DrawTexturedRect(rx - 32, 5, 32, 32)
+                        rx = rx - 35
+                    end
+                end
+            end
+        end
+
+        btn.DoClick = function()
+            surface.PlaySound("garrysmod/ui_click.wav")
+            print("Crafting: " .. craft.id)
+        end
+    end
+end
+
+vgui.Register("stek_craft", PANEL, "DFrame")

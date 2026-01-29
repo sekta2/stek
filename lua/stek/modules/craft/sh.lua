@@ -83,6 +83,7 @@ local Craft = {
 ---Создаёт новый крафт и возвращает его
 ---@param id string
 ---@param data CraftData
+---@return Craft
 function Craft.Create(id, data)
     if not id or (id and type(id) ~= "string") then error(("invalid craft id '%s'"):format("id")) end
 
@@ -96,7 +97,7 @@ function Craft.Create(id, data)
 
     Craft.bits_count = stek.BitsForUnsignedInt(uid)
 
-    return Craft
+    return Object
 end
 
 ---Возвращает крафт по указанному UID

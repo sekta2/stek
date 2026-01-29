@@ -36,6 +36,6 @@ else
     end
 
     function ENT:ClientUse()
-        --- TODO: сделать вывод панельки
+        stek.GUI.CreateCraftPanel()
     end
 end

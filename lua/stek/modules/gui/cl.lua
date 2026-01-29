@@ -67,17 +67,6 @@ GUI.Style = Style
 
 ---
 
----@return stek_button
-function GUI.CreateButton(text, x, y, width, height, style, parent)
-    local Button = vgui.Create("stek_button", parent)
-    Button:SetText(text)
-    Button:SetSize(width, height)
-    Button:SetPos(x, y)
-    if style then Button:SetStyle(style) end
-
-    return Button
-end
-
 ---@return stek_inv
 function GUI.CreateInventory()
     return vgui.Create("stek_inv")
