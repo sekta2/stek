@@ -1,3 +1,5 @@
+---@diagnostic disable: missing-fields
+
 ---@class ResourceAutoEntity
 ---@field color Color?
 ---@field material string?
