@@ -1,10 +1,10 @@
 AddCSLuaFile()
 
 ---@diagnostic disable: assign-type-mismatch
----@class ent_stek_primitivebench: Entity
+---@class ent_stek_primitivebench: ent_stek_machine_base
 ENT = ENT
 
-ENT.Base = "base_anim"
+ENT.Base = "ent_stek_machine_base"
 ENT.Type = "anim"
 
 ENT.PrintName = "Crafting Table"
