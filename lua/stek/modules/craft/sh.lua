@@ -68,6 +68,11 @@ end
 
 ---
 
+---# Модуль для крафтов
+---@class CraftModule
+---@field list [Craft]
+---@field index { [string]: Craft }
+---@field bits_count number
 local Craft = {
     list = {},
     index = {},
@@ -75,6 +80,9 @@ local Craft = {
     bits_count = 1
 }
 
+---Создаёт новый крафт и возвращает его
+---@param id string
+---@param data CraftData
 function Craft.Create(id, data)
     if not id or (id and type(id) ~= "string") then error(("invalid craft id '%s'"):format("id")) end
 
@@ -87,16 +95,25 @@ function Craft.Create(id, data)
     Object.uid = uid
 
     Craft.bits_count = stek.BitsForUnsignedInt(uid)
+
+    return Craft
 end
 
+---Возвращает крафт по указанному UID
+---@param uid integer Уникальный Идентификатор ресурса
+---@return Craft
 function Craft.GetByUID(uid)
     return Craft.list[uid]
 end
 
+---Возвращает крафт по указанному идентификатору
+---@param id string Идентификатор ресурса
+---@return Craft
 function Craft.GetByID(id)
     return Craft.index[id]
 end
 
 stek.shared("net.lua")
+stek.shared("register.lua")(Craft)
 
 stek.Craft = Craft

@@ -85,7 +85,7 @@ end
 ---Позволяет создавать ресурсы
 ---@class ResourceModule
 ---@field list [Resource]
----@field index table<string, Resource>
+---@field index { [string]: Resource }
 ---@field bits_count number
 local Resources = {
     list = {},
