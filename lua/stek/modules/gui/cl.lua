@@ -83,6 +83,11 @@ function GUI.CreateInventory()
     return vgui.Create("stek_inv")
 end
 
+---@return stek_craft
+function GUI.CreateCraftPanel()
+    return vgui.Create("stek_craft")
+end
+
 ---
 
 stek.GUI = GUI
