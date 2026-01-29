@@ -1,5 +1,24 @@
+---@class CraftOutputDataResource
+---@field resource string Идентификатор ресурса
+---@field amount integer Количество ресурса
+
+---@class CraftOutputDataEntity
+---@field class string Имя класса энтити
+---@field amount integer Количество энтити
+
+---@class CraftOutputDataProp
+---@field model string Путь к модели пропа
+---@field amount integer Количество пропов
+
+---@class CraftOutput
+---@field type "resource"|"entity"|"prop" Вариант результата крафта
+---@field data CraftOutputDataResource|CraftOutputDataEntity|CraftOutputDataProp Данные результата крафта
+
 ---@class CraftData
 ---@field name string? Название крафта, используется когда не найдено переведённое название
+---@field description string? Описание крафта
+---@field resources { [string]: number } Ресуры нужные для крафта
+---@field output fun()|CraftOutput Функция для спавна при успешном крафте, или структура CraftOutput
 
 ---
 
@@ -9,7 +28,7 @@
 local CraftClass = {}
 CraftClass.__index = CraftClass
 
----
+---Создаёт и возвращает объект крафта
 ---@param id string
 ---@param data CraftData
 ---@return Craft
@@ -20,7 +39,10 @@ function CraftClass:new(id, data)
         id = id,
         uid = nil,
 
-        name = data.name
+        name = data.name,
+        description = data.description,
+        resources = data.resources,
+        output = data.output
     }
 
     return setmetatable(Object, self)
@@ -33,6 +55,15 @@ function CraftClass:GetName()
     if not stek.Locale.Exists(phrase_name) then return self.name or self.id end
 
     return stek.Locale.Get("craft_" .. self.id)
+end
+
+---Возвращает описание крафта
+---@return string
+function CraftClass:GetDescription()
+    local phrase_name = "craft_desc_" .. self.id
+    if not stek.Locale.Exists(phrase_name) then return self.description end
+
+    return stek.Locale.Get("craft_desc_" .. self.id)
 end
 
 ---
