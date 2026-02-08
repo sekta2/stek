@@ -5,6 +5,16 @@
 ---@field private _entity ent_stek_entity
 local ComponentBase = {}
 
+---@private
+---@param name string
+---@param ...any
+function ComponentBase:_run_function(name, ...)
+    local fn = self[name]
+    if (not fn) or (fn and (type(fn) ~= "function")) then return end
+
+    fn(self, ...)
+end
+
 ---Устанавливает энтити для этого компонента
 ---@param ent ent_stek_entity
 function ComponentBase:SetEntity(ent)
@@ -59,8 +69,27 @@ local Components = {
     list = {},
     index = {},
 
+    entities_list = {},
+    entities_index = {},
+
     bits_count = 1
 }
+
+function Components.RegisterActiveEntity(ent)
+    Components.entities_index[ent:EntIndex()] = true
+    Components.entities_list[#Components.entities_list + 1] = ent
+end
+
+function Components.UnRegisterActiveEntity(ent_index)
+    Components.entities_index[ent_index] = nil
+    for i = #Components.entities_list, 1, -1 do
+        local ent = Components.entities_list[i]
+        if IsValid(ent) and ent:EntIndex() == ent_index then
+            table.remove(Components.entities_list, i)
+            break
+        end
+    end
+end
 
 ---Создаёт класс компонента
 ---@param id string Идентификатор компонента
@@ -102,6 +131,16 @@ function Components.Init()
     end
 
     Components.Prefab.Init()
+
+    hook.Add("Think", "stek.Components.Think", function()
+        for i = 1, #Components.entities_list do
+            local ent = Components.entities_list[i]
+            for ii = 1, #ent._components_list do
+                local comp = ent._components_list[ii]
+                comp:_run_function("Think")
+            end
+        end
+    end)
 end
 
 stek.Components = Components

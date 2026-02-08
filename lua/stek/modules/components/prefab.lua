@@ -80,6 +80,9 @@ return function(Components)
         ---@class ent_stek_entity
         local ent = ents.Create(id)
         ent._components = {}
+        ent._components_list = {}
+
+        ent:SetupPrefab()
 
         return ent
     end
@@ -94,6 +97,21 @@ return function(Components)
             local prefab_data = stek.shared("stek/prefabs/" .. filename)
             Prefab.Create(prefab_data)
         end
+
+        ---@param entity ent_stek_entity
+        hook.Add("OnEntityCreated", "stek.Prefab.EntityCreated", function(entity)
+            if not entity.STekBased then return end
+
+            Components.RegisterActiveEntity(entity)
+        end)
+
+        ---@param entity ent_stek_entity
+        hook.Add("EntityRemoved", "stek.Prefab.EntityRemoved", function(entity, fullUpdate)
+            if not entity.STekBased then return end
+            if not Components.entities_index[entity:EntIndex()] then return end
+
+            Components.UnRegisterActiveEntity(entity:EntIndex())
+        end)
     end
 
     return Prefab
