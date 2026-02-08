@@ -12,6 +12,7 @@
 ---@field author string? Автор префаба
 ---@field physics_sounds boolean? Нужны ли звуки столкновений для этого энтити? (влияет от модели)
 ---@field sandbox PrefabDataSandbox? Настройки песочницы
+---@field components { [string]: table }
 
 ---@class Prefab: PrefabData
 ---@field uid number Уникальный идентификатор префаба
@@ -20,7 +21,7 @@
 return function(Components)
     ---@class ComponentsPrefabModule
     ---@field list [Prefab]
-    ---@field index { [string]: Prefab }
+    ---@field index { [string]: { [string]: any } }
     local Prefab = {
         list = {},
         index = {},
@@ -76,8 +77,10 @@ return function(Components)
     function Prefab.Spawn(id)
         if not Prefab.index[id] then error(("Tried to spawn unknown prefab '%s'"):format(id)) end
 
-        ---@type ent_stek_entity
+        ---@class ent_stek_entity
         local ent = ents.Create(id)
+        ent._components = {}
+
         return ent
     end
 

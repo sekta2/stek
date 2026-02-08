@@ -1,3 +1,4 @@
+---@class GasSystemModule
 local GasSystem = stek.GasSystem
 GasSystem.serverpull = {}
 
