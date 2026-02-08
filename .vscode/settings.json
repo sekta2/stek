@@ -24,6 +24,20 @@
         "stek": "core",
         "autorun": "scripts"
     },
+    "catppuccin-icons.associations.folders": {
+        "cl": "folder_client",
+        "sh": "folder_shared",
+        "sv": "folder_server",
+        "stek": "folder_core",
+        "autorun": "folder_scripts",
+        "gui": "folder_layouts",
+        "resources": "folder_cargo",
+        "inv": "folder_packages",
+        "gas-system": "folder_drizzle-orm",
+        "draw": "folder_assets",
+        "craft": "folder_templates",
+        "prefabs": "folder_templates"
+    },
 
     "Lua.diagnostics.globals": [
         "_"
