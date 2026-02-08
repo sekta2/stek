@@ -3,8 +3,59 @@ stek._VERSION = "1.0.0"
 
 ---
 
+local modules_priority = {
+    config = {
+        pos = -2
+    },
+    components = {
+        pos = -1
+    },
+    draw = {
+        pos = -1,
+    },
+    ["gas-system"] = {
+        pos = -1
+    },
+    locale = {
+        pos = -1,
+    },
+    resources = {
+        pos = 0
+    },
+    craft = {
+        pos = 0,
+        after = { resources = true }
+    },
+    inv = {
+        pos = 0,
+        after = { resources = true }
+    },
+    gui = {
+        pos = 1,
+    }
+}
+
 local function LoadModules()
     local _, modules = file.Find("stek/modules/*", "LUA")
+
+    table.sort(modules, function(a, b)
+        local ao = modules_priority[a] or { pos = 0 }
+        local bo = modules_priority[b] or { pos = 0 }
+
+        if ao.pos ~= bo.pos then
+            return ao.pos < bo.pos
+        end
+
+        if (ao.after and ao.after[b]) or (bo.before and bo.before[a]) then
+            return false
+        end
+
+        if (ao.before and ao.before[b]) or (bo.after and bo.after[a]) then
+            return true
+        end
+
+        return a < b
+    end)
 
     for i = 1, #modules do
         local name = modules[i]
