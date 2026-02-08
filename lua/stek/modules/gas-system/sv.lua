@@ -22,6 +22,8 @@ end
 ---
 
 function GasSystem.Update()
+    if not GasSystem.pull then return end
+
     --- need to developed
     GasSystem.pull:Foreach(function(cell)
         ---@type GasParticle
