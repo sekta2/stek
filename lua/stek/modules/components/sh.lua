@@ -1,4 +1,7 @@
 ---@class ComponentBase
+---@field base_class ComponentBase Базовый класс текущего компонента
+---@field uid number Уникальный Идентификатор текущего компонента
+---@field id string Идентификатор текущего компонента
 ---@field private _entity ent_stek_entity
 local ComponentBase = {}
 
@@ -51,6 +54,7 @@ local ObjectComponentMeta = {
 }
 
 ---@class ComponentsModule
+---@field Prefab ComponentsPrefabModule
 local Components = {
     list = {},
     index = {},
@@ -86,6 +90,18 @@ function Components.Spawn(id)
     return object
 end
 
+---@type ComponentsPrefabModule
 Components.Prefab = stek.shared("prefab.lua")
+
+function Components.Init()
+    local files, _ = file.Find("stek/components/*.lua", "LUA")
+
+    for i = 1, #files do
+        local filename = files[i]
+        stek.shared("stek/components/" .. filename)
+    end
+
+    Components.Prefab.Init()
+end
 
 stek.Components = Components
