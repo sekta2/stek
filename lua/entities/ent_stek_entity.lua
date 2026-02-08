@@ -2,6 +2,7 @@ AddCSLuaFile()
 
 ---@diagnostic disable: assign-type-mismatch
 ---@class ent_stek_entity: Entity
+---@field Prefab Prefab
 ---@field private _components { [string]: ComponentBase }
 local ENT = ENT
 
@@ -9,7 +10,7 @@ ENT.Base = "base_anim"
 ENT.Type = "anim"
 
 function ENT:Initialize()
-
+    if not self.Prefab then return end
 end
 
 ---
