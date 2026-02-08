@@ -12,7 +12,7 @@
 ---@field author string? Автор префаба
 ---@field physics_sounds boolean? Нужны ли звуки столкновений для этого энтити? (влияет от модели)
 ---@field sandbox PrefabDataSandbox? Настройки песочницы
----@field components { [string]: table }
+---@field components { [string]: { [string]: any? }? }
 
 ---@class Prefab: PrefabData
 ---@field uid number Уникальный идентификатор префаба
@@ -21,7 +21,7 @@
 return function(Components)
     ---@class ComponentsPrefabModule
     ---@field list [Prefab]
-    ---@field index { [string]: { [string]: any } }
+    ---@field index { [string]: Prefab }
     local Prefab = {
         list = {},
         index = {},
