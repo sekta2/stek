@@ -59,7 +59,7 @@ local ObjectComponentMeta = {
             error("Setting value to variable " .. k .. " not allowed (" .. t.id .. ")")
         end
 
-        t[k] = v
+        rawset(t, k, v)
     end
 }
 
