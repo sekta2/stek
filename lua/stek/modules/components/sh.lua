@@ -91,7 +91,7 @@ function Components.Spawn(id)
 end
 
 ---@type ComponentsPrefabModule
-Components.Prefab = stek.shared("prefab.lua")
+Components.Prefab = stek.shared("prefab.lua")(Components)
 
 function Components.Init()
     local files, _ = file.Find("stek/components/*.lua", "LUA")
