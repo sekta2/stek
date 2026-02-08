@@ -69,6 +69,8 @@ function Components.Create(id)
     Components.list[uid] = component_class
     Components.index[id] = component_class
 
+    Components.bits_count = stek.BitsForUnsignedInt(uid)
+
     return component_class
 end
 
