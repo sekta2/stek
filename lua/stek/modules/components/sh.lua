@@ -1,9 +1,14 @@
+---@diagnostic disable: assign-type-mismatch, need-check-nil
 ---@class ComponentBase
 ---@field base_class ComponentBase Базовый класс текущего компонента
 ---@field uid number Уникальный Идентификатор текущего компонента
 ---@field id string Идентификатор текущего компонента
+---@field SharedValues { [string]: any }
+---@field SharedValuesPreset { [string]: string }
 ---@field private _entity ent_stek_entity
-local ComponentBase = {}
+local ComponentBase = {
+    SharedValuesPreset = {}
+}
 
 ---@private
 ---@param name string
@@ -34,6 +39,112 @@ function ComponentBase:GetComponent(id)
     return ent:GetComponent(id)
 end
 
+---
+
+SHAREDVALUES_TYPES = {
+    ["string"] = {
+        write = net.WriteString,
+        read = net.ReadString
+    },
+    ["int8"] = {
+        write = function(v) net.WriteInt(v, 8) end,
+        read = function() return net.ReadInt(8) end
+    },
+    ["uint8"] = {
+        write = function(v) net.WriteUInt(v, 8) end,
+        read = function() return net.ReadUInt(8) end
+    },
+    ["int16"] = {
+        write = function(v) net.WriteInt(v, 16) end,
+        read = function() return net.ReadInt(16) end
+    },
+    ["uint16"] = {
+        write = function(v) net.WriteUInt(v, 16) end,
+        read = function() return net.ReadUInt(16) end
+    },
+    ["float"] = {
+        write = net.WriteFloat,
+        read = net.ReadFloat
+    },
+    ["double"] = {
+        write = net.WriteDouble,
+        read = net.ReadDouble
+    },
+    ["bool"] = {
+        write = net.WriteBool,
+        read = net.ReadBool
+    },
+    ["vector"] = {
+        write = net.WriteVector,
+        read = net.ReadVector
+    },
+    ["angle"] = {
+        write = net.WriteAngle,
+        read = net.ReadAngle
+    },
+    ["entity"] = {
+        write = net.WriteEntity,
+        read = net.ReadEntity
+    },
+    ["table"] = {
+        write = function(v) net.WriteTable(v, false) end,
+        read = function() net.ReadTable(false) end
+    },
+    ["table_sequential"] = {
+        write = function(v) net.WriteTable(v, true) end,
+        read = function() net.ReadTable(true) end
+    }
+}
+
+if SERVER then
+    util.AddNetworkString("stek.CSharedValue")
+
+    function ComponentBase:SyncSharedValue(key)
+        local ent = self:GetEntity()
+        if not IsValid(ent) then return end
+
+        local data_type = self.SharedValuesPreset[key]
+
+        net.Start("stek.CSharedValue")
+            net.WriteEntity(ent)
+            net.WriteUInt(self.uid, stek.Components.bits_count)
+            net.WriteString(key)
+            SHAREDVALUES_TYPES[data_type].write(self.SharedValues[key])
+        net.Broadcast()
+    end
+
+    function ComponentBase:SetSharedValue(key, value)
+        if not self.SharedValuesPreset[key] then error(("Unknown shared value '%s'"):format(key)) end
+        self.SharedValues[key] = value
+
+        self:SyncSharedValue(key)
+    end
+else
+    net.Receive("stek.CSharedValue", function(len)
+        ---@type ent_stek_entity?
+        local ent = net.ReadEntity()
+        if not IsValid(ent) then return end
+
+        local component_uid = net.ReadUInt(stek.Components.bits_count)
+        local component_id = stek.Components.list[component_uid].id
+
+        local comp = ent:GetComponent(component_id)
+        if not comp then return end
+
+        local key = net.ReadString()
+        local data_type = comp.SharedValuesPreset[key]
+
+        comp.SharedValues[key] = SHAREDVALUES_TYPES[data_type].read()
+    end)
+end
+
+function ComponentBase:GetSharedValue(key)
+    if not self.SharedValuesPreset[key] then error(("Unknown shared value '%s'"):format(key)) end
+    return self.SharedValues[key]
+end
+
+---
+
 function ComponentBase:Destroy()
     setmetatable(self, { __mode = "kv" })
 end
@@ -55,12 +166,25 @@ local not_allowed_names = {
 
 local ObjectComponentMeta = {
     __index = function(t, k)
+        local SharedValuesPreset = t.class["SharedValuesPreset"]
+        if SharedValuesPreset and SharedValuesPreset[k] then
+            return t:GetSharedValue(k)
+        end
+
         return t.class[k]
     end,
 
     __newindex = function(t, k, v)
         if not_allowed_names[k] then
             error("Setting value to variable " .. k .. " not allowed (" .. t.id .. ")")
+        end
+
+        local SharedValuesPreset = t.SharedValuesPreset
+        if SharedValuesPreset and SharedValuesPreset[k] then
+            if CLIENT then error(("Setting shared value '%s' on client not allowed!"):format(k)) end
+            t:SetSharedValue(k, v)
+
+            return
         end
 
         rawset(t, k, v)
@@ -120,6 +244,8 @@ function Components.Spawn(id)
     if not class then error(("Unknown component '%s'"):format(id)) end
 
     local object = setmetatable({ class = class }, ObjectComponentMeta)
+    object.SharedValues = {}
+
     return object
 end
 

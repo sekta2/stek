@@ -20,8 +20,12 @@ function ENT:SetupPrefab()
 
     for name, data in pairs(self.Prefab.components) do
         local comp = self:AddComponent(name)
+        local SharedValuesPreset = comp.SharedValuesPreset
         for index, value in pairs(data) do
+            if SharedValuesPreset[index] then comp.SharedValues[index] = value goto skip end
             comp[index] = value
+
+            ::skip::
         end
     end
 end
