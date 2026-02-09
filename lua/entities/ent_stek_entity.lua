@@ -19,13 +19,10 @@ function ENT:SetupPrefab()
     if not self.Prefab then return end
 
     for name, data in pairs(self.Prefab.components) do
-        local comp = stek.Components.Spawn(name)
+        local comp = self:AddComponent(name)
         for index, value in pairs(data) do
             comp[index] = value
         end
-
-        self._components[name] = comp
-        self._components_list[#self._components_list+1] = comp
     end
 end
 
@@ -50,6 +47,7 @@ function ENT:AddComponent(id)
     component:SetEntity(self)
 
     self._components[id] = component
+    self._components_list[#self._components_list+1] = component
 
     return component
 end
@@ -100,6 +98,8 @@ else
     end
 
     function ENT:Draw(flags)
+        self:DrawModel(flags)
+
         for i = 1, #self._components_list do
             local comp = self._components_list[i]
             comp:_run_function("Draw", flags)
