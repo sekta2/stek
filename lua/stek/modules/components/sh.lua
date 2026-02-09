@@ -34,6 +34,10 @@ function ComponentBase:GetComponent(id)
     return ent:GetComponent(id)
 end
 
+function ComponentBase:Destroy()
+    setmetatable(self, { __mode = "kv" })
+end
+
 ---
 
 local ComponentMeta = {

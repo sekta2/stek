@@ -30,10 +30,17 @@ function ENT:SetupPrefab()
 end
 
 function ENT:Initialize()
+    self._components = {}
+    self._components_list = {}
+
+    self:SetupPrefab()
+
     for i = 1, #self._components_list do
         local comp = self._components_list[i]
         comp:_run_function("Initialize")
     end
+
+    stek.Components.RegisterActiveEntity(self)
 end
 
 ---
@@ -58,6 +65,16 @@ function ENT:OnRemove(fullUpdate)
         local comp = self._components_list[i]
         comp:_run_function("OnRemove", fullUpdate)
     end
+
+    for i = 1, #self._components_list do
+        local comp = self._components_list[i]
+        comp:Destroy()
+    end
+
+    self._components = nil
+    self._components_list = nil
+
+    stek.Components.UnRegisterActiveEntity(self:EntIndex())
 end
 
 if SERVER then
