@@ -1,5 +1,6 @@
 local GUI = stek.GUI
 
+---@class stek_craft: DFrame
 local PANEL = {}
 
 local color_white_trans = Color(255, 255, 255, 100)
