@@ -42,18 +42,3 @@ if not LCPatched then
         old_LanguageChanged(...)
     end
 end
-
---- Plug
-
-function stek.MakeConnector(ent, pos)
-    ---@type ent_stek_plug
-    local plug = ents.Create("ent_stek_plug")
-    plug.InitialEntity = ent
-
-    plug:SetPos(pos)
-
-    plug:Spawn()
-    plug:SetupPlug()
-
-    return plug
-end
