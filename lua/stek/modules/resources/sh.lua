@@ -171,6 +171,5 @@ function Resources.InitAutoEntities()
 end
 
 stek.shared("net.lua")
-stek.shared("register.lua")(Resources)
 
 stek.Resources = Resources
