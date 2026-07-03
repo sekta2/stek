@@ -294,7 +294,7 @@ TOML.multistep_parser = function(options)
 
     -- function to check if current position is at a newline (LF or CRLF)
     local function isNewline()
-        if char() == "\10" then                    -- LF
+        if char() == "\10" then                          -- LF
             return true
         elseif char() == "\13" and char(1) == "\10" then -- CRLF
             return true
@@ -382,7 +382,7 @@ TOML.multistep_parser = function(options)
                 if char() == "\13" and char(1) == "\10" then
                     step(2) -- skip CRLF
                 else
-                    step() -- skip LF
+                    step()  -- skip LF
                 end
             end
 
@@ -418,7 +418,7 @@ TOML.multistep_parser = function(options)
                             if char() == "\13" and char(1) == "\10" then
                                 step(2) -- skip CRLF
                             else
-                                step() -- skip LF
+                                step()  -- skip LF
                             end
                         else
                             step()
@@ -679,7 +679,7 @@ TOML.multistep_parser = function(options)
         -- Try parsing special base numbers first
         local specialResult = parseSpecialBaseNumber()
         if specialResult == false then
-            return nil  -- Error in special base parsing
+            return nil           -- Error in special base parsing
         elseif specialResult then
             return specialResult -- Valid special base number
         end
@@ -1426,7 +1426,7 @@ TOML.encode = function(tbl)
             if ta == tb then
                 return tostring(a) > tostring(b) -- Reverse alphabetical order
             else
-                return ta < tb       -- type names sorted alphabetically
+                return ta < tb                   -- type names sorted alphabetically
             end
         end)
         return keys

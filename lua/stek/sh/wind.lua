@@ -4,7 +4,7 @@ stek.WindSpeed = 0
 stek.WindLerps = {}
 
 for i = 1, 5 do
-    stek.WindLerps[i] = {stek.Wind, 0}
+    stek.WindLerps[i] = { stek.Wind, 0 }
 end
 
 function stek.WindInit()
@@ -31,7 +31,7 @@ function stek.WindInit()
 
         for i = 1, 5 do
             local current = stek.WindLerps[i]
-            local forward = stek.WindLerps[i - 1] or {stek.Wind, stek.WindSpeed}
+            local forward = stek.WindLerps[i - 1] or { stek.Wind, stek.WindSpeed }
 
             stek.WindLerps[i] = {
                 LerpVector(FrameTime() * 2, current[1], forward[1]),

@@ -106,10 +106,10 @@ if SERVER then
         local data_type = self.SharedValuesPreset[key]
 
         net.Start("stek.CSharedValue")
-            net.WriteEntity(ent)
-            net.WriteUInt(self.uid, stek.Components.bits_count)
-            net.WriteString(key)
-            SHAREDVALUES_TYPES[data_type].write(self.SharedValues[key])
+        net.WriteEntity(ent)
+        net.WriteUInt(self.uid, stek.Components.bits_count)
+        net.WriteString(key)
+        SHAREDVALUES_TYPES[data_type].write(self.SharedValues[key])
         net.Broadcast()
     end
 

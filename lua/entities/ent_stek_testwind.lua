@@ -9,20 +9,20 @@ ENT.Spawnable = true
 local WindNormal = VectorRand()
 local RealWind = WindNormal
 -- Уменьшим WindSpeed, чтобы избежать избыточной нестабильности
-local WindSpeed = 2500 
+local WindSpeed = 2500
 
 if SERVER then
     function ENT:Initialize()
         self:SetModel("models/hunter/blocks/cube025x025x025.mdl")
-        self:SetMoveType(MOVETYPE_NONE) 
-        self:SetSolid(SOLID_NONE) 
+        self:SetMoveType(MOVETYPE_NONE)
+        self:SetSolid(SOLID_NONE)
         self:SetUseType(SIMPLE_USE)
     end
 else
     -- ====================================================================
     -- = КЛИЕНТСКАЯ ЛОГИКА
     -- ====================================================================
-    
+
     function ENT:Initialize()
         self.Velocity = self.Velocity or vector_origin
         self.WindNormal = WindNormal
@@ -30,7 +30,7 @@ else
 
         self:SetMoveType(MOVETYPE_NONE)
     end
-    
+
     local oldpos
 
     function ENT:Draw()

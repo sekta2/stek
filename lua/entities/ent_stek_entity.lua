@@ -22,7 +22,10 @@ function ENT:SetupPrefab()
         local comp = self:AddComponent(name)
         local SharedValuesPreset = comp.SharedValuesPreset
         for index, value in pairs(data) do
-            if SharedValuesPreset[index] then comp.SharedValues[index] = value goto skip end
+            if SharedValuesPreset[index] then
+                comp.SharedValues[index] = value
+                goto skip
+            end
             comp[index] = value
 
             ::skip::
@@ -51,7 +54,7 @@ function ENT:AddComponent(id)
     component:SetEntity(self)
 
     self._components[id] = component
-    self._components_list[#self._components_list+1] = component
+    self._components_list[#self._components_list + 1] = component
 
     return component
 end
