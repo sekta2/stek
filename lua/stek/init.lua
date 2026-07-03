@@ -7,9 +7,6 @@ local modules_priority = {
     config = {
         pos = -2
     },
-    components = {
-        pos = -1
-    },
     draw = {
         pos = -1,
     },
@@ -119,7 +116,6 @@ end
 
 stek.Task.Init()
 stek.Locale.Init()
-stek.Components.Init()
 stek.Resources.Init()
 stek.Resources.InitAutoEntities()
 stek.Craft.Init()
