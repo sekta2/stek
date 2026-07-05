@@ -45,8 +45,8 @@ function Locale.InjectAddonsLocales()
             local lang_tbl = include(fallback_lang_path)
             local count = 0
             for k, v in pairs(lang_tbl) do
-                if not Locale.pack[k] then
-                    Locale.pack[k] = v
+                if not Locale.pack.phrases[k] then
+                    Locale.pack.phrases[k] = v
                     count = count + 1
                 end
             end
@@ -60,8 +60,8 @@ function Locale.InjectAddonsLocales()
         local lang_tbl = include(current_lang_path)
         local count = 0
         for k, v in pairs(lang_tbl) do
-            if not Locale.pack[k] then
-                Locale.pack[k] = v
+            if not Locale.pack.phrases[k] then
+                Locale.pack.phrases[k] = v
                 count = count + 1
             end
         end
