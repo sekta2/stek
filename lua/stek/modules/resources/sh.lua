@@ -1,11 +1,13 @@
 ---@diagnostic disable: missing-fields
 
 ---@class ResourceAutoEntity
----@field color Color?
----@field material string?
----@field model string?
----@field skin integer?
+---@field color Color? Цвет ресурса
+---@field material string? Путь до материала ресурса
+---@field model string? Путь до модельки ресурса
+---@field skin integer? Скин модельки
 ---@field carryangles Angle? Углы поворота энтити при подборе игроком
+---@field sandbox_icon string? Значок ресурса в Q-Меню
+---@field sandbox_category string? Категория авто-ресурса, если nil то ресурс будет в категории "STek: Resources"
 
 ---
 
@@ -154,8 +156,9 @@ function Resources.InitAutoEntities()
             Type = "anim",
 
             PrintName = res:GetName(),
-            Category = "STek: Resources",
+            Category = ent_data.sandbox_category or "STek: Resources",
             Spawnable = true,
+            IconOverride = ent_data.sandbox_icon,
 
             Model = ent_data.model,
             Skin = ent_data.skin,
