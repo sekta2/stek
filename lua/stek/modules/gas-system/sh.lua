@@ -96,13 +96,12 @@ end
 
 ---
 
+hook.Add("PreCleanupMap", "stek.GasSystem.OnCleanup", function()
+    GasSystem.InitPull()
+end)
+
 function GasSystem.Init()
     GasSystem.InitPull()
-
-    GasSystem.Add("tear", {
-        base_size = 1,
-        color = Color(55, 55, 55)
-    })
 end
 
 stek.GasSystem = GasSystem
