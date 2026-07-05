@@ -1,0 +1,5 @@
+list.Set("ContentCategoryIcons", "STek: Armor", "stek/armor_category.png")
+list.Set("ContentCategoryIcons", "STek: Machines", "stek/machines_category.png")
+list.Set("ContentCategoryIcons", "STek: Misc.", "stek/misc_category.png")
+list.Set("ContentCategoryIcons", "STek: Resources", "stek/resources_category.png")
+list.Set("ContentCategoryIcons", "STek: Weapons", "stek/weapons_category.png")
