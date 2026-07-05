@@ -39,6 +39,6 @@ if not LCPatched then
     local old_LanguageChanged = LanguageChanged
     function LanguageChanged(...)
         hook.Run("LanguageChanged", ...)
-        old_LanguageChanged(...)
+        if old_LanguageChanged then old_LanguageChanged(...) end
     end
 end
