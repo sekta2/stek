@@ -92,8 +92,27 @@ local function LoadScripts()
     end
 end
 
+local function LoadAddons()
+    local _, addons = file.Find("stekpacks/*", "LUA")
+
+    for i = 1, #addons do
+        local addon_name = addons[i]
+
+        local respath = "stekpacks/" .. addon_name .. "/resources.lua"
+        if file.Exists(respath, "LUA") then
+            stek.shared(respath)
+        end
+
+        local gaspath = "stekpacks/" .. addon_name .. "/gas.lua"
+        if file.Exists(gaspath, "LUA") then
+            stek.shared(gaspath)
+        end
+    end
+end
+
 LoadModules()
 LoadScripts()
+LoadAddons()
 
 ---
 
