@@ -1,6 +1,7 @@
 local Locale = {
     pack = nil,
     pack_name = nil,
+    default_language = "en",
 
     exists = {}
 }
@@ -21,6 +22,52 @@ function Locale.Load(locale_name)
 
     Locale.pack = include("stek/localization/" .. locale_name .. ".lua")
     Locale.pack_name = locale_name
+
+    Locale.InjectAddonsLocales()
+end
+
+function Locale.InjectAddonsLocales()
+    local _, addons = file.Find("stekpacks/*", "LUA")
+
+    for i = 1, #addons do
+        local addon_name = addons[i]
+        local path = "stekpacks/" .. addon_name .. "/"
+        if not file.Exists(path, "LUA") then continue end
+
+        local locales_path = path .. "locale/"
+        if not file.Exists(locales_path, "LUA") then continue end
+
+        local current_lang_path = locales_path .. Locale.pack_name .. ".lua"
+        if not file.Exists(locales_path, "LUA") then
+            local fallback_lang_path = locales_path .. Locale.default_language .. ".lua"
+            if not file.Exists(fallback_lang_path, "LUA") then continue end
+
+            local lang_tbl = include(fallback_lang_path)
+            local count = 0
+            for k, v in pairs(lang_tbl) do
+                if not Locale.pack[k] then
+                    Locale.pack[k] = v
+                    count = count + 1
+                end
+            end
+
+            print("Loaded locale " ..
+                Locale.default_language .. "(fallback) for addon " .. addon_name .. " (" .. count .. " phrases)")
+
+            continue
+        end
+
+        local lang_tbl = include(current_lang_path)
+        local count = 0
+        for k, v in pairs(lang_tbl) do
+            if not Locale.pack[k] then
+                Locale.pack[k] = v
+                count = count + 1
+            end
+        end
+
+        print("Loaded locale " .. Locale.pack_name .. " for addon " .. addon_name .. " (" .. count .. " phrases)")
+    end
 end
 
 function Locale.Exists(phrase_name)
@@ -67,7 +114,7 @@ function Locale.Init()
     if Locale.exists[GmodLocale] then
         Locale.Load(GmodLocale)
     else
-        Locale.Load("en")
+        Locale.Load(Locale.default_language)
     end
 end
 
