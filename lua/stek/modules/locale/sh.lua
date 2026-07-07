@@ -38,7 +38,7 @@ function Locale.InjectAddonsLocales()
         if not file.Exists(locales_path, "LUA") then continue end
 
         local current_lang_path = locales_path .. Locale.pack_name .. ".lua"
-        if not file.Exists(locales_path, "LUA") then
+        if not file.Exists(current_lang_path, "LUA") then
             local fallback_lang_path = locales_path .. Locale.default_language .. ".lua"
             if not file.Exists(fallback_lang_path, "LUA") then continue end
 
