@@ -4,6 +4,8 @@ GasSystem.serverpull = {}
 
 ---
 
+local Mat = Material("particle/smokestack")
+
 function GasSystem.Draw()
     if not GasSystem.pull then return end
 
@@ -13,10 +15,12 @@ function GasSystem.Draw()
         local Particle = cell.data
 
         local Pos = Particle.pos
-        cam.Start2D()
-        local screen_pos = Pos:ToScreen()
-        draw.SimpleText("(--+--)", "Default", screen_pos.x, screen_pos.y, color_white, TEXT_ALIGN_CENTER, TEXT_ALIGN_CENTER)
-        cam.End2D()
+        local LastPos = Particle.lastpos
+
+        render.SetMaterial(Mat)
+        render.DrawSprite(LastPos, 150, 150, Color(255, 255, 255, 25))
+
+        Particle.lastpos = LerpVector(FrameTime(), LastPos, Pos)
     end)
 end
 
