@@ -74,15 +74,15 @@ function GasSystem.Update()
         local Particle = cell.data
         if CurTime() < Particle.nextupdate then return end
 
-        local dt = math.min(CurTime() - Particle.lastupdatetime, 0.1)
+        local dt = CurTime() - Particle.lastupdatetime
 
-        local Force = VectorRand(-4, 4) + Vector(0, 0, -8) * dt
+        local Force = (VectorRand(-4, 4) + Vector(0, 0, -8)) * dt
         Particle.velocity = Particle.velocity + Force
-        Particle.velocity = Particle.velocity:GetNormalized() * math.min(Particle.velocity:Length(), 60)
+        Particle.velocity = Particle.velocity:GetNormalized() * math.min(Particle.velocity:Length(), 80)
 
         local trace = util.TraceHull({
             start = Particle.pos,
-            endpos = Particle.pos + Particle.velocity,
+            endpos = Particle.pos + Particle.velocity * dt,
             mins = Vector(-10, -10, -10),
             maxs = Vector(10, 10, 10),
             mask = MASK_SOLID + MASK_WATER
