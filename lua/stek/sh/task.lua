@@ -1,6 +1,6 @@
 local Task = {
     pull = {},
-    max_time = 0.002
+    max_time = 0.003
 }
 
 function Task.Spawn(fn, ...)
