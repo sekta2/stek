@@ -7,6 +7,7 @@
 ---@field nextupdate number
 ---@field lastupdatetime number
 ---@field type_obj GasType
+---@field lastpos Vector
 local GasParticle = {}
 GasParticle.__index = GasParticle
 
@@ -19,7 +20,8 @@ function GasParticle:new(type, pos)
         pos = pos,
         velocity = Vector(0, 0, 0),
         nextupdate = 0,
-        lastupdatetime = CurTime()
+        lastupdatetime = CurTime(),
+        lastpos = pos
     }
 
     object.type_obj = stek.GasSystem.GetByID(type)
