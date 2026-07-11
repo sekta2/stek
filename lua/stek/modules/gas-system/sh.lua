@@ -1,8 +1,11 @@
 ---@class GasParticle
 ---@field type string
 ---@field pos Vector
+---@field velocity Vector
 ---@field uid integer
 ---@field server_uid integer Идентификатор частицы на сервере, доступен только из client-side
+---@field nextupdate number
+---@field lastupdatetime number
 ---@field type_obj GasType
 local GasParticle = {}
 GasParticle.__index = GasParticle
@@ -14,6 +17,9 @@ function GasParticle:new(type, pos)
 
         type = type,
         pos = pos,
+        velocity = Vector(0, 0, 0),
+        nextupdate = 0,
+        lastupdatetime = CurTime()
     }
 
     object.type_obj = stek.GasSystem.GetByID(type)
@@ -98,10 +104,18 @@ end
 
 hook.Add("PreCleanupMap", "stek.GasSystem.OnCleanup", function()
     GasSystem.InitPull()
+
+    if CLIENT then
+        GasSystem.serverpull = {}
+    end
 end)
 
 function GasSystem.Init()
     GasSystem.InitPull()
+
+    if CLIENT then
+        GasSystem.serverpull = {}
+    end
 end
 
 stek.GasSystem = GasSystem
