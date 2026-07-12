@@ -120,7 +120,7 @@ function PANEL:Paint(w, h)
 end
 
 function PANEL:GetCraftIcon(craft)
-    if craft.output.type == "resource" then
+    if type(craft.output) == "table" and craft.output.type == "resource" then
         local res = stek.Resources.GetByID(craft.output.data.resource)
         if res then return res:GetIcon() end
     end
@@ -167,7 +167,6 @@ function PANEL:PopulateCrafts(category)
     local items = self.categories[category]
 
     for i = 1, #items do
-        print(i)
         ---@type Craft
         local craft = items[i]
 
