@@ -103,7 +103,7 @@ local Resources = {
 ---@param data ResourceData Параметры ресурса
 ---@return Resource
 function Resources.Add(id, data)
-    if not id or (id and type(id) ~= "string") then error(("invalid resource id '%s'"):format("id")) end
+    if not id or (id and type(id) ~= "string") then error(("invalid resource id '%s'"):format(id)) end
 
     local Object = ResourceClass:new(id, data)
     local uid = #Resources.list + 1

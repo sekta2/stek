@@ -88,7 +88,7 @@ local Craft = {
 ---@param data CraftData
 ---@return Craft
 function Craft.Create(id, data)
-    if not id or (id and type(id) ~= "string") then error(("invalid craft id '%s'"):format("id")) end
+    if not id or (id and type(id) ~= "string") then error(("invalid craft id '%s'"):format(id)) end
 
     local Object = CraftClass:new(id, data)
     local uid = #Craft.list + 1
