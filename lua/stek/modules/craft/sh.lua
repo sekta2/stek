@@ -17,6 +17,7 @@
 ---@class CraftData
 ---@field name string? Название крафта, используется когда не найдено переведённое название
 ---@field description string? Описание крафта
+---@field category string? Категория крафта
 ---@field resources { [string]: number } Ресуры нужные для крафта
 ---@field output fun()|CraftOutput Функция для спавна при успешном крафте, или структура CraftOutput
 
@@ -25,6 +26,7 @@
 ---@class Craft: CraftData
 ---@field uid integer Уникальный Идентификатор крафта
 ---@field id string Идентификатор крафта
+---@field category string Категория крафта
 local CraftClass = {}
 CraftClass.__index = CraftClass
 
@@ -41,6 +43,7 @@ function CraftClass:new(id, data)
 
         name = data.name,
         description = data.description,
+        category = data.category or "Other",
         resources = data.resources,
         output = data.output
     }
