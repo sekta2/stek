@@ -32,9 +32,7 @@ function Config.Load()
     Config.LoadMain()
     Config.LoadAddons()
 
-    if not file.Exists("stek/config/main.txt", "DATA") then
-        Config.SaveMain()
-    end
+    Config.Save()
 end
 
 ---
