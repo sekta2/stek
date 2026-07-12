@@ -12,6 +12,7 @@ lua/
             locale/
                 ru.lua
                 en.lua
+            config.lua
             resources.lua
             gas.lua
 ```
