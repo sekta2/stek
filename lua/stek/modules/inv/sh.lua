@@ -1,6 +1,14 @@
+---@class Inventory
+---@field resources { [string]: number }
+---@field container Entity[]
+---@field owner Entity?
+---@field object Entity?
+---@field max_volume number
 local InventoryClass = {}
 InventoryClass.__index = InventoryClass
 
+---
+---@return Inventory
 function InventoryClass:new()
     local Object = {
         resources = {},
@@ -15,6 +23,8 @@ function InventoryClass:new()
     return setmetatable(Object, self)
 end
 
+---
+---@return number
 function InventoryClass:GetVolume()
     local volume = 0
 
@@ -26,12 +36,18 @@ function InventoryClass:GetVolume()
     return volume
 end
 
+---
+---@return number
 function InventoryClass:GetFreeSpace()
     return self.max_volume - self:GetVolume()
 end
 
 ---
 
+---
+---@param res string
+---@param count number
+---@return number|false
 function InventoryClass:AddResource(res, count)
     local free = self:GetFreeSpace()
     if free <= 0 then
@@ -56,6 +72,10 @@ function InventoryClass:AddResource(res, count)
     end
 end
 
+---
+---@param res string
+---@param count number
+---@return number|false
 function InventoryClass:SubResource(res, count)
     if not self.resources[res] then return false end
 
