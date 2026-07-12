@@ -4,7 +4,8 @@ local Task = {
 }
 
 function Task.Spawn(fn, ...)
-    local co = coroutine.create(fn)
+    local args = {...}
+    local co = coroutine.create(function() fn(table.unpack(args)) end)
     Task.pull[#Task.pull + 1] = {
         co = co,
         cooldown = 0,
@@ -50,7 +51,7 @@ function Task.Update()
         end
 
         local time = SysTime()
-        local success, res = coroutine.resume(co, unpack(tsk.args))
+        local success, res = coroutine.resume(co)
         all_time = all_time + (SysTime() - time)
 
         if not success then
