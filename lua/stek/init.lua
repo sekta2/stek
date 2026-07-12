@@ -112,6 +112,11 @@ local function LoadAddons()
         if file.Exists(configpath, "LUA") then
             stek.shared(configpath)
         end
+
+        local craftspath = "stekpacks/" .. addon_name .. "/crafts.lua"
+        if file.Exists(craftspath, "LUA") then
+            stek.shared(craftspath)
+        end
     end
 end
 
