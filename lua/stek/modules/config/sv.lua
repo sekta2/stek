@@ -108,6 +108,7 @@ function Config.InitCommands()
     concommand.Add("stek_config_save", function(ply)
         if not (ply == NULL or ply:IsSuperAdmin()) then return end
         Config.Save()
+        Config.BroadcastSync()
 
         print("Config saved")
     end)
@@ -115,6 +116,7 @@ function Config.InitCommands()
     concommand.Add("stek_config_save_onlymain", function(ply)
         if not (ply == NULL or ply:IsSuperAdmin()) then return end
         Config.SaveMain()
+        Config.BroadcastSync()
 
         print("Main Config saved")
     end)
@@ -122,6 +124,7 @@ function Config.InitCommands()
     concommand.Add("stek_config_save_onlyaddons", function(ply)
         if not (ply == NULL or ply:IsSuperAdmin()) then return end
         Config.SaveAddons()
+        Config.BroadcastSync()
 
         print("Addons Config saved")
     end)
