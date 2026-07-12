@@ -45,7 +45,6 @@ if SERVER then
         self:SetSolid(SOLID_VPHYSICS)
 
         self:PhysicsInit(SOLID_VPHYSICS)
-        self:SetUseType(SIMPLE_USE)
         self:PhysWake()
 
         stek.Resources.RegisterActiveEntity(self)
