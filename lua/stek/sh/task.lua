@@ -74,8 +74,6 @@ function Task.Update()
         local id = to_remove[i]
         table.remove(Task.pull, id)
     end
-
-    print(all_time)
 end
 
 function Task.Init()
