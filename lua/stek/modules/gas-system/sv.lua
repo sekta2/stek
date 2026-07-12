@@ -30,7 +30,7 @@ local function find_free_pos(pos, mins, maxs)
     local data = {
         mins = mins,
         maxs = maxs,
-        mask = MASK_SOLID + MASK_WATER
+        mask = bit.bor(MASK_SOLID, MASK_WATER)
     }
 
     local variants = {}
@@ -48,7 +48,7 @@ local function find_free_pos(pos, mins, maxs)
                 endpos = pos,
                 mins = mins,
                 maxs = maxs,
-                mask = MASK_SOLID + MASK_WATER
+                mask = bit.bor(MASK_SOLID, MASK_WATER)
             })
 
             variants[#variants + 1] = new_trace.HitPos
@@ -85,7 +85,7 @@ function GasSystem.Update()
             endpos = Particle.pos + Particle.velocity * dt,
             mins = Vector(-10, -10, -10),
             maxs = Vector(10, 10, 10),
-            mask = MASK_SOLID + MASK_WATER
+            mask = bit.bor(MASK_SOLID, MASK_WATER)
         })
 
         if trace.StartSolid then
