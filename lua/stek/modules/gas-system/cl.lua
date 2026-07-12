@@ -9,7 +9,6 @@ local Mat = Material("particle/smokestack")
 function GasSystem.Draw()
     if not GasSystem.pull then return end
 
-    --- need to developed
     GasSystem.pull:Foreach(function(cell)
         ---@type GasParticle
         local Particle = cell.data
