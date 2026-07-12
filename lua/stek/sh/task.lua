@@ -7,7 +7,8 @@ function Task.Spawn(fn, ...)
     local co = coroutine.create(fn)
     Task.pull[#Task.pull + 1] = {
         co = co,
-        cooldown = 0
+        cooldown = 0,
+        args = {...}
     }
 end
 
@@ -49,7 +50,7 @@ function Task.Update()
         end
 
         local time = SysTime()
-        local success, res = coroutine.resume(co)
+        local success, res = coroutine.resume(co, unpack(tsk.args))
         all_time = all_time + (SysTime() - time)
 
         if not success then
@@ -60,7 +61,7 @@ function Task.Update()
         end
 
         if type(res) == "number" then
-            tsk.cooldown = CurTime() + res
+            tsk.cooldown = CurTime() + (res / 1000)
             continue
         end
 
