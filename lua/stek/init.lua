@@ -107,6 +107,11 @@ local function LoadAddons()
         if file.Exists(gaspath, "LUA") then
             stek.shared(gaspath)
         end
+
+        local configpath = "stekpacks/" .. addon_name .. "/config.lua"
+        if file.Exists(configpath, "LUA") then
+            stek.shared(configpath)
+        end
     end
 end
 
