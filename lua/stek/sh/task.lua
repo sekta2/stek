@@ -23,14 +23,24 @@ function Task.Yield()
     coroutine.yield()
 end
 
-function Task.Wait(ms)
+function Task.Wait(sec)
     local co = coroutine.running()
     if not co then
         print("Task.Wait: called when not in coroutine")
         return
     end
 
-    coroutine.yield(ms)
+    coroutine.yield(sec)
+end
+
+function Task.WaitMs(ms)
+    local co = coroutine.running()
+    if not co then
+        print("Task.Wait: called when not in coroutine")
+        return
+    end
+
+    coroutine.yield(ms / 1000)
 end
 
 function Task.Update()
@@ -62,7 +72,7 @@ function Task.Update()
         end
 
         if type(res) == "number" then
-            tsk.cooldown = CurTime() + (res / 1000)
+            tsk.cooldown = CurTime() + (res)
             continue
         end
 
