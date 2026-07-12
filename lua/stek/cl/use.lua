@@ -13,7 +13,7 @@ hook.Add("PlayerBindPress", "stek.ClientUse", function(ply, bind, pressed)
             local fn_client_use = tr.Entity.ClientUse
 
             if dist < USE_DISTANCE and fn_client_use then
-                fn_client_use(LocalPlayer())
+                fn_client_use(ply)
 
                 return false
             end
