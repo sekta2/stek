@@ -19,7 +19,11 @@ function Config.LoadAddons()
         if not addon_toml then continue end
 
         local addon_raw = TOML.parse(addon_toml, { strict = false })
-        Config.addons[name] = addon_raw
+        if not Config.addons[name] then
+            print("Loaded config for addon " .. name .. ", but there no inited addon")
+        else
+            Config.addons[name] = addon_raw
+        end
     end
 end
 
@@ -28,7 +32,7 @@ function Config.Load()
     Config.LoadMain()
     Config.LoadAddons()
 
-    if not file.Exists("stek/config.main.txt", "DATA") then
+    if not file.Exists("stek/config/main.txt", "DATA") then
         Config.SaveMain()
     end
 end
