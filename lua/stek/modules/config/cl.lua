@@ -17,7 +17,7 @@ net.Receive("stek.ConfigSync", function(len)
     end
 
     Config.raw = tbl.raw
-    Config.addons = tbl.raw
+    Config.addons = tbl.addons
 
     print("Config synced! " .. len .. " bits")
 end)
