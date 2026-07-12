@@ -4,8 +4,6 @@
 ---@field raw table "Сырая" таблица которая хранит все настройки
 local Config = {
     raw = {
-        version = stek._VERSION,
-
         inventory = {
             base_max_volume = 100
         },
