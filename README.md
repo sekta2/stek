@@ -13,6 +13,7 @@ lua/
                 ru.lua
                 en.lua
             config.lua
+            crafts.lua
             resources.lua
             gas.lua
 ```
