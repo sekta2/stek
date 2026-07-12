@@ -146,6 +146,5 @@ end
 stek.Task.Init()
 stek.Locale.Init()
 stek.Resources.InitAutoEntities()
-stek.Craft.Init()
 stek.WindInit()
 stek.GasSystem.Init()

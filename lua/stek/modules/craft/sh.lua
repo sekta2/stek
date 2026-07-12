@@ -118,6 +118,5 @@ function Craft.GetByID(id)
 end
 
 stek.shared("net.lua")
-stek.shared("register.lua")(Craft)
 
 stek.Craft = Craft
