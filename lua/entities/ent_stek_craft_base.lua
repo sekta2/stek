@@ -1,7 +1,7 @@
 AddCSLuaFile()
 
 ---@diagnostic disable: assign-type-mismatch
----@class ent_stek_craft_base: ent_stek_machine_base
+---@class ent_stek_craft_base: Entity
 ---@field Model string
 ---@field CraftType string
 ENT = ENT
@@ -36,6 +36,6 @@ else
     end
 
     function ENT:ClientUse()
-        stek.GUI.CreateCraftPanel()
+        local craft_panel = stek.GUI.CreateCraftPanel()
     end
 end
