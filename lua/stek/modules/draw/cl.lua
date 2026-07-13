@@ -18,7 +18,7 @@ function Draw.ResourceInfoHorizontal(res_id, amount, x, y, size, text_color)
     text_color = text_color or COLOR_WHITE
 
     local res = stek.Resources.GetByID(res_id)
-    local font = "JMod-Stencil"
+    local font = "STek-Stencil"
     local icon = res:GetIcon()
 
     if icon then
@@ -44,7 +44,7 @@ function Draw.ResourceInfoVertical(res_id, amount, x, y, size, text_color)
     text_color = text_color or COLOR_WHITE
 
     local res = stek.Resources.GetByID(res_id)
-    local font = "JMod-Stencil"
+    local font = "STek-Stencil"
     local icon = res:GetIcon()
 
     if icon then
