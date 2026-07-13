@@ -6,8 +6,16 @@
 ---@field model string? Путь до модельки ресурса
 ---@field skin integer? Скин модельки
 ---@field carryangles Angle? Углы поворота энтити при подборе игроком
+---@field sandbox_name string? Название энтити ресура(если не указано, то используется имя ресурса)
+---@field sandbox_localename string? Локализованное название ресурса(имеет высший приоритен над sandbox_name, нужно указать id фразы)
 ---@field sandbox_icon string? Значок ресурса в Q-Меню
 ---@field sandbox_category string? Категория авто-ресурса, если nil то ресурс будет в категории "STek: Resources"
+---@field info_pos_offset Vector? Позиция таблички информации о ресурсе
+---@field info_angle_offset Angle? Угол поворота таблички информации о ресурсе
+---@field info_horizontal boolean? Горизонтальное положение таблички информаци о ресурсе
+---@field info_rendersize number? Размер рендера таблички, по умолчанию 0.05
+---@field info_textcolor Color? Цвет текста таблички
+---@field info_iconsize number? Размер значка ресурса на табличке, по умолчанию 160
 
 ---
 
@@ -155,7 +163,7 @@ function Resources.InitAutoEntities()
             Base = "ent_stek_resource",
             Type = "anim",
 
-            PrintName = res:GetName(),
+            PrintName = (stek.Locale.Exists(ent_data.sandbox_localename) and stek.Locale.Get(ent_data.sandbox_localename) or nil) or ent_data.sandbox_name or res:GetName(),
             Category = ent_data.sandbox_category or "STek: Resources",
             Spawnable = true,
             IconOverride = ent_data.sandbox_icon,
@@ -165,6 +173,12 @@ function Resources.InitAutoEntities()
             Color = ent_data.color,
             Material = ent_data.material,
             CarryAngles = ent_data.carryangles,
+            InfoPosOffset = ent_data.info_pos_offset or vector_origin,
+            InfoAngleOffset = ent_data.info_angle_offset or angle_zero,
+            InfoHorizontal = ent_data.info_horizontal ~= nil and ent_data.info_horizontal or false,
+            InfoRenderSize = ent_data.info_rendersize or 0.05,
+            InfoTextColor = ent_data.info_textcolor,
+            InfoIconSize = ent_data.info_iconsize or 160,
 
             STek_Resource = res.id
         }

@@ -7,6 +7,12 @@ AddCSLuaFile()
 ---@field Color Color?
 ---@field Material string?
 ---@field CarryAngles Angle?
+---@field InfoPosOffset Vector
+---@field InfoAngleOffset Angle
+---@field InfoHorizontal boolean
+---@field InfoRenderSize number
+---@field InfoTextColor Color?
+---@field InfoIconSize number
 ---@field STek_Resource string
 ENT = ENT
 
@@ -117,17 +123,13 @@ else
     function ENT:Draw()
         self:DrawModel()
 
-        local selfPos = self:GetPos()
+        cam.Start3D2D(self:LocalToWorld(self.InfoPosOffset), self:LocalToWorldAngles(self.InfoAngleOffset), self.InfoRenderSize)
 
-        local forward = self:GetForward()
-
-        local up = self:GetUp()
-
-        local renderPos = selfPos + forward * -12 + up * 13
-        ---     local renderPos = Vector( -13, 0, 13 )
-        cam.Start3D2D(renderPos, self:LocalToWorldAngles(Angle(0, -90, 90)), 0.05)
-
-        stek.Draw.ResourceInfoVertical(self.STek_Resource, self:GetAmount(), 16, 48, 160)
+        if self.InfoHorizontal then
+            stek.Draw.ResourceInfoHorizontal(self.STek_Resource, self:GetAmount(), 0, 0, self.InfoIconSize, self.InfoTextColor)
+        else
+            stek.Draw.ResourceInfoVertical(self.STek_Resource, self:GetAmount(), 0, 0, self.InfoIconSize, self.InfoTextColor)
+        end
 
         cam.End3D2D()
     end

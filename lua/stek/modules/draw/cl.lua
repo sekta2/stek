@@ -12,8 +12,11 @@ local COLOR_WHITE = Color(255, 255, 255, 159)
 ---@param amount number
 ---@param x number
 ---@param y number
----@param siz number
-function Draw.ResourceInfoHorizontal(res_id, amount, x, y, siz)
+---@param size number
+---@param text_color Color?
+function Draw.ResourceInfoHorizontal(res_id, amount, x, y, size, text_color)
+    text_color = text_color or COLOR_WHITE
+
     local res = stek.Resources.GetByID(res_id)
     local font = "JMod-Stencil"
     local icon = res:GetIcon()
@@ -23,16 +26,23 @@ function Draw.ResourceInfoHorizontal(res_id, amount, x, y, siz)
     end
 
     SetDrawColor(COLOR_MAIN)
-
-    DrawTexturedRect(x - siz * 0.5, y - siz * 0.5, siz, siz)
+    DrawTexturedRect(x - size * 0.5, y - size * 0.5, size, size)
 
     local textAmt = amount .. " UNITS"
 
-    SimpleText(res:GetName(), font, x - siz * 0.5, y, COLOR_WHITE, TEXT_ALIGN_RIGHT, TEXT_ALIGN_CENTER)
-    SimpleText(textAmt, font, x + siz * 0.5, y, COLOR_WHITE, TEXT_ALIGN_LEFT, TEXT_ALIGN_CENTER)
+    SimpleText(res:GetName(), font, x - size * 0.5 - 5, y, text_color, TEXT_ALIGN_RIGHT, TEXT_ALIGN_CENTER)
+    SimpleText(textAmt, font, x + size * 0.5 + 5, y, text_color, TEXT_ALIGN_LEFT, TEXT_ALIGN_CENTER)
 end
 
-function Draw.ResourceInfoVertical(res_id, amount, x, y, siz)
+---@param res_id string
+---@param amount number
+---@param x number
+---@param y number
+---@param size number
+---@param text_color Color?
+function Draw.ResourceInfoVertical(res_id, amount, x, y, size, text_color)
+    text_color = text_color or COLOR_WHITE
+
     local res = stek.Resources.GetByID(res_id)
     local font = "JMod-Stencil"
     local icon = res:GetIcon()
@@ -43,12 +53,12 @@ function Draw.ResourceInfoVertical(res_id, amount, x, y, siz)
 
     SetDrawColor(COLOR_MAIN)
 
-    DrawTexturedRect(x - siz * 0.5, y - siz * 0.5, siz, siz)
+    DrawTexturedRect(x - size * 0.5, y - size * 0.5, size, size)
 
     local textAmt = amount .. " UNITS"
 
-    SimpleText(res:GetName(), font, x, y - siz * 0.5, COLOR_WHITE, TEXT_ALIGN_CENTER, TEXT_ALIGN_BOTTOM)
-    SimpleText(textAmt, font, x, y - siz * 0.5 + siz, COLOR_WHITE, TEXT_ALIGN_CENTER, TEXT_ALIGN_TOP)
+    SimpleText(res:GetName(), font, x, y - size * 0.5, text_color, TEXT_ALIGN_CENTER, TEXT_ALIGN_BOTTOM)
+    SimpleText(textAmt, font, x, y - size * 0.5 + size, text_color, TEXT_ALIGN_CENTER, TEXT_ALIGN_TOP)
 end
 
 stek.Draw = Draw
