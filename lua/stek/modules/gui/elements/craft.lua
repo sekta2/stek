@@ -20,6 +20,8 @@ function PANEL:Init()
     self:ShowCloseButton(true)
     self:SetDraggable(true)
 
+    surface.PlaySound("snds_jack_gmod/ez_gui/menu_open.ogg")
+
     local container = vgui.Create("DPanel", self)
     container:Dock(FILL)
     container.Paint = nil
@@ -93,6 +95,7 @@ function PANEL:Init()
         end
 
         tab_button.DoClick = function(s)
+            surface.PlaySound("snds_jack_gmod/ez_gui/click_smol.ogg")
             self:PopulateCrafts()
         end
     end
@@ -113,6 +116,10 @@ function PANEL:Init()
     -- Pass empty table initially, waiting for data sync logic elsewhere if needed
     self:PopulateResources({})
     self:PopulateCrafts()
+end
+
+function PANEL:OnClose()
+    surface.PlaySound("snds_jack_gmod/ez_gui/menu_close.ogg")
 end
 
 function PANEL:Paint(w, h)
