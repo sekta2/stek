@@ -37,5 +37,10 @@ else
 
     function ENT:ClientUse()
         local craft_panel = stek.GUI.CreateCraftPanel()
+        craft_panel:SetCraftTable(self.CraftTable)
+        craft_panel:RebuildCategories()
+
+        craft_panel:PopulateResources({})
+        craft_panel:PopulateCrafts()
     end
 end
