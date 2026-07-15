@@ -3,6 +3,8 @@
 local GUI = stek.GUI
 
 ---@class stek_craft: DFrame
+---@field craft_table string?
+---@field craft_table_object CraftTable?
 local PANEL = {}
 
 local color_white_trans = Color(255, 255, 255, 100)
@@ -58,16 +60,54 @@ function PANEL:Init()
     tabs_panel:Dock(TOP)
     tabs_panel:SetHeight(24)
     tabs_panel.Paint = nil
+    self.tabs_panel = tabs_panel
+
+    local active_tab = vgui.Create("DPanel", right_panel_container)
+    active_tab:Dock(FILL)
+    active_tab.Paint = function(s, w, h)
+        surface.SetDrawColor(color_bg_light)
+        surface.DrawRect(0, 0, w, h)
+    end
+    self.active_tab = active_tab
+
+    local crafts_scroll = vgui.Create("DScrollPanel", active_tab)
+    crafts_scroll:Dock(FILL)
+    crafts_scroll:DockMargin(5, 5, 5, 5)
+    self.crafts_scroll = crafts_scroll
+
+    -- Pass empty table initially, waiting for data sync logic elsewhere if needed
+    --self:PopulateResources({})
+    --self:PopulateCrafts()
+end
+
+function PANEL:RebuildCategories()
+    for k, v in pairs(self.tabs_panel:GetChildren()) do
+        v:Remove()
+    end
+
+    local index
+    if self.craft_table_object then
+        index = self.craft_table_object:GetCraftsIndex()
+    end
 
     local categories = {}
     for i = 1, #stek.Craft.list do
         local craft = stek.Craft.list[i]
+        if index and (not index[craft.id]) then continue end
+
         if not categories[craft.category] then
             categories[craft.category] = {}
         end
 
         table.insert(categories[craft.category], craft)
     end
+
+    for k, v in pairs(categories) do
+        table.sort(v, function(a, b)
+            return a:GetName() < b:GetName()
+        end)
+    end
+
     self.categories = categories
 
     local categories_names = table.GetKeys(categories)
@@ -77,7 +117,7 @@ function PANEL:Init()
     for i = 1, #categories_names do
         local name = categories_names[i]
 
-        local tab_button = vgui.Create("DButton", tabs_panel)
+        local tab_button = vgui.Create("DButton", self.tabs_panel)
         tab_button:Dock(LEFT)
         tab_button.tab_text = name
 
@@ -96,26 +136,9 @@ function PANEL:Init()
 
         tab_button.DoClick = function(s)
             surface.PlaySound("snds_jack_gmod/ez_gui/click_smol.ogg")
-            self:PopulateCrafts()
+            self:PopulateCrafts(name)
         end
     end
-
-    local active_tab = vgui.Create("DPanel", right_panel_container)
-    active_tab:Dock(FILL)
-    active_tab.Paint = function(s, w, h)
-        surface.SetDrawColor(color_bg_light)
-        surface.DrawRect(0, 0, w, h)
-    end
-    self.active_tab = active_tab
-
-    local crafts_scroll = vgui.Create("DScrollPanel", active_tab)
-    crafts_scroll:Dock(FILL)
-    crafts_scroll:DockMargin(5, 5, 5, 5)
-    self.crafts_scroll = crafts_scroll
-
-    -- Pass empty table initially, waiting for data sync logic elsewhere if needed
-    self:PopulateResources({})
-    self:PopulateCrafts()
 end
 
 function PANEL:OnClose()
@@ -124,6 +147,13 @@ end
 
 function PANEL:Paint(w, h)
     GUI.BlurBackground(self)
+end
+
+function PANEL:SetCraftTable(table_id)
+    self.craft_table = table_id
+
+    local craft_table_object = stek.Craft.GetTableByID(table_id)
+    self.craft_table_object = craft_table_object
 end
 
 function PANEL:PopulateResources(resource_table)
