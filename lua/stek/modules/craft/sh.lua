@@ -250,14 +250,14 @@ function Craft.Create(id, data)
 end
 
 ---Возвращает крафт по указанному UID
----@param uid integer Уникальный Идентификатор ресурса
+---@param uid integer Уникальный Идентификатор крафта
 ---@return Craft
 function Craft.GetByUID(uid)
     return Craft.list[uid]
 end
 
 ---Возвращает крафт по указанному идентификатору
----@param id string Идентификатор ресурса
+---@param id string Идентификатор крафта
 ---@return Craft
 function Craft.GetByID(id)
     return Craft.index[id]
@@ -301,6 +301,13 @@ function Craft.CreateTable(id, data)
     Craft.table_index[id] = Object
 
     return Object
+end
+
+---Возвращает стол для крафта по указанному идентификатору
+---@param id string Идентификатор стола для крафта
+---@return CraftTable
+function Craft.GetTableByID(id)
+    return Craft.table_index[id]
 end
 
 stek.shared("net.lua")
