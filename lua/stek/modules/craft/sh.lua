@@ -103,15 +103,48 @@ end
 
 ---
 
+---@class CraftTableData
+---@field tags string[]? Крафты с этими тегами будут разрешены для крафта
+---@field allow string[]? Крафты в этом списке будут разрешены для крафта
+---@field deny string[]? Крафты в этом списке будут запрещены для крафта (работает поверх allow и tags, т.е может запрещать крафты в allow и tags)
+
+---@class CraftTable: CraftTableData
+---@field id string Идентификатор стола для крафта
+local CraftTableClass = {}
+CraftTableClass.__index = CraftTableClass
+
+---Создаёт и возвращает объект стола для крафта
+---@param id string
+---@param data CraftTableData
+---@return CraftTable
+function CraftTableClass:new(id, data)
+    data = data or {}
+
+    local Object = {
+        id = id,
+
+        tags = data.tags or {"*"},
+        allow = data.allow or {},
+        deny = data.deny or {}
+    }
+
+    return setmetatable(Object, self)
+end
+
+---
+
 ---# Модуль для крафтов
 ---@class CraftModule
 ---@field list Craft[]
----@field index { [string]: Craft }
----@field tags { [string]: Craft[] }
+---@field index table<string, Craft>
+---@field table_index table<string, CraftTable>
+---@field tags table<string, Craft[]>
 ---@field bits_count number
 local Craft = {
     list = {},
+
     index = {},
+    table_index = {},
 
     tags = {},
 
@@ -189,6 +222,21 @@ function Craft.GetByTags(t)
     end
 
     return result
+end
+
+---
+
+---Создаёт новый стол для крафта и возвращает его
+---@param id string
+---@param data CraftTableData
+---@return CraftTable
+function Craft.CreateTable(id, data)
+    if not id or (id and type(id) ~= "string") then error(("invalid craft-table id '%s'"):format(id)) end
+
+    local Object = CraftTableClass:new(id, data)
+    Craft.table_index[id] = Object
+
+    return Object
 end
 
 stek.shared("net.lua")
