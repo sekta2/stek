@@ -126,14 +126,6 @@ function PANEL:Paint(w, h)
     GUI.BlurBackground(self)
 end
 
-function PANEL:GetCraftIcon(craft)
-    if type(craft.output) == "table" and craft.output.type == "resource" then
-        local res = stek.Resources.GetByID(craft.output.data.resource)
-        if res then return res:GetIcon() end
-    end
-    return nil
-end
-
 function PANEL:PopulateResources(resource_table)
     self.resources_scroll:Clear()
 
@@ -183,6 +175,8 @@ function PANEL:PopulateCrafts(category)
         btn:Dock(TOP)
         btn:DockMargin(0, 0, 0, 5)
 
+        local icon = craft:GetIcon()
+
         local desc = craft:GetDescription() or ""
         desc = desc .. "\n\nRequirements:"
 
@@ -201,7 +195,6 @@ function PANEL:PopulateCrafts(category)
             surface.SetDrawColor(col, col, col, 60)
             surface.DrawRect(0, 0, w, h)
 
-            local icon = self:GetCraftIcon(craft)
             local text_offset = 5
 
             if icon then

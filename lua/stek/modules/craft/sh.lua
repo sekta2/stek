@@ -17,6 +17,7 @@
 ---@class CraftData
 ---@field name string? Название крафта, используется когда не найдено переведённое название
 ---@field description string? Описание крафта
+---@field icon string? Путь до значка крафта
 ---@field category string? Категория крафта
 ---@field resources { [string]: number } Ресуры нужные для крафта
 ---@field output fun()|CraftOutput Функция для спавна при успешном крафте, или структура CraftOutput
@@ -43,6 +44,7 @@ function CraftClass:new(id, data)
 
         name = data.name,
         description = data.description,
+        icon = data.icon,
         category = data.category or "Other",
         resources = data.resources,
         output = data.output
@@ -67,6 +69,28 @@ function CraftClass:GetDescription()
     if not stek.Locale.Exists(phrase_name) then return self.description end
 
     return stek.Locale.Get("craft_desc_" .. self.id)
+end
+
+---Возвращает путь к значку крафта
+---@return string
+function CraftClass:GetIconPath()
+    return self.icon or ("materials/stek/crafts/" .. self.id .. ".png")
+end
+
+---Возвращает материал значка крафта, если путь не валидный, возвращает nil
+---@return IMaterial?
+function CraftClass:GetIcon()
+    if self.icon_mat then
+        return self.icon_mat
+    end
+
+    local path = self:GetIconPath()
+    local mat = Material(path)
+
+    if mat then
+        self.icon_mat = mat
+        return mat
+    end
 end
 
 ---
