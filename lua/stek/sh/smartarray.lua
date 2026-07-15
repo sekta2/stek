@@ -43,8 +43,8 @@ end
 ---
 
 ---@class SmartArray
----@field pull table<number, SmartArray_Cell> Pool of all cells indexed by their UID.
----@field free table<number, SmartArray_Cell> Array of cells that are currently free and can be reused.
+---@field pull SmartArray_Cell[] Pool of all cells indexed by their UID.
+---@field free SmartArray_Cell[] Array of cells that are currently free and can be reused.
 ---@field uid number Counter for generating unique cell identifiers.
 ---@field virtual_cell SmartArray_Cell Virtual anchor cell used as the starting point of the linked list.
 local Manager = {}

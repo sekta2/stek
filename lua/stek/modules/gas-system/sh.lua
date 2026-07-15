@@ -32,7 +32,7 @@ end
 ---
 
 ---@class GasSystemModule
----@field list table<integer, GasType>
+---@field list GasType[]
 ---@field index table<string, GasType>
 ---@field pull SmartArray
 ---@field serverpull table<integer, GasParticle> Table(server_uid = ParticleObject), доступен только из client-side

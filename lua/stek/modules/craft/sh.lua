@@ -20,6 +20,7 @@
 ---@field icon string? Путь до значка крафта
 ---@field category string? Категория крафта
 ---@field resources { [string]: number } Ресуры нужные для крафта
+---@field tags string[]? Теги крафта (специальные метки для столов для крафта)
 ---@field output fun()|CraftOutput Функция для спавна при успешном крафте, или структура CraftOutput
 
 ---
@@ -27,6 +28,7 @@
 ---@class Craft: CraftData
 ---@field uid integer Уникальный Идентификатор крафта
 ---@field id string Идентификатор крафта
+---@field tags string[] Теги крафта (специальные метки для столов для крафта)
 ---@field category string Категория крафта
 local CraftClass = {}
 CraftClass.__index = CraftClass
@@ -38,6 +40,11 @@ CraftClass.__index = CraftClass
 function CraftClass:new(id, data)
     data = data or {}
 
+    local tags = data.tags or {}
+    if not table.HasValue(tags, "*") then
+        tags[#tags+1] = "*"
+    end
+
     local Object = {
         id = id,
         uid = nil,
@@ -47,6 +54,7 @@ function CraftClass:new(id, data)
         icon = data.icon,
         category = data.category or "Other",
         resources = data.resources,
+        tags = tags,
         output = data.output
     }
 
@@ -97,12 +105,15 @@ end
 
 ---# Модуль для крафтов
 ---@class CraftModule
----@field list [Craft]
+---@field list Craft[]
 ---@field index { [string]: Craft }
+---@field tags { [string]: Craft[] }
 ---@field bits_count number
 local Craft = {
     list = {},
     index = {},
+
+    tags = {},
 
     bits_count = 1
 }
@@ -124,6 +135,20 @@ function Craft.Create(id, data)
 
     Craft.bits_count = stek.BitsForUnsignedInt(uid)
 
+    if type(Object.tags) == "table" then
+        for i = 1, #Object.tags do
+            local tag = Object.tags[i]
+
+            local tags_list = Craft.tags[tag]
+            if not tags_list then
+                tags_list = {}
+                Craft.tags[tag] = tags_list
+            end
+
+            table.insert(tags_list, Object)
+        end
+    end
+
     return Object
 end
 
@@ -139,6 +164,31 @@ end
 ---@return Craft
 function Craft.GetByID(id)
     return Craft.index[id]
+end
+
+---Возвращает список крафтов по тегам
+---@param t string[]
+---@return Craft[]
+function Craft.GetByTags(t)
+    local result = {}
+    local index = {}
+
+    for i = 1, #t do
+        local tag = t[i]
+
+        local tag_list = Craft.tags[tag]
+        if tag_list then
+            for j = 1, #tag_list do
+                local craft = tag_list[j]
+                if not index[craft] then
+                    index[craft] = true
+                    result[#result + 1] = craft
+                end
+            end
+        end
+    end
+
+    return result
 end
 
 stek.shared("net.lua")
