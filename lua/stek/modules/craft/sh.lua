@@ -110,6 +110,8 @@ end
 
 ---@class CraftTable: CraftTableData
 ---@field id string Идентификатор стола для крафта
+---@field cached_list Craft[]?
+---@field cached_index table<string, true|nil>?
 local CraftTableClass = {}
 CraftTableClass.__index = CraftTableClass
 
@@ -123,12 +125,74 @@ function CraftTableClass:new(id, data)
     local Object = {
         id = id,
 
-        tags = data.tags or {"*"},
+        tags = data.tags or { "*" },
         allow = data.allow or {},
         deny = data.deny or {}
     }
 
     return setmetatable(Object, self)
+end
+
+---Компилирует и возвращает список и HashSet разрешенных крафтов
+---@return Craft[]
+---@return table<string, true|nil>
+function CraftTableClass:Compile()
+    local list = stek.Craft.GetByTags(self.tags)
+    local index = {}
+
+    for i = 1, #list do
+        local item = list[i]
+        index[item.id] = true
+    end
+
+    for i = 1, #self.allow do
+        local item = self.allow[i]
+        if not index[item] then
+            index[item] = true
+            list[#list + 1] = stek.Craft.GetByID(item)
+        end
+    end
+
+    for i = 1, #self.deny do
+        local item = self.deny[i]
+        if index[item] then
+            index[item] = nil
+
+            for j = #list, 1, -1 do
+                local other_item = list[j]
+                if other_item == item then
+                    table.remove(list, j)
+                    break
+                end
+            end
+        end
+    end
+
+    return list, index
+end
+
+---Возвращает список разрешенных крафтов
+---@return Craft[]
+function CraftTableClass:GetCraftsList()
+    if not self.cached_index then
+        local list, index = self:Compile()
+        self.cached_list = list
+        self.cached_index = index
+    end
+
+    return self.cached_list
+end
+
+---Возвращает HashSet разрешенных крафтов
+---@return table<string, true|nil>
+function CraftTableClass:GetCraftsIndex()
+    if not self.cached_index then
+        local list, index = self:Compile()
+        self.cached_list = list
+        self.cached_index = index
+    end
+
+    return self.cached_index
 end
 
 ---
