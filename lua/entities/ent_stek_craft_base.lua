@@ -3,7 +3,7 @@ AddCSLuaFile()
 ---@diagnostic disable: assign-type-mismatch
 ---@class ent_stek_craft_base: Entity
 ---@field Model string
----@field CraftType string
+---@field CraftTable string
 ENT = ENT
 
 ENT.Base = "base_anim"
@@ -13,7 +13,7 @@ ENT.Author = "sekta"
 
 ENT.PhysicsSounds = true
 
--- ENT.CraftType = "workbench"
+-- ENT.CraftTable = "workbench"
 -- ENT.Model = "models/hunter/blocks/cube1x2x1.mdl"
 
 if SERVER then
