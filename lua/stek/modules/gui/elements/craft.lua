@@ -13,6 +13,7 @@ local color_hover = Color(50, 50, 50, 60)
 local color_normal = Color(30, 30, 30, 60)
 local color_bg_dark = Color(0, 0, 0, 100)
 local color_bg_light = Color(0, 0, 0, 50)
+local color_bg_light_less = Color(0, 0, 0, 25)
 
 function PANEL:Init()
     self:SetSize(1100, 500)
@@ -58,7 +59,7 @@ function PANEL:Init()
 
     local tabs_panel = vgui.Create("DPanel", right_panel_container)
     tabs_panel:Dock(TOP)
-    tabs_panel:SetHeight(24)
+    tabs_panel:SetHeight(18)
     tabs_panel.Paint = nil
     self.tabs_panel = tabs_panel
 
@@ -113,12 +114,15 @@ function PANEL:RebuildCategories()
     local categories_names = table.GetKeys(categories)
     table.sort(categories_names, function(a, b) return a < b end)
     self.default_category = categories_names[1]
+    self.active_category = self.default_category
 
     for i = 1, #categories_names do
         local name = categories_names[i]
 
         local tab_button = vgui.Create("DButton", self.tabs_panel)
         tab_button:Dock(LEFT)
+        tab_button:DockMargin(0, 0, 5, 0)
+
         tab_button.tab_text = name
 
         surface.SetFont("DermaDefault")
@@ -127,11 +131,19 @@ function PANEL:RebuildCategories()
         tab_button:SetWide(text_w + 10)
         tab_button:SetText("")
         tab_button.Paint = function(s, w, h)
-            surface.SetDrawColor(color_bg_light)
-            surface.DrawRect(0, 0, w, h)
+            if self.active_category == name then
+                surface.SetDrawColor(color_bg_light)
+                surface.DrawRect(0, 0, w, h)
 
-            draw.SimpleText(s.tab_text, "DermaDefault", w / 2, h / 2, color_white_full, TEXT_ALIGN_CENTER,
-                TEXT_ALIGN_CENTER)
+                draw.SimpleText(s.tab_text, "DermaDefault", w / 2, h / 2, color_white_full, TEXT_ALIGN_CENTER,
+                    TEXT_ALIGN_CENTER)
+            else
+                surface.SetDrawColor(color_bg_light_less)
+                surface.DrawRect(0, 0, w, h)
+
+                draw.SimpleText(s.tab_text, "DermaDefault", w / 2, h / 2, color_white_trans, TEXT_ALIGN_CENTER,
+                    TEXT_ALIGN_CENTER)
+            end
         end
 
         tab_button.DoClick = function(s)
@@ -189,6 +201,8 @@ end
 
 function PANEL:PopulateCrafts(category)
     category = category or self.default_category
+
+    self.active_category = category
 
     self.crafts_scroll:Clear()
     if not (stek.Craft and stek.Craft.list) then return end
