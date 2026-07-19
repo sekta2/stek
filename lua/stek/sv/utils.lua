@@ -13,6 +13,17 @@
 
 -----------------------------------------------------------]]
 
+---@param pos Vector
+---@param ang Angle
+---@param attacker Entity?
+---@param magnitude number
+---@param radius number
+---@param flags number
+---@param inflictor Entity?
+---@param force Vector
+---@param dmgType DMG
+---@param ignore any ??? че тут
+---@param ignoreClass string
 function stek.CreateExplosion( pos, ang, attacker, magnitude, radius, flags, inflictor, force, dmgType, ignore, ignoreClass )
 
 	local explosion = ents.Create( "env_explosion" )
