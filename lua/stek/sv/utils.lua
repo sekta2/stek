@@ -2,7 +2,7 @@
 --[[---------------------------------------------------------
 
 	stek.CreateExplosion( vector_origin, angle_zero, ply, 128,
-	 256, 32 + 64, ply, 6144, DMG_BURN, ply, prop_physics )
+	 256, 32 + 64, ply, 6144, DMG_BURN, ply, "prop_physics" )
 
 	Creates CEnvExplosion entity with a lot of options
 
@@ -22,7 +22,7 @@
 ---@param inflictor Entity?
 ---@param force Vector
 ---@param dmgType DMG
----@param ignore any ??? че тут
+---@param ignore Entity ??? че тут
 ---@param ignoreClass string
 function stek.CreateExplosion( pos, ang, attacker, magnitude, radius, flags, inflictor, force, dmgType, ignore, ignoreClass )
 
