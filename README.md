@@ -1,6 +1,8 @@
 # ⚒️ STek (Sekta Tech)
 Аддон, база для всех JMod-подобных аддонов.
 
+[Workshop Item](https://steamcommunity.com/sharedfiles/filedetails/?id=3764080270)
+
 ## Философия/Концепция
 STek подразумевается как база для всех JMod-подобных аддонов, предоставляя базовые инструменты, энтити и модули.
 
