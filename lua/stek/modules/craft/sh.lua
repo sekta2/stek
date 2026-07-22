@@ -305,7 +305,7 @@ end
 
 ---Возвращает стол для крафта по указанному идентификатору
 ---@param id string Идентификатор стола для крафта
----@return CraftTable
+---@return CraftTable?
 function Craft.GetTableByID(id)
     return Craft.table_index[id]
 end
