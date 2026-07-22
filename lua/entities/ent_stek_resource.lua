@@ -53,13 +53,13 @@ if SERVER then
 
         self:PhysicsInit(SOLID_VPHYSICS)
         self:PhysWake()
-        
+
         if self.DrawDist then
             local drawDistStr = tostring( self.DrawDist )
-	        self:SetKeyValue("fademindist", drawDistStr) 
-	        self:SetKeyValue("fademaxdist", drawDistStr) 
+	        self:SetKeyValue("fademindist", drawDistStr)
+	        self:SetKeyValue("fademaxdist", drawDistStr)
         end
-        
+
         stek.Resources.RegisterActiveEntity(self)
         self:SetAmount(100, true)
     end
