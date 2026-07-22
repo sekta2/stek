@@ -74,6 +74,13 @@ if SERVER then
 else
     function ENT:Draw()
         self:DrawModel()
+
+        if GetConVar("developer"):GetBool() then
+            local pos = self:LocalToWorld(self.CraftPos)
+
+            debugoverlay.Axis(pos, self:GetAngles(), 5, 0)
+            debugoverlay.Text(pos, "craft_pos", 0)
+        end
     end
 
     function ENT:ClientUse()
