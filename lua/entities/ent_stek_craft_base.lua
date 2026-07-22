@@ -15,6 +15,7 @@ ENT.Author = "sekta"
 ENT.PhysicsSounds = true
 
 -- ENT.CraftTable = "workbench"
+-- ENT.CraftPos = Vector(5, 0, 10)
 -- ENT.Model = "models/hunter/blocks/cube1x2x1.mdl"
 
 if SERVER then
