@@ -21,7 +21,7 @@
 ---@field category string? Категория крафта
 ---@field resources { [string]: number } Ресуры нужные для крафта
 ---@field tags string[]? Теги крафта (специальные метки для столов для крафта)
----@field output fun()|CraftOutput Функция для спавна при успешном крафте, или структура CraftOutput
+---@field output fun(ent: ent_stek_craft_base, craft_pos: Vector)|CraftOutput Функция для спавна при успешном крафте, или структура CraftOutput
 
 ---
 
