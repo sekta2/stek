@@ -61,7 +61,7 @@ if SERVER then
         end
 
         stek.Resources.RegisterActiveEntity(self)
-        self:SetAmount(100, true)
+        --self:SetAmount(100, true)
     end
 
     ---@param activator Player
@@ -82,7 +82,7 @@ if SERVER then
         net.Start("stek.SyncResourceAmount")
         net.WriteEntity(self)
         net.WriteUInt(self.amount, 8)
-        net.SendPVS(self:GetPos())
+        net.Broadcast()
     end
 
     function ENT:SetAmount(num, do_not_sync)
@@ -90,12 +90,30 @@ if SERVER then
         if not do_not_sync then self:SyncAmount() end
     end
 else
-    net.Receive("stek.SyncResourceAmount", function()
-        ---@type ent_stek_resource
-        local resource_ent = net.ReadEntity()
-        if not IsValid(resource_ent) then return end
+    local sets = {}
 
+    ---@param entity ent_stek_resource
+    hook.Add("OnEntityCreated", "stek.Resource.Sync", function(entity)
+        if not scripted_ents.IsBasedOn(entity:GetClass(), "ent_stek_resource") then return end
+
+        local delayed = sets[entity:EntIndex()]
+        if delayed then
+            entity.amount = delayed
+            sets[entity:EntIndex()] = nil
+        end
+    end)
+
+    net.Receive("stek.SyncResourceAmount", function()
+        local ent_index = net.ReadUInt(13)
         local amount = net.ReadUInt(8)
+
+        ---@type ent_stek_resource?
+        local resource_ent = Entity(ent_index)
+        if not (resource_ent and IsValid(resource_ent)) then
+            sets[ent_index] = amount
+            return
+        end
+
         resource_ent.amount = amount
     end)
 
