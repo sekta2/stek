@@ -4,11 +4,9 @@
 
 ---@class CraftOutputDataEntity
 ---@field class string Имя класса энтити
----@field amount integer Количество энтити
 
 ---@class CraftOutputDataProp
 ---@field model string Путь к модели пропа
----@field amount integer Количество пропов
 
 ---@class CraftOutput
 ---@field type "resource"|"entity"|"prop" Вариант результата крафта
