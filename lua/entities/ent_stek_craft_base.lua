@@ -19,6 +19,29 @@ ENT.PhysicsSounds = true
 -- ENT.Model = "models/hunter/blocks/cube1x2x1.mdl"
 
 if SERVER then
+    local output_types = {
+        ---@param ent ent_stek_craft_base
+        ---@param worldpos Vector
+        ---@param output CraftOutputDataResource
+        ["resource"] = function(ent, worldpos, output)
+
+        end,
+
+        ---@param ent ent_stek_craft_base
+        ---@param worldpos Vector
+        ---@param output CraftOutputDataEntity
+        ["entity"] = function(ent, worldpos, output)
+
+        end,
+
+        ---@param ent ent_stek_craft_base
+        ---@param worldpos Vector
+        ---@param output CraftOutputDataProp
+        ["prop"] = function(ent, worldpos, output)
+
+        end
+    }
+
     function ENT:Initialize()
         if self.Model then
             self:SetModel(self.Model)
