@@ -4,6 +4,7 @@ AddCSLuaFile()
 ---@class ent_stek_craft_base: Entity
 ---@field Model string
 ---@field CraftTable string
+---@field CraftPos Vector
 ENT = ENT
 
 ENT.Base = "base_anim"
