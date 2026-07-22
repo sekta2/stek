@@ -27,5 +27,5 @@ net.Receive("stek.Craft", function(len, ply)
     -- Разрешён ли крафт в этом столе для крафта?
     if not index[craft.id] then return end
 
-    print("craft allowed")
+    trace_ent:Craft(craft.id)
 end)
