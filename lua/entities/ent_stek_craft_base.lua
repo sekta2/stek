@@ -86,7 +86,7 @@ if SERVER then
             local fn = output_types[output.type]
 
             ---@diagnostic disable-next-line param-type-mismatch
-            fn(self, world_pos, output)
+            fn(self, world_pos, output.data)
         end
     end
 else
