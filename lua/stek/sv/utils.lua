@@ -22,7 +22,7 @@
 ---@param inflictor Entity?
 ---@param force Vector
 ---@param dmgType DMG
----@param ignore Entity ??? че тут
+---@param ignore Entity
 ---@param ignoreClass string
 function stek.CreateExplosion( pos, ang, attacker, magnitude, radius, flags, inflictor, force, dmgType, ignore, ignoreClass )
 
