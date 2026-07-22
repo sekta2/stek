@@ -24,7 +24,21 @@ if SERVER then
         ---@param worldpos Vector
         ---@param output CraftOutputDataResource
         ["resource"] = function(ent, worldpos, output)
+            local max_amount = stek.Config.Get().resources.max_amount
+            local ent_count = math.ceil(output.amount / max_amount)
 
+            for i = 1, ent_count do
+                local pos = worldpos + Vector(0, 0, 30 * (i - 1))
+                local amount = (i == ent_count) and (output.amount - max_amount * (ent_count - 1)) or max_amount
+
+                ---@type ent_stek_resource
+                local resource_ent = ents.Create("ent_stek_res_" .. output.resource)
+                resource_ent:SetPos(pos)
+                resource_ent:SetAngles(ent:GetAngles())
+                resource_ent:SetAmount(amount)
+
+                resource_ent:Spawn()
+            end
         end,
 
         ---@param ent ent_stek_craft_base
@@ -38,7 +52,11 @@ if SERVER then
         ---@param worldpos Vector
         ---@param output CraftOutputDataProp
         ["prop"] = function(ent, worldpos, output)
+            local prop = ents.Create("prop_physics")
+            prop:SetModel(output.model)
+            prop:SetPos(worldpos)
 
+            prop:Spawn()
         end
     }
 
