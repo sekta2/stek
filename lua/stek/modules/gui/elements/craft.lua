@@ -278,6 +278,10 @@ function PANEL:PopulateCrafts(category)
         btn.DoClick = function()
             surface.PlaySound("garrysmod/ui_click.wav")
             print("Crafting: " .. craft.id)
+
+            net.Start("stek.Craft")
+            net.WriteSTEKCraft(craft.id)
+            net.SendToServer()
         end
     end
 end
