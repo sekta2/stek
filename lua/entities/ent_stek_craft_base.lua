@@ -55,6 +55,22 @@ if SERVER then
         self:SetUseType(SIMPLE_USE)
         self:PhysWake()
     end
+
+    ---@param recipe string
+    function ENT:Craft(recipe)
+        local recipe_obj = stek.Craft.GetByID(recipe)
+        local world_pos = self:LocalToWorld(self.CraftPos)
+
+        local output = recipe_obj.output
+        if type(output) == "function" then
+            output(self, world_pos)
+        else
+            local fn = output_types[output.type]
+
+            ---@diagnostic disable-next-line param-type-mismatch
+            fn(self, world_pos, output)
+        end
+    end
 else
     function ENT:Draw()
         self:DrawModel()
