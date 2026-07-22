@@ -3,6 +3,7 @@
 function net.WriteSTEKCraft(craft_resolvable)
     local craft = type(craft_resolvable) == "table" and craft_resolvable or
         (stek.Craft.index[craft_resolvable] or stek.Craft.list[craft_resolvable])
+
     if not craft then
         error(("Unknown craft '%s'"):format(craft_resolvable))
     end
