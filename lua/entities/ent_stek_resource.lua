@@ -7,6 +7,7 @@ AddCSLuaFile()
 ---@field Color Color?
 ---@field Material string?
 ---@field CarryAngles Angle?
+---@field DrawDist number?
 ---@field InfoPosOffset Vector
 ---@field InfoAngleOffset Angle
 ---@field InfoHorizontal boolean
