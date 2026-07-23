@@ -27,7 +27,13 @@ end
 
 ---
 
+local function is_valid_vector(v)
+    return v and v.x == v.x and v.y == v.y and v.z == v.z
+end
+
 local function find_free_pos(pos, mins, maxs)
+    if not is_valid_vector(pos) then return Vector(0, 0, 0) end
+
     local range = 1
     local data = {
         mins = mins,
@@ -37,7 +43,9 @@ local function find_free_pos(pos, mins, maxs)
 
     local variants = {}
     local i = 0
-    while (#variants < 15) do
+    local max_iterations = 50
+
+    while (#variants < 15 and i < max_iterations) do
         i = i + 1
         data.start = pos + VectorRand() * range
         data.endpos = data.start
@@ -59,8 +67,10 @@ local function find_free_pos(pos, mins, maxs)
         range = range + 0.5
     end
 
-    ---@param a Vector
-    ---@param b Vector
+    if #variants == 0 then
+        return pos
+    end
+
     table.sort(variants, function(a, b)
         return a:Distance(pos) < b:Distance(pos)
     end)
