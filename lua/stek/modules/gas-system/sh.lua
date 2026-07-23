@@ -10,6 +10,7 @@ local SHG_SIZE = 50
 ---@field lastupdatetime number
 ---@field type_obj GasType
 ---@field lastpos Vector
+---@field shg_lastpos Vector
 local GasParticle = {}
 GasParticle.__index = GasParticle
 
@@ -23,7 +24,9 @@ function GasParticle:new(type, pos)
         velocity = Vector(0, 0, 0),
         nextupdate = 0,
         lastupdatetime = CurTime(),
-        lastpos = pos
+        lastpos = pos,
+
+        shg_lastpos = Vector(math.ceil(pos.x / SHG_SIZE), math.ceil(pos.y / SHG_SIZE), math.ceil(pos.z / SHG_SIZE))
     }
 
     object.type_obj = stek.GasSystem.GetByID(type)
