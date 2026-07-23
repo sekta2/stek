@@ -7,9 +7,12 @@ SWEP.Primary = {
 
 function SWEP:PrimaryAttack()
     if not SERVER then return end
+
+    ---@type TraceResult
     local tr = self:GetOwner():GetEyeTrace()
 
-    stek.GasSystem.Spawn("test", tr.HitPos)
+    local par = stek.GasSystem.Spawn("test", tr.StartPos + (tr.HitPos - tr.StartPos):GetNormalized() * 150)
+    par.velocity = (tr.HitPos - tr.StartPos):GetNormalized() * 1000
 end
 
 stek.GasSystem.Add("test", {})
