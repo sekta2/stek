@@ -1,3 +1,5 @@
+local SHG_SIZE = 50
+
 ---@class GasParticle
 ---@field type string
 ---@field pos Vector

@@ -1,3 +1,5 @@
+local SHG_SIZE = 50
+
 ---@class GasSystemModule
 local GasSystem = stek.GasSystem
 
