@@ -114,6 +114,8 @@ hook.Add("PreCleanupMap", "stek.GasSystem.OnCleanup", function()
 
     if CLIENT then
         GasSystem.serverpull = {}
+    else
+        GasSystem.shg = stek.SHG:new()
     end
 end)
 
@@ -122,6 +124,8 @@ function GasSystem.Init()
 
     if CLIENT then
         GasSystem.serverpull = {}
+    else
+        GasSystem.shg = stek.SHG:new()
     end
 end
 
