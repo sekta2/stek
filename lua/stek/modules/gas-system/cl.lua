@@ -24,6 +24,8 @@ function GasSystem.Draw()
 end
 
 hook.Add("PreDrawTranslucentRenderables", "stek.GasSystem.Draw", function(isDrawingDepth, isDrawSkybox, isDraw3DSkybox)
+    if isDrawingDepth or isDrawSkybox or isDraw3DSkybox then return end
+
     GasSystem.Draw()
 end)
 
