@@ -30,10 +30,10 @@ hook.Add("PreDrawTranslucentRenderables", "stek.GasSystem.Draw", function(isDraw
 end)
 
 net.Receive("stek.GasSystem.SyncParticles", function(len, _)
-    local count = net.ReadUInt(10)
+    local count = net.ReadUInt(13)
 
     for i = 1, count do
-        local server_uid = net.ReadUInt(10)
+        local server_uid = net.ReadUInt(13)
         local typo = net.ReadUInt(GasSystem.bits_count)
         local new_pos = net.ReadVector()
 

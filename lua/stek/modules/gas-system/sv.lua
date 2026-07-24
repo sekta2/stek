@@ -11,13 +11,13 @@ function GasSystem.SyncAll()
     local count = GasSystem.pull:Count()
 
     net.Start("stek.GasSystem.SyncParticles")
-    net.WriteUInt(count, 10)
+    net.WriteUInt(count, 13)
 
     GasSystem.pull:Foreach(function(cell)
         ---@type GasParticle
         local Particle = cell.data
 
-        net.WriteUInt(Particle.uid, 10)
+        net.WriteUInt(Particle.uid, 13)
         net.WriteUInt(Particle.type_obj.uid, GasSystem.bits_count)
         net.WriteVector(Particle.pos)
     end)
@@ -189,7 +189,23 @@ function GasSystem.Update()
         end
     end
 
-    GasSystem.SyncAll()
+    if #to_collision_update >= 1 then
+        local count = #to_collision_update
+
+        net.Start("stek.GasSystem.SyncParticles")
+        net.WriteUInt(count, 13)
+
+        for i = 1, #to_collision_update do
+            ---@type GasParticle
+            local Particle = to_collision_update[i]
+
+            net.WriteUInt(Particle.uid, 13)
+            net.WriteUInt(Particle.type_obj.uid, GasSystem.bits_count)
+            net.WriteVector(Particle.pos)
+        end
+
+        net.Broadcast()
+    end
 end
 
 hook.Add("Tick", "stek.GasSystem.ServerUpdate", function()
