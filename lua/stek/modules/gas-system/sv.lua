@@ -43,7 +43,7 @@ local function find_free_pos(pos, mins, maxs)
 
     local variants = {}
     local i = 0
-    local max_iterations = 50
+    local max_iterations = 500
 
     while (#variants < 15 and i < max_iterations) do
         i = i + 1
