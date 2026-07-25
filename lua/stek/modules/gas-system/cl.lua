@@ -17,7 +17,7 @@ function GasSystem.Draw()
         local LastPos = Particle.lastpos
 
         render.SetMaterial(Mat)
-        render.DrawSprite(LastPos, 150, 150, Color(255, 255, 255, 25))
+        render.DrawSprite(LastPos, Particle.sprite_size, Particle.sprite_size, Color(255, 255, 255, 25))
 
         Particle.lastpos = LerpVector(FrameTime(), LastPos, Pos)
     end)

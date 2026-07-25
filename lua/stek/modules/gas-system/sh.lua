@@ -5,6 +5,7 @@ local SHG_SIZE = 50
 ---@field pos Vector
 ---@field velocity Vector
 ---@field uid integer
+---@field sprite_size number
 ---@field server_uid integer Идентификатор частицы на сервере, доступен только из client-side
 ---@field nextupdate number
 ---@field lastupdatetime number
@@ -25,6 +26,7 @@ function GasParticle:new(type, pos)
         nextupdate = 0,
         lastupdatetime = CurTime(),
         lastpos = pos,
+        sprite_size = math.random(50, 125),
 
         shg_lastpos = Vector(math.ceil(pos.x / SHG_SIZE), math.ceil(pos.y / SHG_SIZE), math.ceil(pos.z / SHG_SIZE))
     }
