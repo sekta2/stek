@@ -179,6 +179,16 @@ function GasSystem.Update()
 
                                 Particle.pos = trace1.HitPos
                                 other_par.pos = trace2.HitPos
+
+                                local rel_vel = Particle.velocity - other_par.velocity
+                                local vel_along_normal = rel_vel:Dot(n)
+
+                                if vel_along_normal < 0 then
+                                    local impulse = n * vel_along_normal
+
+                                    Particle.velocity = Particle.velocity - impulse
+                                    other_par.velocity = other_par.velocity + impulse
+                                end
                             end
 
                             ::skip::
