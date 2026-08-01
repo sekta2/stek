@@ -30,6 +30,7 @@ function InventoryClass:new()
     local Object = {
         resources = {},
         container = {},
+        armor = {},
 
         owner = nil,
         object = nil,
