@@ -1,13 +1,12 @@
 AddCSLuaFile()
 
 ---@diagnostic disable: assign-type-mismatch
----@class ent_stek_craft_base: Entity
----@field Model string
+---@class ent_stek_craft_base: ent_stek_machine_base
 ---@field CraftTable string
 ---@field CraftPos Vector
 ENT = ENT
 
-ENT.Base = "base_anim"
+ENT.Base = "ent_stek_machine_base"
 ENT.Type = "anim"
 
 ENT.Author = "sekta"
@@ -59,20 +58,6 @@ if SERVER then
             prop:Spawn()
         end
     }
-
-    function ENT:Initialize()
-        if self.Model then
-            self:SetModel(self.Model)
-        end
-
-        self:SetMoveType(MOVETYPE_VPHYSICS)
-        self:SetUseType(SIMPLE_USE)
-        self:SetSolid(SOLID_VPHYSICS)
-
-        self:PhysicsInit(SOLID_VPHYSICS)
-        self:SetUseType(SIMPLE_USE)
-        self:PhysWake()
-    end
 
     ---@param recipe string
     function ENT:Craft(recipe)
