@@ -3,7 +3,7 @@ local Task = {
     max_time = 0.003
 }
 
-function Task.Spawn(fn, ...)
+function Task.spawn(fn, ...)
     local args = {...}
     local co = coroutine.create(function() fn(table.unpack(args)) end)
     Task.pull[#Task.pull + 1] = {
@@ -13,7 +13,7 @@ function Task.Spawn(fn, ...)
     }
 end
 
-function Task.Yield()
+function Task.yield()
     local co = coroutine.running()
     if not co then
         print("Task.Yield: called when not in coroutine")
@@ -23,7 +23,7 @@ function Task.Yield()
     coroutine.yield()
 end
 
-function Task.Wait(sec)
+function Task.wait(sec)
     local co = coroutine.running()
     if not co then
         print("Task.Wait: called when not in coroutine")
@@ -33,7 +33,7 @@ function Task.Wait(sec)
     coroutine.yield(sec)
 end
 
-function Task.WaitMs(ms)
+function Task.waitMs(ms)
     local co = coroutine.running()
     if not co then
         print("Task.Wait: called when not in coroutine")
@@ -43,7 +43,7 @@ function Task.WaitMs(ms)
     coroutine.yield(ms / 1000)
 end
 
-function Task.Update()
+function Task.update()
     if #Task.pull == 0 then return end
 
     local to_remove = {}
@@ -87,8 +87,8 @@ function Task.Update()
     end
 end
 
-function Task.Init()
-    hook.Add("Think", "stek.Task.Update", Task.Update)
+function Task.init()
+    hook.Add("Think", "stek.Task.Update", Task.update)
 end
 
 stek.Task = Task

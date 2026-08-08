@@ -62,7 +62,7 @@ end
 ---@return string
 function ResourceClass:GetName()
     local phrase_name = "resource_" .. self.id
-    if not stek.Locale.Exists(phrase_name) then return self.name or self.id end
+    if not stek.Locale.exists(phrase_name) then return self.name or self.id end
 
     return stek.Locale.Get("resource_" .. self.id)
 end
@@ -110,7 +110,7 @@ local Resources = {
 ---@param id string Идентификатор ресурса
 ---@param data ResourceData Параметры ресурса
 ---@return Resource
-function Resources.Add(id, data)
+function Resources.add(id, data)
     if not id or (id and type(id) ~= "string") then error(("invalid resource id '%s'"):format(id)) end
 
     local Object = ResourceClass:new(id, data)
@@ -129,30 +129,30 @@ end
 ---Возвращает ресурс по указанному UID
 ---@param uid integer Уникальный Идентификатор ресурса
 ---@return Resource
-function Resources.GetByUID(uid)
+function Resources.getByUID(uid)
     return Resources.list[uid]
 end
 
 ---Возвращает ресурс по указанному идентификатору
 ---@param id string Идентификатор ресурса
 ---@return Resource
-function Resources.GetByID(id)
+function Resources.getByID(id)
     return Resources.index[id]
 end
 
 ---
 
-function Resources.RegisterActiveEntity(ent)
+function Resources.registerActiveEntity(ent)
     Resources.active_ents[ent:EntIndex()] = true
 end
 
-function Resources.UnRegisterActiveEntity(ent_index)
+function Resources.unRegisterActiveEntity(ent_index)
     Resources.active_ents[ent_index] = nil
 end
 
 ---
 
-function Resources.InitAutoEntities()
+function Resources.initAutoEntities()
     for i = 1, #Resources.list do
         local res = Resources.list[i]
         local ent_data = res.entity
@@ -163,7 +163,7 @@ function Resources.InitAutoEntities()
             Base = "ent_stek_resource",
             Type = "anim",
 
-            PrintName = (stek.Locale.Exists(ent_data.sandbox_localename) and stek.Locale.Get(ent_data.sandbox_localename) or nil) or ent_data.sandbox_name or res:GetName(),
+            PrintName = (stek.Locale.exists(ent_data.sandbox_localename) and stek.Locale.Get(ent_data.sandbox_localename) or nil) or ent_data.sandbox_name or res:GetName(),
             Category = ent_data.sandbox_category or "STek: Resources",
             Spawnable = true,
             IconOverride = ent_data.sandbox_icon,

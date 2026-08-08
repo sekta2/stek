@@ -3,30 +3,30 @@ local Locale = {
     pack_name = nil,
     default_language = "en",
 
-    exists = {}
+    index = {}
 }
 
-function Locale.CheckLocales()
+function Locale.checkLocales()
     local files = file.Find("stek/localization/*", "LUA")
 
     for i = 1, #files do
         local filename = files[i]
         local name = string.match(filename, "(.+)%.")
 
-        Locale.exists[name] = true
+        Locale.index[name] = true
     end
 end
 
-function Locale.Load(locale_name)
-    if not Locale.exists[locale_name] then error(("Locale '%s' not exists"):format(locale_name)) end
+function Locale.load(locale_name)
+    if not Locale.index[locale_name] then error(("Locale '%s' not exists"):format(locale_name)) end
 
     Locale.pack = include("stek/localization/" .. locale_name .. ".lua")
     Locale.pack_name = locale_name
 
-    Locale.InjectAddonsLocales()
+    Locale.injectAddonsLocales()
 end
 
-function Locale.InjectAddonsLocales()
+function Locale.injectAddonsLocales()
     local _, addons = file.Find("stekpacks/*", "LUA")
 
     for i = 1, #addons do
@@ -70,7 +70,7 @@ function Locale.InjectAddonsLocales()
     end
 end
 
-function Locale.Exists(phrase_name)
+function Locale.exists(phrase_name)
     if not Locale.pack then
         return false
     end
@@ -78,7 +78,7 @@ function Locale.Exists(phrase_name)
     return Locale.pack.phrases[phrase_name] and true or false
 end
 
-function Locale.Get(phrase_name)
+function Locale.get(phrase_name)
     if not Locale.pack then
         return "[PACK NOT LOADED]"
     end
@@ -91,7 +91,7 @@ function Locale.Get(phrase_name)
     return phrase
 end
 
-function Locale.Format(text)
+function Locale.format(text)
     if not Locale.pack then
         return text
     end
@@ -108,18 +108,18 @@ function Locale.Format(text)
     return result
 end
 
-function Locale.Init()
+function Locale.init()
     local GmodLocale = GetConVar("gmod_language"):GetString()
 
-    if Locale.exists[GmodLocale] then
-        Locale.Load(GmodLocale)
+    if Locale.index[GmodLocale] then
+        Locale.load(GmodLocale)
     else
-        Locale.Load(Locale.default_language)
+        Locale.load(Locale.default_language)
     end
 end
 
 ---
 
-Locale.CheckLocales()
+Locale.checkLocales()
 
 stek.Locale = Locale

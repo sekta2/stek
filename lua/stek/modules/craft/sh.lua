@@ -63,7 +63,7 @@ end
 ---@return string
 function CraftClass:GetName()
     local phrase_name = "craft_" .. self.id
-    if not stek.Locale.Exists(phrase_name) then return self.name or self.id end
+    if not stek.Locale.exists(phrase_name) then return self.name or self.id end
 
     return stek.Locale.Get("craft_" .. self.id)
 end
@@ -72,7 +72,7 @@ end
 ---@return string
 function CraftClass:GetDescription()
     local phrase_name = "craft_desc_" .. self.id
-    if not stek.Locale.Exists(phrase_name) then return self.description end
+    if not stek.Locale.exists(phrase_name) then return self.description end
 
     return stek.Locale.Get("craft_desc_" .. self.id)
 end
@@ -135,7 +135,7 @@ end
 ---@return Craft[]
 ---@return table<string, true|nil>
 function CraftTableClass:Compile()
-    local list = stek.Craft.GetByTags(self.tags)
+    local list = stek.Craft.getByTags(self.tags)
     local index = {}
 
     for i = 1, #list do
@@ -147,7 +147,7 @@ function CraftTableClass:Compile()
         local item = self.allow[i]
         if not index[item] then
             index[item] = true
-            list[#list + 1] = stek.Craft.GetByID(item)
+            list[#list + 1] = stek.Craft.getByID(item)
         end
     end
 
@@ -217,7 +217,7 @@ local Craft = {
 ---@param id string
 ---@param data CraftData
 ---@return Craft
-function Craft.Create(id, data)
+function Craft.create(id, data)
     if not id or (id and type(id) ~= "string") then error(("invalid craft id '%s'"):format(id)) end
 
     local Object = CraftClass:new(id, data)
@@ -250,21 +250,21 @@ end
 ---Возвращает крафт по указанному UID
 ---@param uid integer Уникальный Идентификатор крафта
 ---@return Craft
-function Craft.GetByUID(uid)
+function Craft.getByUID(uid)
     return Craft.list[uid]
 end
 
 ---Возвращает крафт по указанному идентификатору
 ---@param id string Идентификатор крафта
 ---@return Craft
-function Craft.GetByID(id)
+function Craft.getByID(id)
     return Craft.index[id]
 end
 
 ---Возвращает список крафтов по тегам
 ---@param t string[]
 ---@return Craft[]
-function Craft.GetByTags(t)
+function Craft.getByTags(t)
     local result = {}
     local index = {}
 
@@ -292,7 +292,7 @@ end
 ---@param id string
 ---@param data CraftTableData
 ---@return CraftTable
-function Craft.CreateTable(id, data)
+function Craft.createTable(id, data)
     if not id or (id and type(id) ~= "string") then error(("invalid craft-table id '%s'"):format(id)) end
 
     local Object = CraftTableClass:new(id, data)
@@ -304,7 +304,7 @@ end
 ---Возвращает стол для крафта по указанному идентификатору
 ---@param id string Идентификатор стола для крафта
 ---@return CraftTable?
-function Craft.GetTableByID(id)
+function Craft.getTableByID(id)
     return Craft.table_index[id]
 end
 

@@ -23,7 +23,7 @@ if SERVER then
         ---@param worldpos Vector
         ---@param output CraftOutputDataResource
         ["resource"] = function(ent, worldpos, output)
-            local max_amount = stek.Config.Get().resources.max_amount
+            local max_amount = stek.Config.get().resources.max_amount
             local ent_count = math.ceil(output.amount / max_amount)
 
             for i = 1, ent_count do
@@ -61,7 +61,7 @@ if SERVER then
 
     ---@param recipe string
     function ENT:Craft(recipe)
-        local recipe_obj = stek.Craft.GetByID(recipe)
+        local recipe_obj = stek.Craft.getByID(recipe)
         local world_pos = self:LocalToWorld(self.CraftPos)
 
         local output = recipe_obj.output
@@ -70,7 +70,7 @@ if SERVER then
         else
             local fn = output_types[output.type]
 
-            ---@diagnostic disable-next-line param-type-mismatch
+            ---@diagnostic disable-next-line: param-type-mismatch
             fn(self, world_pos, output.data)
         end
     end

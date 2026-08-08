@@ -1,4 +1,4 @@
----@diagnostic disable inject-field
+---@diagnostic disable: inject-field
 
 local GUI = stek.GUI
 
@@ -164,7 +164,7 @@ end
 function PANEL:SetCraftTable(table_id)
     self.craft_table = table_id
 
-    local craft_table_object = stek.Craft.GetTableByID(table_id)
+    local craft_table_object = stek.Craft.getTableByID(table_id)
     self.craft_table_object = craft_table_object
 end
 
@@ -172,7 +172,7 @@ function PANEL:PopulateResources(resource_table)
     self.resources_scroll:Clear()
 
     for res_id, amount in pairs(resource_table) do
-        local res = stek.Resources.GetByID(res_id)
+        local res = stek.Resources.getByID(res_id)
         if not res then continue end
 
         local panel = self.resources_scroll:Add("DPanel")
@@ -225,7 +225,7 @@ function PANEL:PopulateCrafts(category)
         desc = desc .. "\n\nRequirements:"
 
         for res_id, amount in pairs(craft.resources) do
-            local res = stek.Resources.GetByID(res_id)
+            local res = stek.Resources.getByID(res_id)
             local name = res and res:GetName() or res_id
             desc = desc .. "\n" .. name .. ": x" .. amount
         end
@@ -254,7 +254,7 @@ function PANEL:PopulateCrafts(category)
             local rx = w - 10
 
             for res_id, amount in pairs(craft.resources) do
-                local res = stek.Resources.GetByID(res_id)
+                local res = stek.Resources.getByID(res_id)
                 local txt = "x" .. amount
 
                 surface.SetFont("DermaDefault")

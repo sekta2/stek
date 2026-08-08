@@ -7,7 +7,7 @@ util.AddNetworkString("stek.GasSystem.SyncParticles")
 util.AddNetworkString("stek.GasSystem.NewParticle")
 util.AddNetworkString("stek.GasSystem.RemoveParticle")
 
-function GasSystem.SyncAll()
+function GasSystem.syncAll()
     local count = GasSystem.pull:Count()
 
     net.Start("stek.GasSystem.SyncParticles")
@@ -15,11 +15,11 @@ function GasSystem.SyncAll()
 
     GasSystem.pull:Foreach(function(cell)
         ---@type GasParticle
-        local Particle = cell.data
+        local particle = cell.data
 
-        net.WriteUInt(Particle.uid, 13)
-        net.WriteUInt(Particle.type_obj.uid, GasSystem.bits_count)
-        net.WriteVector(Particle.pos)
+        net.WriteUInt(particle.uid, 13)
+        net.WriteUInt(particle.type_obj.uid, GasSystem.bits_count)
+        net.WriteVector(particle.pos)
     end)
 
     net.Broadcast()
@@ -78,64 +78,64 @@ local function find_free_pos(pos, mins, maxs)
     return variants[1]
 end
 
-function GasSystem.Update()
+function GasSystem.update()
     if not GasSystem.pull then return end
 
     local to_collision_update = {}
 
     GasSystem.pull:Foreach(function(cell)
         ---@type GasParticle
-        local Particle = cell.data
-        if CurTime() < Particle.nextupdate then return end
+        local particle = cell.data
+        if CurTime() < particle.nextupdate then return end
 
-        local dt = CurTime() - Particle.lastupdatetime
+        local dt = CurTime() - particle.lastupdatetime
 
-        local Force = (VectorRand(-4, 4) + Vector(0, 0, -8)) * dt
-        Particle.velocity = Particle.velocity + Force
-        Particle.velocity = Particle.velocity:GetNormalized() * math.min(Particle.velocity:Length(), 80)
+        local force = (VectorRand(-4, 4) + Vector(0, 0, -8)) * dt
+        particle.velocity = particle.velocity + force
+        particle.velocity = particle.velocity:GetNormalized() * math.min(particle.velocity:Length(), 80)
 
         local trace = util.TraceHull({
-            start = Particle.pos,
-            endpos = Particle.pos + Particle.velocity * dt,
+            start = particle.pos,
+            endpos = particle.pos + particle.velocity * dt,
             mins = Vector(-10, -10, -10),
             maxs = Vector(10, 10, 10),
             mask = bit.bor(MASK_SOLID, MASK_WATER)
         })
 
         if trace.StartSolid then
-            local newpos = find_free_pos(Particle.pos, Vector(-10, -10, -10), Vector(10, 10, 10))
-            Particle.pos = newpos
+            local new_pos = find_free_pos(particle.pos, Vector(-10, -10, -10), Vector(10, 10, 10))
+            particle.pos = new_pos
         elseif trace.Hit then
-            Particle.pos = trace.HitPos + trace.HitNormal * 1
+            particle.pos = trace.HitPos + trace.HitNormal * 1
 
-            local CurVelAng, Speed = Particle.velocity:Angle(), Particle.velocity:Length()
-            CurVelAng:RotateAroundAxis(trace.HitNormal, 180)
-            Particle.velocity = -(CurVelAng:Forward() * Speed)
+            local current_vel_ang, speed = particle.velocity:Angle(), particle.velocity:Length()
+            current_vel_ang:RotateAroundAxis(trace.HitNormal, 180)
+            particle.velocity = -(current_vel_ang:Forward() * speed)
         else
-            Particle.pos = trace.HitPos
+            particle.pos = trace.HitPos
         end
 
-        local pos = Particle.pos
-        local shg_lastpos = Particle.shg_lastpos
+        local pos = particle.pos
+        local shg_lastpos = particle.shg_lastpos
         local new_shgpos = Vector(math.ceil(pos.x / SHG_SIZE), math.ceil(pos.y / SHG_SIZE), math.ceil(pos.z / SHG_SIZE))
 
         if new_shgpos ~= shg_lastpos then
-            GasSystem.shg:RemoveObject(shg_lastpos.x, shg_lastpos.y, shg_lastpos.z, Particle)
-            GasSystem.shg:AddObject(new_shgpos.x, new_shgpos.y, new_shgpos.z, Particle)
+            GasSystem.shg:RemoveObject(shg_lastpos.x, shg_lastpos.y, shg_lastpos.z, particle)
+            GasSystem.shg:AddObject(new_shgpos.x, new_shgpos.y, new_shgpos.z, particle)
 
-            Particle.shg_lastpos = new_shgpos
+            particle.shg_lastpos = new_shgpos
         end
 
-        Particle.nextupdate = CurTime() + math.Rand(1, 1.5)
-        Particle.lastupdatetime = CurTime()
+        particle.nextupdate = CurTime() + math.Rand(1, 1.5)
+        particle.lastupdatetime = CurTime()
 
-        to_collision_update[#to_collision_update+1] = Particle
+        to_collision_update[#to_collision_update+1] = particle
     end)
 
     for i = 1, #to_collision_update do
         ---@type GasParticle
-        local Particle = to_collision_update[i]
-        local shg_pos = Particle.shg_lastpos
+        local particle = to_collision_update[i]
+        local shg_pos = particle.shg_lastpos
 
         for x = -1, 1 do
             for y = -1, 1 do
@@ -144,10 +144,10 @@ function GasSystem.Update()
                     if shgcell then
                         for i = 1, #shgcell do
                             ---@type GasParticle
-                            local other_par = shgcell[i]
-                            if other_par == Particle then goto skip end
+                            local other_particle = shgcell[i]
+                            if other_particle == particle then goto skip end
 
-                            local collision_axis = Particle.pos - other_par.pos
+                            local collision_axis = particle.pos - other_particle.pos
                             local dist = collision_axis:Length()
                             local min_dist = 20 + 20
 
@@ -162,32 +162,32 @@ function GasSystem.Update()
                                 local delta = min_dist - dist
 
                                 local trace1 = util.TraceHull({
-                                    start = Particle.pos,
-                                    endpos = Particle.pos + 0.5 * delta * n,
+                                    start = particle.pos,
+                                    endpos = particle.pos + 0.5 * delta * n,
                                     mins = Vector(-10, -10, -10),
                                     maxs = Vector(10, 10, 10),
                                     mask = bit.bor(MASK_SOLID, MASK_WATER)
                                 })
 
                                 local trace2 = util.TraceHull({
-                                    start = other_par.pos,
-                                    endpos = other_par.pos - 0.5 * delta * n,
+                                    start = other_particle.pos,
+                                    endpos = other_particle.pos - 0.5 * delta * n,
                                     mins = Vector(-10, -10, -10),
                                     maxs = Vector(10, 10, 10),
                                     mask = bit.bor(MASK_SOLID, MASK_WATER)
                                 })
 
-                                Particle.pos = trace1.HitPos
-                                other_par.pos = trace2.HitPos
+                                particle.pos = trace1.HitPos
+                                other_particle.pos = trace2.HitPos
 
-                                local rel_vel = Particle.velocity - other_par.velocity
+                                local rel_vel = particle.velocity - other_particle.velocity
                                 local vel_along_normal = rel_vel:Dot(n)
 
                                 if vel_along_normal < 0 then
                                     local impulse = n * vel_along_normal
 
-                                    Particle.velocity = Particle.velocity - impulse
-                                    other_par.velocity = other_par.velocity + impulse
+                                    particle.velocity = particle.velocity - impulse
+                                    other_particle.velocity = other_particle.velocity + impulse
                                 end
                             end
 
@@ -207,11 +207,11 @@ function GasSystem.Update()
 
         for i = 1, #to_collision_update do
             ---@type GasParticle
-            local Particle = to_collision_update[i]
+            local particle = to_collision_update[i]
 
-            net.WriteUInt(Particle.uid, 13)
-            net.WriteUInt(Particle.type_obj.uid, GasSystem.bits_count)
-            net.WriteVector(Particle.pos)
+            net.WriteUInt(particle.uid, 13)
+            net.WriteUInt(particle.type_obj.uid, GasSystem.bits_count)
+            net.WriteVector(particle.pos)
         end
 
         net.Broadcast()
@@ -219,5 +219,5 @@ function GasSystem.Update()
 end
 
 hook.Add("Tick", "stek.GasSystem.ServerUpdate", function()
-    GasSystem.Update()
+    GasSystem.update()
 end)

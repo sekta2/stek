@@ -32,7 +32,7 @@ local modules_priority = {
     }
 }
 
-local function LoadModules()
+local function load_modules()
     local _, modules = file.Find("stek/modules/*", "LUA")
 
     table.sort(modules, function(a, b)
@@ -78,7 +78,7 @@ local sides_fn = {
     cl = stek.client
 }
 
-local function LoadScripts()
+local function load_scripts()
     for i = 1, #sides do
         local side = sides[i]
         local side_fn = sides_fn[side]
@@ -92,7 +92,7 @@ local function LoadScripts()
     end
 end
 
-local function LoadAddons()
+local function load_addons()
     local _, addons = file.Find("stekpacks/*", "LUA")
 
     for i = 1, #addons do
@@ -120,13 +120,13 @@ local function LoadAddons()
     end
 end
 
-LoadModules()
-LoadScripts()
-LoadAddons()
+load_modules()
+load_scripts()
+load_addons()
 
 ---
 
-function stek.InitDirectories()
+function stek.initDirectories()
     if file.Exists("stek", "DATA") then return end
 
     file.CreateDir("stek")
@@ -138,13 +138,13 @@ end
 ---
 
 if SERVER then
-    stek.InitDirectories()
-    stek.Config.Load()
-    stek.Config.InitCommands()
+    stek.initDirectories()
+    stek.Config.load()
+    stek.Config.initCommands()
 end
 
-stek.Task.Init()
-stek.Locale.Init()
-stek.Resources.InitAutoEntities()
+stek.Task.init()
+stek.Locale.init()
+stek.Resources.initAutoEntities()
 stek.WindInit()
-stek.GasSystem.Init()
+stek.GasSystem.init()

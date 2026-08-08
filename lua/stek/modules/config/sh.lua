@@ -20,7 +20,7 @@ local Config = {
 
 ---Возвращает "сырую" таблицу со всеми настройками
 ---@return table
-function Config.Get()
+function Config.get()
     return Config.raw
 end
 
@@ -28,7 +28,7 @@ end
 
 ---Добаляет аддон и возвращает его настроки
 ---@return table
-function Config.AddAddon(name)
+function Config.addAddon(name)
     local tbl = {}
 
     Config.addons[name] = tbl
@@ -40,13 +40,13 @@ end
 
 ---Возвращает настройки аддона
 ---@return table
-function Config.GetAddon(name)
+function Config.getAddon(name)
     return Config.addons[name]
 end
 
 ---Проверяет есть ли такой аддон, возвращает true если существует, иначе false
 ---@return boolean
-function Config.ExistsAddon(name)
+function Config.existsAddon(name)
     return Config.addons_index[name] and true or false
 end
 

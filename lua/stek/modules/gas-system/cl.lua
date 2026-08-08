@@ -6,7 +6,7 @@ GasSystem.serverpull = {}
 
 local Mat = Material("particle/smokestack")
 
-function GasSystem.Draw()
+function GasSystem.draw()
     if not GasSystem.pull then return end
 
     GasSystem.pull:Foreach(function(cell)
@@ -26,7 +26,7 @@ end
 hook.Add("PreDrawTranslucentRenderables", "stek.GasSystem.Draw", function(isDrawingDepth, isDrawSkybox, isDraw3DSkybox)
     if isDrawingDepth or isDrawSkybox or isDraw3DSkybox then return end
 
-    GasSystem.Draw()
+    GasSystem.draw()
 end)
 
 net.Receive("stek.GasSystem.SyncParticles", function(len, _)
@@ -39,7 +39,7 @@ net.Receive("stek.GasSystem.SyncParticles", function(len, _)
 
         local particle = GasSystem.serverpull[server_uid]
         if not particle then
-            particle = GasSystem.Spawn(typo, new_pos)
+            particle = GasSystem.spawn(typo, new_pos)
             particle.server_uid = server_uid
 
             GasSystem.serverpull[server_uid] = particle

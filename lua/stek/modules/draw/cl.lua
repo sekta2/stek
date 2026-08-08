@@ -14,10 +14,10 @@ local COLOR_WHITE = Color(255, 255, 255, 159)
 ---@param y number
 ---@param size number
 ---@param text_color Color?
-function Draw.ResourceInfoHorizontal(res_id, amount, x, y, size, text_color)
+function Draw.resourceInfoHorizontal(res_id, amount, x, y, size, text_color)
     text_color = text_color or COLOR_WHITE
 
-    local res = stek.Resources.GetByID(res_id)
+    local res = stek.Resources.getByID(res_id)
     local font = "STek-Stencil"
     local icon = res:GetIcon()
 
@@ -40,10 +40,10 @@ end
 ---@param y number
 ---@param size number
 ---@param text_color Color?
-function Draw.ResourceInfoVertical(res_id, amount, x, y, size, text_color)
+function Draw.resourceInfoVertical(res_id, amount, x, y, size, text_color)
     text_color = text_color or COLOR_WHITE
 
-    local res = stek.Resources.GetByID(res_id)
+    local res = stek.Resources.getByID(res_id)
     local font = "STek-Stencil"
     local icon = res:GetIcon()
 

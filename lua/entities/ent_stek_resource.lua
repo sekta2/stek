@@ -60,7 +60,7 @@ if SERVER then
 	        self:SetKeyValue("fademaxdist", drawDistStr)
         end
 
-        stek.Resources.RegisterActiveEntity(self)
+        stek.Resources.registerActiveEntity(self)
         --self:SetAmount(100, true)
     end
 
@@ -75,7 +75,7 @@ if SERVER then
     end
 
     function ENT:OnRemove()
-        stek.Resources.UnRegisterActiveEntity(self:EntIndex())
+        stek.Resources.unRegisterActiveEntity(self:EntIndex())
     end
 
     function ENT:SyncAmount()
@@ -90,16 +90,16 @@ if SERVER then
         if not do_not_sync then self:SyncAmount() end
     end
 else
-    local sets = {}
+    local delayed_ents = {}
 
     ---@param entity ent_stek_resource
     hook.Add("OnEntityCreated", "stek.Resource.Sync", function(entity)
         if not scripted_ents.IsBasedOn(entity:GetClass(), "ent_stek_resource") then return end
 
-        local delayed = sets[entity:EntIndex()]
+        local delayed = delayed_ents[entity:EntIndex()]
         if delayed then
             entity.amount = delayed
-            sets[entity:EntIndex()] = nil
+            delayed_ents[entity:EntIndex()] = nil
         end
     end)
 
@@ -110,7 +110,7 @@ else
         ---@type ent_stek_resource?
         local resource_ent = Entity(ent_index)
         if not (resource_ent and IsValid(resource_ent)) then
-            sets[ent_index] = amount
+            delayed_ents[ent_index] = amount
             return
         end
 
@@ -151,9 +151,9 @@ else
         cam.Start3D2D(self:LocalToWorld(self.InfoPosOffset), self:LocalToWorldAngles(self.InfoAngleOffset), self.InfoRenderSize)
 
         if self.InfoHorizontal then
-            stek.Draw.ResourceInfoHorizontal(self.STek_Resource, self:GetAmount(), 0, 0, self.InfoIconSize, self.InfoTextColor)
+            stek.Draw.resourceInfoHorizontal(self.STek_Resource, self:GetAmount(), 0, 0, self.InfoIconSize, self.InfoTextColor)
         else
-            stek.Draw.ResourceInfoVertical(self.STek_Resource, self:GetAmount(), 0, 0, self.InfoIconSize, self.InfoTextColor)
+            stek.Draw.resourceInfoVertical(self.STek_Resource, self:GetAmount(), 0, 0, self.InfoIconSize, self.InfoTextColor)
         end
 
         cam.End3D2D()

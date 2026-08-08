@@ -1,4 +1,4 @@
----@diagnostic disable assign-type-mismatch
+---@diagnostic disable: assign-type-mismatch
 
 util.AddNetworkString("stek.Craft")
 
@@ -21,7 +21,9 @@ net.Receive("stek.Craft", function(len, ply)
     local craft = net.ReadSTEKCraft()
     if not craft then return end
 
-    local craft_table = stek.Craft.GetTableByID(trace_ent.CraftTable)
+    local craft_table = stek.Craft.getTableByID(trace_ent.CraftTable)
+    if not craft_table then return end
+
     local index = craft_table:GetCraftsIndex()
 
     -- Разрешён ли крафт в этом столе для крафта?

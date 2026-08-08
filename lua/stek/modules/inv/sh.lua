@@ -47,7 +47,7 @@ function InventoryClass:GetVolume()
     local volume = 0
 
     for res_id, count in pairs(self.resources) do
-        local res = stek.Resources.GetByID(res_id)
+        local res = stek.Resources.getByID(res_id)
         volume = volume + (res.volume * count)
     end
 
@@ -72,7 +72,7 @@ function InventoryClass:AddResource(res, count)
         return false
     end
 
-    local res_object = stek.Resources.GetByID(res)
+    local res_object = stek.Resources.getByID(res)
 
     local all_resource_volume = res_object.volume * count
 
@@ -111,7 +111,7 @@ end
 
 local Inv = {}
 
-function Inv.Create(owner, object)
+function Inv.create(owner, object)
     if owner and not object then
         object = owner
     end

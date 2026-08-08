@@ -1,4 +1,4 @@
-local function ShareLocales()
+local function share_locales()
     local locales = file.Find("stek/localization/*.lua", "LUA")
 
     for i = 1, #locales do
@@ -7,7 +7,7 @@ local function ShareLocales()
     end
 end
 
-local function ShareAddonsLocales()
+local function share_addons_locales()
     local _, addons = file.Find("stekpacks/*", "LUA")
 
     for i = 1, #addons do
@@ -27,5 +27,5 @@ local function ShareAddonsLocales()
     end
 end
 
-ShareLocales()
-ShareAddonsLocales()
+share_locales()
+share_addons_locales()

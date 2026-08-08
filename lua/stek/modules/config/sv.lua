@@ -2,7 +2,7 @@
 local Config = stek.Config
 
 ---Загружает главные настройки
-function Config.LoadMain()
+function Config.loadMain()
     local toml = file.Read("stek/config/main.txt", "DATA")
     if toml then
         local raw = TOML.parse(toml, { strict = false })
@@ -11,7 +11,7 @@ function Config.LoadMain()
 end
 
 ---Загружает настройки аддонов
-function Config.LoadAddons()
+function Config.loadAddons()
     for i = 1, #Config.addons_list do
         local name = Config.addons_list[i]
 
@@ -28,23 +28,23 @@ function Config.LoadAddons()
 end
 
 ---Загружает все настройки
-function Config.Load()
-    Config.LoadMain()
-    Config.LoadAddons()
+function Config.load()
+    Config.loadMain()
+    Config.loadAddons()
 
-    Config.Save()
+    Config.save()
 end
 
 ---
 
 ---Сохраняет главные настройки
-function Config.SaveMain()
-    local toml = TOML.encode(Config.Get())
+function Config.saveMain()
+    local toml = TOML.encode(Config.get())
     file.Write("stek/config/main.txt", toml)
 end
 
 ---Сохраняет настройки аддонов
-function Config.SaveAddons()
+function Config.saveAddons()
     for i = 1, #Config.addons_list do
         local name = Config.addons_list[i]
 
@@ -54,9 +54,9 @@ function Config.SaveAddons()
 end
 
 ---Сохраняет все настройки
-function Config.Save()
-    Config.SaveMain()
-    Config.SaveAddons()
+function Config.save()
+    Config.saveMain()
+    Config.saveAddons()
 end
 
 ---
@@ -66,7 +66,7 @@ util.AddNetworkString("stek.ConfigSync")
 ---Возвращает сжатый конфиг и его длину
 ---@return string data
 ---@return integer len
-function Config.GetDatafiedConfig()
+function Config.getCompressedConfig()
     local data = util.Compress(util.TableToJSON({
         raw = Config.raw,
         addons = Config.addons
@@ -76,8 +76,8 @@ function Config.GetDatafiedConfig()
 end
 
 ---Синхронизирует конфиг(главный + аддоны) со всеми игроками
-function Config.BroadcastSync()
-    local data, len = Config.GetDatafiedConfig()
+function Config.broadcastSync()
+    local data, len = Config.getCompressedConfig()
 
     net.Start("stek.ConfigSync")
     net.WriteUInt(len, 16)
@@ -87,8 +87,8 @@ end
 
 ---Синхронизирует конфиг(главный + аддоны) с указанным игроком
 ---@param ply Player
-function Config.PlayerSync(ply)
-    local data, len = Config.GetDatafiedConfig()
+function Config.playerSync(ply)
+    local data, len = Config.getCompressedConfig()
 
     net.Start("stek.ConfigSync")
     net.WriteUInt(len, 16)
@@ -99,32 +99,32 @@ end
 ---
 
 hook.Add("PlayerAuthed", "stek.Config.PlayerSyncConfig", function(ply)
-    Config.PlayerSync(ply)
+    Config.playerSync(ply)
 end)
 
 ---
 
-function Config.InitCommands()
+function Config.initCommands()
     concommand.Add("stek_config_save", function(ply)
         if not (ply == NULL or ply:IsSuperAdmin()) then return end
-        Config.Save()
-        Config.BroadcastSync()
+        Config.save()
+        Config.broadcastSync()
 
         print("Config saved")
     end)
 
     concommand.Add("stek_config_save_onlymain", function(ply)
         if not (ply == NULL or ply:IsSuperAdmin()) then return end
-        Config.SaveMain()
-        Config.BroadcastSync()
+        Config.saveMain()
+        Config.broadcastSync()
 
         print("Main Config saved")
     end)
 
     concommand.Add("stek_config_save_onlyaddons", function(ply)
         if not (ply == NULL or ply:IsSuperAdmin()) then return end
-        Config.SaveAddons()
-        Config.BroadcastSync()
+        Config.saveAddons()
+        Config.broadcastSync()
 
         print("Addons Config saved")
     end)
@@ -133,24 +133,24 @@ function Config.InitCommands()
 
     concommand.Add("stek_config_load", function(ply)
         if not (ply == NULL or ply:IsSuperAdmin()) then return end
-        Config.Load()
-        Config.BroadcastSync()
+        Config.load()
+        Config.broadcastSync()
 
         print("Config loaded")
     end)
 
     concommand.Add("stek_config_load_onlymain", function(ply)
         if not (ply == NULL or ply:IsSuperAdmin()) then return end
-        Config.LoadMain()
-        Config.BroadcastSync()
+        Config.loadMain()
+        Config.broadcastSync()
 
         print("Main Config loaded")
     end)
 
     concommand.Add("stek_config_load_onlyaddons", function(ply)
         if not (ply == NULL or ply:IsSuperAdmin()) then return end
-        Config.LoadAddons()
-        Config.BroadcastSync()
+        Config.loadAddons()
+        Config.broadcastSync()
 
         print("Addons Config loaded")
     end)

@@ -31,7 +31,7 @@ function GasParticle:new(type, pos)
         shg_lastpos = Vector(math.ceil(pos.x / SHG_SIZE), math.ceil(pos.y / SHG_SIZE), math.ceil(pos.z / SHG_SIZE))
     }
 
-    object.type_obj = stek.GasSystem.GetByID(type)
+    object.type_obj = stek.GasSystem.getByID(type)
 
     return setmetatable(object, self)
 end
@@ -51,11 +51,11 @@ local GasSystem = {
     bits_count = 1
 }
 
-function GasSystem.InitPull()
+function GasSystem.initPull()
     GasSystem.pull = stek.SmartArray:new()
 end
 
-function GasSystem.Spawn(type, pos)
+function GasSystem.spawn(type, pos)
     local NewParticle = GasParticle:new(type, pos)
 
     local ParticleCell = GasSystem.pull:PlaceBefore(0, NewParticle)
@@ -66,7 +66,7 @@ function GasSystem.Spawn(type, pos)
     return NewParticle
 end
 
-function GasSystem.GetParticle(uid)
+function GasSystem.getParticle(uid)
     local Cell = GasSystem.pull:GetCell(uid)
     return Cell.data
 end
@@ -81,7 +81,7 @@ end
 
 ---@param id string
 ---@param data table
-function GasSystem.Add(id, data)
+function GasSystem.add(id, data)
     local uid = #GasSystem.list + 1
 
     local obj = {
@@ -99,20 +99,20 @@ end
 
 ---@param id string
 ---@return GasType
-function GasSystem.GetByID(id)
+function GasSystem.getByID(id)
     return GasSystem.index[id]
 end
 
 ---@param uid integer
 ---@return GasType
-function GasSystem.GetByUID(uid)
+function GasSystem.getByUID(uid)
     return GasSystem.list[uid]
 end
 
 ---
 
 hook.Add("PreCleanupMap", "stek.GasSystem.OnCleanup", function()
-    GasSystem.InitPull()
+    GasSystem.initPull()
 
     if CLIENT then
         GasSystem.serverpull = {}
@@ -121,8 +121,8 @@ hook.Add("PreCleanupMap", "stek.GasSystem.OnCleanup", function()
     end
 end)
 
-function GasSystem.Init()
-    GasSystem.InitPull()
+function GasSystem.init()
+    GasSystem.initPull()
 
     if CLIENT then
         GasSystem.serverpull = {}
