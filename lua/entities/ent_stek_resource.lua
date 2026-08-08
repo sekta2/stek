@@ -15,6 +15,8 @@ AddCSLuaFile()
 ---@field InfoTextColor Color?
 ---@field InfoIconSize number
 ---@field STek_Resource string
+---@field SpawnTime number
+---@field MergeLock boolean
 ENT = ENT
 
 ENT.Base = "base_anim"
@@ -55,10 +57,14 @@ if SERVER then
         self:PhysWake()
 
         if self.DrawDist then
-            local drawDistStr = tostring( self.DrawDist )
-	        self:SetKeyValue("fademindist", drawDistStr)
-	        self:SetKeyValue("fademaxdist", drawDistStr)
+            local draw_dist_str = tostring(self.DrawDist)
+
+            self:SetKeyValue("fademindist", draw_dist_str)
+            self:SetKeyValue("fademaxdist", draw_dist_str)
         end
+
+        self.SpawnTime = CurTime()
+        self.MergeLock = false
 
         stek.Resources.registerActiveEntity(self)
         --self:SetAmount(100, true)
@@ -71,7 +77,53 @@ if SERVER then
         if not activator:IsPlayer() then return end
         if not (activator:GetGroundEntity() ~= self and IsValid(phys) and phys:IsMotionEnabled()) then return end
 
-        activator:PickupObject(self)
+        local amount = self:GetAmount()
+
+        local is_division = activator:KeyDown(IN_WALK) and activator:KeyDown(IN_SPEED)
+        if is_division and amount > 1 then
+            local div_amount = math.floor(amount / 2)
+            self:SetAmount(amount - div_amount)
+
+            ---@type ent_stek_resource
+            local new_res = ents.Create(self:GetClass())
+            new_res:SetAmount(div_amount)
+
+            new_res:SetPos(self:GetPos())
+            new_res:SetAngles(self:GetAngles())
+
+            new_res:Spawn()
+            activator:PickupObject(new_res)
+        else
+            activator:PickupObject(self)
+        end
+    end
+
+    ---@param ent ent_stek_resource
+    function ENT:Touch(ent)
+        if not (IsValid(ent) and ent.STek_Resource == self.STek_Resource and not self.MergeLock and not ent.MergeLock) then return end
+        if ((CurTime() - ent.SpawnTime) < 2) or ((CurTime() - self.SpawnTime) < 2) then return end
+
+        local conf = stek.Config.get()
+        local max_amount = conf.resources.max_amount
+
+        local self_amount, ent_amount = self:GetAmount(), ent:GetAmount()
+        if self_amount == max_amount then return end
+
+        local amount = math.min(self_amount + ent_amount, max_amount)
+
+        if self_amount >= ent_amount then
+            self.MergeLock = true
+
+            local ent_substract = amount - self_amount
+            ent:SetAmount(ent_amount - ent_substract)
+            self:SetAmount(amount)
+
+            if ent_substract == ent_amount then
+                ent:Remove()
+            end
+
+            self.MergeLock = false
+        end
     end
 
     function ENT:OnRemove()
