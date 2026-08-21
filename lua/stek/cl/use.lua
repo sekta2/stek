@@ -12,7 +12,10 @@ hook.Add("PlayerBindPress", "stek.ClientUse", function(ply, bind, pressed)
             local dist = ply:GetPos():DistToSqr(tr.HitPos)
             local fn_client_use = tr.Entity.ClientUse
 
-            if dist < USE_DISTANCE and fn_client_use then
+            local current_wep = ply:GetActiveWeapon()
+            local using_physgun = ply:KeyDown(IN_ATTACK) and (IsValid(current_wep) and current_wep:GetClass() == "weapon_physgun")
+
+            if dist < USE_DISTANCE and fn_client_use and not using_physgun then
                 fn_client_use(tr.Entity, ply)
 
                 return false
