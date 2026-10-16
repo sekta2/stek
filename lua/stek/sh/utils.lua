@@ -1,6 +1,9 @@
 ---@diagnostic disable: assign-type-mismatch
 --- Bits checker
 
+---Возвращает сколько нужно бит для хранения беззнакого целого числа в num
+---@param num number
+---@return integer
 function stek.BitsForUnsignedInt(num)
     if num == 0 then
         return 1
@@ -12,6 +15,9 @@ function stek.BitsForUnsignedInt(num)
     return bits
 end
 
+---Возвращает сколько нужно бит для хранения целого числа в num
+---@param num number
+---@return number
 function stek.BitsForSignedInt(num)
     local absolute_n = math.abs(num)
 

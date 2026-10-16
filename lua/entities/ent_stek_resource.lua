@@ -27,6 +27,7 @@ ENT.Author = "sekta"
 
 ENT.PhysicsSounds = true
 
+---@return number
 function ENT:GetAmount()
     return self.amount or 100
 end
@@ -137,6 +138,8 @@ if SERVER then
         net.Broadcast()
     end
 
+    ---@param num number
+    ---@param do_not_sync boolean?
     function ENT:SetAmount(num, do_not_sync)
         self.amount = num
         if not do_not_sync then self:SyncAmount() end
