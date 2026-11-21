@@ -107,7 +107,7 @@ surface.CreateFont("STek-Stencil", {
 })
 
 surface.CreateFont("STek-Stencil-MS", {
-	font = "capture it",
+	font = "Capture it",
 	extended = false,
 	size = 40,
 	weight = 100,
@@ -125,7 +125,7 @@ surface.CreateFont("STek-Stencil-MS", {
 })
 
 surface.CreateFont("STek-Stencil-S", {
-	font = "capture it",
+	font = "Capture it",
 	extended = false,
 	size = 20,
 	weight = 100,
@@ -143,7 +143,7 @@ surface.CreateFont("STek-Stencil-S", {
 })
 
 surface.CreateFont("STek-Stencil-XS", {
-	font = "capture it",
+	font = "Capture it",
 	extended = false,
 	size = 10,
 	weight = 100,
