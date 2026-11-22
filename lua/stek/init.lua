@@ -141,6 +141,8 @@ if SERVER then
     stek.initDirectories()
     stek.Config.load()
     stek.Config.initCommands()
+
+    stek.Map.checkMapBounds()
 end
 
 stek.Task.init()
