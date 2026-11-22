@@ -86,8 +86,13 @@ local function any_positions_visible(stort, eyund, offsets)
 end
 
 ---@param iter integer
----@param callback fun(x_min: number, x_max: number, y_min: number, y_max: number, z_min: number, z_max: number)
-function stek.determineMapBounds(iter, callback)
+---@return number x_min
+---@return number x_max
+---@return number y_min
+---@return number y_max
+---@return number z_min
+---@return number z_max
+function stek.determineMapBounds(iter)
     local x_min, x_max, y_min, y_max, z_min, z_max, sky_cam_pos = 9e9, -9e9, 9e9, -9e9, 9e9, -9e9, nil
 
     for _, v in pairs(ents.FindByClass("sky_camera")) do
@@ -117,7 +122,7 @@ function stek.determineMapBounds(iter, callback)
 
         if i == iter then
             z_max = z_max * .9
-            callback(x_min, x_max, y_min, y_max, z_min, z_max)
+            return x_min, x_max, y_min, y_max, z_min, z_max
         end
     end
 end
