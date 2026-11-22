@@ -155,3 +155,7 @@ function Config.initCommands()
         print("Addons Config loaded")
     end)
 end
+
+hook.Add("ShutDown", "stek.Config.SaveOnShutDown", function()
+    Config.save()
+end)
