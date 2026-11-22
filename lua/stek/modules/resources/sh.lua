@@ -96,6 +96,7 @@ end
 ---@class ResourceModule
 ---@field list [Resource]
 ---@field index { [string]: Resource }
+---@field active_ents { [number]: true|nil }
 ---@field bits_count number
 local Resources = {
     list = {},
