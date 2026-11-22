@@ -99,7 +99,7 @@ function stek.determineMapBounds(iter)
         sky_cam_pos = v:GetPos()
     end
 
-    for i = 1, iter do
+    for _ = 1, iter do
         local pos = Vector(math.random(-20000, 20000), math.random(-20000, 20000), math.random(-20000, 20000))
 
         if util.IsInWorld(pos) then
@@ -119,10 +119,9 @@ function stek.determineMapBounds(iter)
                 z_max = math.max(z_max, pos.z)
             end
         end
-
-        if i == iter then
-            z_max = z_max * .9
-            return x_min, x_max, y_min, y_max, z_min, z_max
-        end
     end
+
+    z_max = z_max * .9
+
+    return x_min, x_max, y_min, y_max, z_min, z_max
 end
