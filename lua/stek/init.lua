@@ -135,3 +135,5 @@ stek.Locale.init()
 stek.Resources.initAutoEntities()
 stek.WindInit()
 stek.GasSystem.init()
+
+hook.Run("stek.PostInit")
