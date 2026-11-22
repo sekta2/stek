@@ -67,3 +67,57 @@ function stek.CreateExplosion( pos, ang, attacker, magnitude, radius, flags, inf
 	explosion:Fire( "Explode", 0, 0 )
 
 end
+
+--- World Bounds
+
+local function any_positions_visible(stort, eyund, offsets)
+    if not (stort and eyund) then return false end
+
+    for k, v in pairs(offsets) do
+        local Tr = util.TraceLine({
+            start = stort + Vector(0, 0, v[1]),
+            endpos = eyund + Vector(0, 0, v[2])
+        })
+
+        if not Tr.Hit then return true end
+    end
+
+    return false
+end
+
+---@param iter integer
+---@param callback fun(x_min: number, x_max: number, y_min: number, y_max: number, z_min: number, z_max: number)
+function stek.determineMapBounds(iter, callback)
+    local x_min, x_max, y_min, y_max, z_min, z_max, sky_cam_pos = 9e9, -9e9, 9e9, -9e9, 9e9, -9e9, nil
+
+    for _, v in pairs(ents.FindByClass("sky_camera")) do
+        sky_cam_pos = v:GetPos()
+    end
+
+    for i = 1, iter do
+        local pos = Vector(math.random(-20000, 20000), math.random(-20000, 20000), math.random(-20000, 20000))
+
+        if util.IsInWorld(pos) then
+            if not any_positions_visible(sky_cam_pos, pos, {
+                    { 0,    0 },
+                    { 1000, 0 },
+                    { 0,    500 },
+                    { 0,    -500 },
+                    { 0,    1000 },
+                    { 1000, 1000 }
+                }) then
+                x_min = math.min(x_min, pos.x)
+                x_max = math.max(x_max, pos.x)
+                y_min = math.min(y_min, pos.y)
+                y_max = math.max(y_max, pos.y)
+                z_min = math.min(z_min, pos.z)
+                z_max = math.max(z_max, pos.z)
+            end
+        end
+
+        if i == iter then
+            z_max = z_max * .9
+            callback(x_min, x_max, y_min, y_max, z_min, z_max)
+        end
+    end
+end
