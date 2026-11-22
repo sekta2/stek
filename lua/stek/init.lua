@@ -98,24 +98,9 @@ local function load_addons()
     for i = 1, #addons do
         local addon_name = addons[i]
 
-        local respath = "stekpacks/" .. addon_name .. "/resources.lua"
-        if file.Exists(respath, "LUA") then
-            stek.shared(respath)
-        end
-
-        local gaspath = "stekpacks/" .. addon_name .. "/gas.lua"
-        if file.Exists(gaspath, "LUA") then
-            stek.shared(gaspath)
-        end
-
-        local configpath = "stekpacks/" .. addon_name .. "/config.lua"
-        if file.Exists(configpath, "LUA") then
-            stek.shared(configpath)
-        end
-
-        local craftspath = "stekpacks/" .. addon_name .. "/crafts.lua"
-        if file.Exists(craftspath, "LUA") then
-            stek.shared(craftspath)
+        local initpath = "stekpacks/" .. addon_name .. "/init.lua"
+        if file.Exists(initpath, "LUA") then
+            stek.shared(initpath)
         end
     end
 end
